@@ -1,0 +1,41 @@
+entity,code,year,total_electricity_consumption__share_of_total_electricity_demand__historical
+Africa (IEA),,2020,0.12848516
+Africa (IEA),,2023,0.13967681
+Africa (IEA),,2024,0.14496955
+Africa (IEA),,2025,0.24995314
+Asia Pacific (IEA),,2020,0.7189056
+Asia Pacific (IEA),,2023,0.8408042
+Asia Pacific (IEA),,2024,0.9321836
+Asia Pacific (IEA),,2025,1.0674341
+Central and South America (IEA),,2020,0.11703755
+Central and South America (IEA),,2023,0.08527997
+Central and South America (IEA),,2024,0.096574366
+Central and South America (IEA),,2025,0.11527643
+China,CHN,2020,0.7987601
+China,CHN,2023,0.8898899
+China,CHN,2024,1.0129217
+China,CHN,2025,1.1075455
+Europe (IEA),,2020,1.4439007
+Europe (IEA),,2023,1.7518435
+Europe (IEA),,2024,1.7685213
+Europe (IEA),,2025,1.8701056
+Middle East (IEA),,2020,0.0893597
+Middle East (IEA),,2023,0.09203735
+Middle East (IEA),,2024,0.101547584
+Middle East (IEA),,2025,0.28470466
+North America (IEA),,2020,2.2317514
+North America (IEA),,2023,3.0169368
+North America (IEA),,2024,3.4732153
+North America (IEA),,2025,4.1349845
+United States,USA,2020,2.6402705
+United States,USA,2023,3.6041856
+United States,USA,2024,4.1545305
+United States,USA,2025,4.9384785
+World,OWID_WRL,2020,1.0066096
+World,OWID_WRL,2023,1.2135375
+World,OWID_WRL,2024,1.3449625
+World,OWID_WRL,2025,1.5264845
+World excl. United States and China,,2020,0.66573197
+World excl. United States and China,,2023,0.7647388
+World excl. United States and China,,2024,0.7960854
+World excl. United States and China,,2025,0.8636905
