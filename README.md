@@ -35,6 +35,7 @@ datacenters-ia/
 │   ├── cruces.py      # diagnóstico de claves + las mismas uniones en SQL (sqlite3)
 │   ├── costos.py      # derivadas, integrales, energía, emisiones, gasto eléctrico, escenario
 │   ├── modelos.py     # regresión (statsmodels) y machine learning (scikit-learn)
+│   ├── organizacion_industrial.py  # HHI por eslabón, integración vertical, índice de Lerner
 │   └── graficos.py    # estilo común y exportación de figuras
 ├── figuras/           # gráficos exportados para el informe
 ├── informe/           # informe académico en LaTeX (informe.tex → informe.pdf)

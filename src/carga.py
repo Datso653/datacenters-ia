@@ -47,6 +47,26 @@ def cargar_timelines() -> pd.DataFrame:
     })
 
 
+def cargar_cantidades_chips() -> pd.DataFrame:
+    """Cuántos chips de cada tipo tiene cada data center, en distintas fechas."""
+    df = pd.read_csv(EPOCH / "data_center_chip_quantities.csv", parse_dates=["Date"])
+    df = df.rename(columns={"Data center": "data_center", "Date": "fecha", "Chip type": "chip",
+                            "Number of Units": "unidades", "Owner": "duenio"})
+    df["duenio"] = df["duenio"].str.replace(r"\s*#\w+", "", regex=True).str.strip()
+    return df
+
+
+def cargar_tipos_chip() -> pd.DataFrame:
+    """Características de cada chip: diseñador, cómputo relativo a una H100, costo y consumo."""
+    return pd.read_csv(EPOCH / "chip_types.csv").rename(columns={
+        "Name": "chip",
+        "Designer": "disenador",
+        "H100e": "h100e_por_chip",
+        "Cost per chip (approx.)": "costo_usd",
+        "TDP (W) (from ML Hardware (linked))": "consumo_w",
+    })
+
+
 def cargar_gpu_clusters() -> pd.DataFrame:
     """482 clusters de GPU en 36 países (cobertura mundial, corte marzo 2026)."""
     df = pd.read_csv(RAW / "epoch_gpu_clusters.csv")

@@ -10,5 +10,5 @@ Todas las fotos provienen de Wikimedia Commons y se usan según su licencia.
 | `rack_gb200.jpg` | File:Nvidia DGX GB200.jpg | Pokiiri | CC BY-SA 4.0 |
 | `datacenter_cern.jpg` | File:CERN data centre.jpg | Unnerving duck | CC BY-SA 4.0 |
 | `techo_refrigeracion.jpg` | File:Data center roof.jpg | Rsparks3 | CC0 |
-
-Las ilustraciones del robot y del oligopolio son SVG propios de este repositorio.
+| `terminator_t800.jpg` | File:T-800 in Disneyland Paris.jpg | David Jafra | CC BY 2.0 |
+| `oligopolio_bosses_senate.jpg` | File:The Bosses of the Senate by Joseph Keppler.jpg | Joseph Keppler (*Puck*, 1889) | Dominio público |

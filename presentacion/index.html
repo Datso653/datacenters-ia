@@ -29,7 +29,7 @@
   /* ── Diapositivas ─────────────────────────────────────────── */
   .slide {
     position: fixed; inset: 0;
-    display: flex; flex-direction: column; justify-content: center;
+    display: flex; flex-direction: column; justify-content: flex-start;
     padding: 5vh max(16px, 7vw) 9vh;
     opacity: 0; pointer-events: none;
     transform: translateY(24px);
@@ -38,6 +38,62 @@
   }
   .slide.activa { opacity: 1; pointer-events: auto; transform: none; }
   .slide > * { min-width: 0; max-width: 100%; }   /* un flex en columna deja crecer a sus hijos: esto los contiene */
+  /* Centrado vertical "seguro": si el contenido no entra, se puede scrollear sin que se corte arriba */
+  .slide > :first-child { margin-top: auto; }
+  .slide > :last-child { margin-bottom: auto; }
+
+  .cifras.tres { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 0; }
+  .cifras.tres .cifra b { font-size: clamp(1.6rem, 2.8vw, 2.4rem); }
+  .figura-baja { margin-top: 1rem; align-self: center; }   /* el recuadro blanco se ajusta al gráfico */
+  .figura.figura-baja img { width: auto; max-width: 100%; }
+  .figura.figura-baja img { max-height: 36vh; }
+
+  .oligo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.55fr) minmax(0, 1.15fr); gap: 1rem; align-items: stretch; }
+  .foto.foto-alta img { height: 100%; min-height: 240px; max-height: 52vh; }
+  .foto.foto-alta.contener img { object-fit: contain; background: #e8dcc2; }
+
+  .formula { font-family: var(--serif); font-size: clamp(1.4rem, 2.6vw, 2.1rem); color: var(--texto); background: var(--superficie);
+             border: 1px solid var(--borde); border-radius: 12px; padding: 0.7rem 1rem; margin-bottom: 0.8rem; text-align: center; }
+  .tabla-hhi { width: 100%; border-collapse: collapse; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+  .tabla-hhi th, .tabla-hhi td { padding: 0.32rem 0.5rem; text-align: right; border-bottom: 1px solid var(--borde); }
+  .tabla-hhi th:first-child, .tabla-hhi td:first-child { text-align: left; }
+  .tabla-hhi th { color: var(--tenue); font-weight: 500; font-size: 0.8rem; }
+  .tabla-hhi tfoot td { font-weight: 700; color: var(--acento); border-bottom: none; }
+  .escala { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); border-radius: 10px; overflow: hidden; margin: 0.6rem 0 2.2rem; font-size: 0.78rem; }
+  .escala div { padding: 0.55rem 0.4rem; text-align: center; color: #111; font-weight: 600; }
+  .escala .marcador { position: absolute; top: 100%; transform: translateX(-50%); color: var(--acento); font-weight: 700; white-space: nowrap; padding: 0.2rem 0 0; background: none; }
+  .ejemplos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; margin: 0.4rem 0 0.8rem; }
+  .ejemplo { background: var(--superficie); border: 1px solid var(--borde); border-radius: 10px; padding: 0.55rem 0.7rem; font-size: 0.85rem; color: var(--tenue); }
+  .ejemplo b { display: block; color: var(--texto); font-size: 1.05rem; }
+  .calculadora { background: rgba(79, 195, 247, 0.07); border: 1px solid rgba(79, 195, 247, 0.3); border-radius: 12px; padding: 0.7rem 0.9rem; }
+  .calculadora label { font-size: 0.92rem; }
+  .calculadora input { width: 100%; accent-color: var(--primario); margin: 0.4rem 0; }
+  .calculadora p { margin: 0; font-size: 0.95rem; }
+  .calculadora b { color: var(--primario); font-size: 1.2rem; }
+
+  .cadena { list-style: none; counter-reset: paso; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+  .cadena li { position: relative; counter-increment: paso; background: var(--superficie); border: 1px solid var(--borde);
+               border-radius: 12px; padding: 0.6rem 0.8rem 0.6rem 2.8rem; font-size: 0.88rem; color: var(--tenue); line-height: 1.4; }
+  .cadena li::before { content: counter(paso); position: absolute; left: 0.8rem; top: 0.65rem; width: 1.5rem; height: 1.5rem; border-radius: 50%;
+                       background: var(--primario); color: #0a0a0a; font-weight: 700; font-size: 0.8rem; display: grid; place-items: center; }
+  .cadena li b { display: block; color: var(--texto); font-size: 0.96rem; }
+  .cadena li.riesgo { border-color: rgba(224, 122, 95, 0.6); }
+  .cadena li.riesgo::before { background: var(--alerta); }
+  .cita { margin: 0.9rem 0 0; padding: 0.7rem 0.9rem; border-left: 3px solid var(--alerta); background: var(--superficie); border-radius: 0 10px 10px 0;
+          font-style: italic; color: var(--texto); font-size: 0.95rem; line-height: 1.45; }
+  .cita span { display: block; margin-top: 0.3rem; font-style: normal; color: var(--tenue); font-size: 0.82rem; }
+
+  .tabla-oi { width: 100%; border-collapse: separate; border-spacing: 0.4rem; font-size: 0.86rem; min-width: 640px; }
+  .tabla-oi th, .tabla-oi td { background: var(--superficie); border: 1px solid var(--borde); border-radius: 10px; padding: 0.5rem 0.7rem; vertical-align: top; text-align: left; color: var(--tenue); line-height: 1.35; }
+  .tabla-oi thead th { background: none; border: none; color: var(--primario); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; padding-bottom: 0; }
+  .tabla-oi tbody th { color: var(--texto); font-weight: 600; width: 16%; }
+  .tabla-oi td b { display: block; font-family: var(--serif); font-size: 1.25rem; color: var(--texto); }
+
+  .barras-costo { display: grid; gap: 0.5rem; margin: 0.4rem 0; }
+  .fila-costo { display: grid; grid-template-columns: 10.5rem 1fr 4.5rem; gap: 0.6rem; align-items: center; font-size: 0.85rem; }
+  .fila-costo .pista { height: 12px; border-radius: 999px; background: #1f1f1f; overflow: hidden; }
+  .fila-costo .relleno { height: 100%; min-width: 4px; border-radius: 999px; background: var(--primario); transform-origin: left; }
+  .fila-costo span:last-child { text-align: right; color: var(--tenue); font-variant-numeric: tabular-nums; }
   .slide.activa .entra { animation: revelar 0.8s var(--ease-out) both; }
   .slide.activa .entra:nth-child(2) { animation-delay: 0.08s; }
   .slide.activa .entra:nth-child(3) { animation-delay: 0.16s; }
@@ -164,6 +220,23 @@
     .clave::after { content: ' ↓'; }
     .marca { display: none; }
     .slide { justify-content: flex-start; padding-top: 7vh; padding-bottom: 96px; }
+  }
+  @media (max-width: 900px) {
+    .cifras.tres, .oligo { grid-template-columns: minmax(0, 1fr); }
+    .foto-alta img { height: 260px; }
+  }
+  /* Pantallas bajas (notebooks, proyectores): todo más compacto */
+  @media (max-height: 760px) {
+    .slide { padding-top: 3vh; padding-bottom: 7vh; }
+    h2 { font-size: clamp(1.5rem, 3.2vw, 2.4rem); margin-bottom: 0.6rem; }
+    .etiqueta { margin-bottom: 0.4rem; }
+    .cifra { padding: 0.7rem 0.9rem; }
+    .figura img { max-height: 48vh; }
+    .figura.figura-baja img { max-height: 30vh; }
+    .tabla-oi { font-size: 0.78rem; border-spacing: 0.3rem; }
+    .tabla-oi th, .tabla-oi td { padding: 0.32rem 0.6rem; }
+    .tabla-oi td b { font-size: 1.02rem; }
+    .marca { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -316,9 +389,7 @@
 <section class="slide" data-titulo="Crecimiento">
   <p class="etiqueta entra">Resultado 1 · crecimiento</p>
   <h2 class="entra">Una curva <span class="primario">explosiva</span></h2>
-  <div class="dos-col entra">
-    <div>
-      <div class="cifras" style="grid-template-columns:1fr; margin-top:0">
+      <div class="cifras tres entra">
         <div class="cifra"><b data-contar="0.4" data-decimales="1" data-sufijo=" GW">0</b><span>enero 2024</span>
           <span class="analogia">📱 cargar el celular de <strong>20 millones de personas</strong> cada hora<br>❄️ 360.000 aires prendidos</span></div>
         <div class="cifra"><b data-contar="12.9" data-decimales="1" data-sufijo=" GW">0</b><span>septiembre 2026 · 69 operativos</span>
@@ -326,10 +397,8 @@
         <div class="cifra"><b class="acento" data-contar="35.5" data-decimales="1" data-sufijo=" GW">0</b><span>2029 si terminan las obras en curso</span>
           <span class="analogia">📱 cargar el celular de <strong>todos los argentinos 39 veces</strong> cada hora<br>❄️ 32 millones de aires</span></div>
       </div>
-      <p class="credito">Supuestos: una carga completa de celular ≈ 20 Wh (batería de ~15 Wh más pérdidas del cargador); un aire split de 3.000 frigorías ≈ 1,1 kW; Argentina ≈ 46 millones de habitantes (Censo 2022).</p>
-    </div>
-    <div class="figura"><img src="../figuras/01_potencia_en_el_tiempo.png" alt="Potencia IT agregada de los 86 data centers, 2019-2030"></div>
-  </div>
+  <div class="figura figura-baja entra"><img src="../figuras/01_potencia_en_el_tiempo.png" alt="Potencia IT agregada de los 86 data centers, 2019-2030"></div>
+  <p class="credito entra">Supuestos: una carga completa de celular ≈ 20 Wh (batería de ~15 Wh más pérdidas del cargador); un aire split de 3.000 frigorías ≈ 1,1 kW; Argentina ≈ 46 millones de habitantes (Censo 2022).</p>
 </section>
 
 <!-- 8 · Derivada e integral -->
@@ -372,46 +441,79 @@
 <section class="slide" data-titulo="Oligopolio">
   <p class="etiqueta entra">Estructura de mercado · ¿oligopolio?</p>
   <h2 class="entra">Pocos jugadores controlan <span class="alerta">las máquinas</span></h2>
-  <div class="dos-col entra" style="grid-template-columns: minmax(0,1.2fr) minmax(0,1fr)">
+  <div class="oligo entra">
     <div>
       <div class="barras-share">
-        <div class="fila-share"><span>Google</span><div class="pista"><div class="relleno" style="width:100%"></div></div><span>24,9%</span></div>
-        <div class="fila-share"><span>Meta</span><div class="pista"><div class="relleno" style="width:72%"></div></div><span>18,0%</span></div>
-        <div class="fila-share"><span>Amazon</span><div class="pista"><div class="relleno" style="width:53%"></div></div><span>13,2%</span></div>
-        <div class="fila-share"><span>Microsoft</span><div class="pista"><div class="relleno" style="width:46%"></div></div><span>11,5%</span></div>
-        <div class="fila-share"><span>SpaceXAI</span><div class="pista"><div class="relleno" style="width:39%"></div></div><span>9,8%</span></div>
-        <div class="fila-share"><span>Resto</span><div class="pista"><div class="relleno" style="width:91%; background:#555"></div></div><span>22,7%</span></div>
+        <div class="fila-share"><span>Google</span><div class="pista"><div class="relleno" style="width:100%"></div></div><span>26,9%</span></div>
+        <div class="fila-share"><span>Meta</span><div class="pista"><div class="relleno" style="width:72%"></div></div><span>19,4%</span></div>
+        <div class="fila-share"><span>Amazon</span><div class="pista"><div class="relleno" style="width:53%"></div></div><span>14,2%</span></div>
+        <div class="fila-share"><span>Microsoft</span><div class="pista"><div class="relleno" style="width:46%"></div></div><span>12,4%</span></div>
+        <div class="fila-share"><span>SpaceXAI</span><div class="pista"><div class="relleno" style="width:40%"></div></div><span>10,6%</span></div>
+        <div class="fila-share"><span>Otras 10</span><div class="pista"><div class="relleno" style="width:61%; background:#555"></div></div><span>16,5%</span></div>
       </div>
-      <div class="cifras" style="margin-top:1.2rem">
-        <div class="cifra"><b class="acento" data-contar="1623" data-miles="1">0</b><span>índice HHI · más de 1.800 = altamente concentrado</span></div>
+      <div class="cifras" style="margin-top:1rem">
+        <div class="cifra"><b class="acento" data-contar="1623">0</b><span>índice HHI · lo explicamos en la próxima</span></div>
         <div class="cifra"><b data-contar="73" data-sufijo="%">0%</b><span>de la potencia en las 4 mayores (CR4)</span></div>
       </div>
     </div>
+    <figure class="foto foto-alta">
+      <img src="img/terminator_t800.jpg" alt="Figura del T-800 de Terminator 2" style="object-position: center 20%">
+      <figcaption><b>¿Skynet?</b>En la ficción, una sola IA lo controla todo.</figcaption>
+    </figure>
+    <figure class="foto foto-alta contener">
+      <img src="img/oligopolio_bosses_senate.jpg" alt="Caricatura de 1889: los grandes trusts, dibujados como bolsas de dinero gigantes, vigilan el Senado de EE.UU.">
+      <figcaption><b>El oligopolio de verdad</b><em>The Bosses of the Senate</em> (1889): los grandes trusts vigilando el Senado de EE.UU.</figcaption>
+    </figure>
+  </div>
+  <p class="credito entra">Participación sobre la potencia operativa con dueño identificado (Epoch AI, 15 empresas). Fotos: T-800 en Disneyland París, David Jafra (CC BY 2.0); Joseph Keppler, revista <em>Puck</em>, 1889 (dominio público) · Wikimedia Commons.</p>
+</section>
+
+<!-- 12 · Qué es el HHI -->
+<section class="slide" data-titulo="Índice HHI">
+  <p class="etiqueta entra">Cómo se mide la concentración · índice de Herfindahl-Hirschman</p>
+  <h2 class="entra">HHI: sumar las participaciones <span class="primario">al cuadrado</span></h2>
+  <div class="dos-col entra" style="grid-template-columns: minmax(0,1fr) minmax(0,1fr); align-items:start">
     <div>
-      <svg class="robot" viewBox="0 0 320 340" role="img" aria-label="Ilustración de un robot metálico con ojos rojos">
-        <defs>
-          <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9aa3ab"/><stop offset="1" stop-color="#3b4046"/></linearGradient>
-          <radialGradient id="brillo"><stop offset="0" stop-color="#ff5a3c"/><stop offset="0.5" stop-color="#e02020"/><stop offset="1" stop-color="#e0202000"/></radialGradient>
-        </defs>
-        <rect x="150" y="6" width="20" height="30" rx="4" fill="#555"/>
-        <circle cx="160" cy="8" r="7" fill="#e02020"/>
-        <path d="M70 70 Q160 20 250 70 L262 190 Q160 250 58 190 Z" fill="url(#metal)" stroke="#1d1f22" stroke-width="4"/>
-        <path d="M92 110 H228 V148 H92 Z" fill="#141414" stroke="#1d1f22" stroke-width="3"/>
-        <circle class="ojo" cx="125" cy="129" r="26" fill="url(#brillo)"/>
-        <circle class="ojo" cx="195" cy="129" r="26" fill="url(#brillo)"/>
-        <circle cx="125" cy="129" r="8" fill="#ffd0c0"/>
-        <circle cx="195" cy="129" r="8" fill="#ffd0c0"/>
-        <path d="M110 185 H210" stroke="#1d1f22" stroke-width="4"/>
-        <path d="M120 175 V196 M140 175 V198 M160 175 V199 M180 175 V198 M200 175 V196" stroke="#1d1f22" stroke-width="3"/>
-        <path d="M120 232 H200 L214 300 H106 Z" fill="url(#metal)" stroke="#1d1f22" stroke-width="4"/>
-        <rect x="136" y="252" width="48" height="26" rx="4" fill="#141414"/>
-        <text x="160" y="270" text-anchor="middle" font-size="13" font-family="ui-monospace, Consolas, monospace" fill="#4FC3F7">HHI</text>
-        <text x="160" y="332" text-anchor="middle" font-size="14" font-family="Inter, system-ui, sans-serif" fill="#a3a3a3">¿Skynet o solo un oligopolio?</text>
-      </svg>
-      <p style="font-size:0.95rem; text-align:center">Barreras de entrada de <strong>miles de millones por instalación</strong>, poder de negociación frente a gobiernos y eléctricas, y pocas decisiones que mueven la demanda de regiones enteras.</p>
+      <div class="formula">HHI = s<sub>1</sub>² + s<sub>2</sub>² + … + s<sub>n</sub>²</div>
+      <p style="font-size:0.98rem">Cada <em>s</em> es la participación de una empresa en %. Elevar al cuadrado <strong>pesa más a las grandes</strong>: una empresa con 50% suma 2.500; diez empresas con 5% cada una suman apenas 250.</p>
+      <table class="tabla-hhi">
+        <thead><tr><th>Empresa</th><th>Participación (s)</th><th>s²</th></tr></thead>
+        <tbody>
+          <tr><td>Google</td><td>26,9%</td><td>722</td></tr>
+          <tr><td>Meta</td><td>19,4%</td><td>377</td></tr>
+          <tr><td>Amazon</td><td>14,2%</td><td>202</td></tr>
+          <tr><td>Microsoft</td><td>12,4%</td><td>153</td></tr>
+          <tr><td>SpaceXAI</td><td>10,6%</td><td>113</td></tr>
+          <tr><td>CoreWeave</td><td>5,5%</td><td>31</td></tr>
+          <tr><td>Oracle</td><td>4,0%</td><td>16</td></tr>
+          <tr><td>Otras 8 empresas</td><td>7,0%</td><td>10</td></tr>
+        </tbody>
+        <tfoot><tr><td>HHI</td><td>100%</td><td>1.623</td></tr></tfoot>
+      </table>
+      <p class="credito">La columna s² suma 1.624 por redondeo; el cálculo exacto da 1.623.</p>
+    </div>
+    <div>
+      <h3>¿Es mucho o poco?</h3>
+      <div class="escala">
+        <div style="background:#9ccc65">No concentrado<br>&lt; 1.000</div>
+        <div style="background:#FFD54F">Moderado<br>1.000 – 1.800</div>
+        <div style="background:#E07A5F">Alto<br>&gt; 1.800</div>
+        <span class="marcador" style="left:59%">▲ IA: 1.623</span>
+      </div>
+      <div class="ejemplos">
+        <div class="ejemplo"><b>10.000</b>monopolio: 1 empresa con 100% → 100²</div>
+        <div class="ejemplo"><b>2.500</b>4 empresas iguales: 4 × 25²</div>
+        <div class="ejemplo"><b>1.000</b>10 empresas iguales: 10 × 10²</div>
+        <div class="ejemplo"><b>100</b>100 empresas iguales: 100 × 1²</div>
+      </div>
+      <div class="calculadora">
+        <label for="nEmpresas">Probá: mercado con <strong><output id="nSalida">6</output></strong> empresas del mismo tamaño</label>
+        <input type="range" id="nEmpresas" min="1" max="20" value="6">
+        <p>HHI = 10.000 / n = <b id="hhiSalida">1.667</b> → <span id="hhiNivel">moderadamente concentrado</span></p>
+      </div>
+      <p class="credito">El mercado de la IA equivale a tener <strong>~6 empresas iguales</strong> (10.000 / 1.623 ≈ 6,2). Escala no proporcional. Umbrales: guías de fusiones del Departamento de Justicia y la FTC de EE.UU. (2023).</p>
     </div>
   </div>
-  <p class="credito entra">Participación sobre la potencia operativa (Epoch AI). HHI calculado sin dueños no informados; umbral según las guías de fusiones de EE.UU. (2023). Ilustración propia.</p>
 </section>
 
 <!-- 12 · Regresión y ML -->
@@ -427,6 +529,115 @@
     <div class="cifra"><b data-contar="940" data-sufijo=" H100e/MW">0</b><span><strong>ML:</strong> lo que aprende el modelo. 500 MW → ~487.000 chips</span></div>
     <div class="cifra"><b class="acento">0,20 → 0,95</b><span>R² según el sorteo train/test. Validación cruzada: <strong>0,75</strong>. Con pocos datos, un solo sorteo engaña</span></div>
   </div>
+</section>
+
+<!-- 13a · Paradoja de Jevons -->
+<section class="slide" data-titulo="Paradoja de Jevons">
+  <p class="etiqueta entra">Conducta · la paradoja de Jevons</p>
+  <h2 class="entra">Cada chip gasta menos… <span class="alerta">pero se instalan muchísimos más</span></h2>
+  <div class="dos-col entra" style="grid-template-columns: minmax(0,1.3fr) minmax(0,1fr)">
+    <div class="figura"><img src="../figuras/09_paradoja_jevons.png" alt="Índices de cómputo instalado, potencia y energía por unidad de cómputo desde enero de 2024"></div>
+    <div class="cifras" style="grid-template-columns:1fr; margin-top:0">
+      <div class="cifra"><b data-contar="-23" data-sufijo="%">0</b><span>energía por unidad de cómputo en el último año (sep-2025 → sep-2026)</span></div>
+      <div class="cifra"><b class="acento" data-contar="4.1" data-decimales="1" data-prefijo="×">0</b><span>se multiplicó el cómputo instalado</span></div>
+      <div class="cifra"><b class="alerta" data-contar="3.1" data-decimales="1" data-prefijo="×">0</b><span>se multiplicó el gasto eléctrico: de USD 2.760 M a 8.660 M por año</span></div>
+    </div>
+  </div>
+  <p class="entra" style="margin-top:1rem; font-size:1rem"><strong>El ritmo de querer más IA le gana a la eficiencia.</strong> Jevons lo vio en 1865 con el carbón: las máquinas de vapor más eficientes no bajaron el consumo, lo multiplicaron.</p>
+</section>
+
+<!-- 13b · El dilema de las IPO -->
+<section class="slide" data-titulo="El dilema de las IPO">
+  <p class="etiqueta entra">Conducta · ¿por qué salir a bolsa?</p>
+  <h2 class="entra">OpenAI y Anthropic: prometer crecimiento <span class="acento">cuesta electricidad</span></h2>
+  <div class="dos-col entra" style="grid-template-columns: minmax(0,1fr) minmax(0,1fr); align-items:start">
+    <ol class="cadena">
+      <li><b>Valuaciones récord</b>Anthropic USD 965.000 M · OpenAI USD 852.000 M. Ambas pidieron salir a bolsa en junio de 2026.</li>
+      <li><b>Hay que justificarlas con crecimiento</b>Más usuarios, más modelos, más grandes.</li>
+      <li><b>Crecer = más cómputo</b>×4,1 en el último año en los data centers de la base.</li>
+      <li><b>Más cómputo = más luz y más inversión</b>Gasto eléctrico ×3,1; ~USD 38.000 M por cada GW nuevo. Se paga <em>antes</em> de cobrar.</li>
+      <li class="riesgo"><b>¿Y si los ingresos no llegan?</b>Bain: la industria necesita USD 2 billones de ingresos por año para recuperar lo invertido. Si no, burbuja.</li>
+    </ol>
+    <div>
+      <div class="cifras" style="grid-template-columns:repeat(2, minmax(0,1fr)); margin-top:0">
+        <div class="cifra"><b class="alerta">Pierden plata</b><span>OpenAI, Anthropic y SpaceX/xAI “pierden más dinero del que ganan” (Fortune/AP)</span></div>
+        <div class="cifra"><b data-contar="75" data-sufijo="%">0%</b><span>margen bruto de NVIDIA, que vendió USD 89.000 M en data centers en un trimestre</span></div>
+      </div>
+      <blockquote class="cita">“Dado todo lo que está sucediendo con la seguridad, este sería un momento poco aconsejable para salir al mercado bursátil.”<span>— Sam Altman, 12 de septiembre de 2026</span></blockquote>
+      <p class="pregunta-critica" style="margin-top:0.8rem">🧠 En la fiebre del oro, ¿quién gana seguro: el que busca oro o el que vende las palas?</p>
+    </div>
+  </div>
+  <p class="credito entra">Fuentes: Fortune/AP (2-jun-2026), Washington Monthly (may-2026, estimación de Bain & Company), NVIDIA (resultados del 2.º trimestre fiscal 2027, 26-ago-2026), Infobae (12-sep-2026). Cómputo y gasto: Epoch AI, cálculo propio.</p>
+</section>
+
+<!-- 13c · Organización industrial -->
+<section class="slide" data-titulo="Organización industrial">
+  <p class="etiqueta entra">Organización industrial · estructura → conducta → desempeño</p>
+  <h2 class="entra">El poder no está donde parece: <span class="primario">los chips</span></h2>
+  <div class="entra" style="overflow-x:auto">
+    <table class="tabla-oi">
+      <thead>
+        <tr><th></th><th>1 · Chips</th><th>2 · Data centers</th><th>3 · Laboratorios</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>Concentración</th>
+          <td><b class="alerta">HHI 4.890</b>NVIDIA 65,6% · Google 21,5% · Amazon 10,6%<br>≈ 2 empresas iguales</td>
+          <td><b class="acento">HHI 1.623</b>Google 26,9% · Meta 19,4%<br>≈ 6 empresas iguales</td>
+          <td><b class="alerta">HHI ≈ 1.900*</b>OpenAI, Meta, Google DeepMind y Anthropic: 81%</td></tr>
+        <tr><th>Barreras de entrada</th>
+          <td>Diseño y fabricación de chips de punta</td>
+          <td>~USD 38.000 M por GW de capacidad</td>
+          <td>Cómputo, datos y talento</td></tr>
+        <tr><th>Integración vertical</th>
+          <td colspan="3"><strong>Google</strong> (100% chips propios) y <strong>Amazon</strong> (91% propios) hacen chip + data center + laboratorio. <strong>Meta, Microsoft, SpaceXAI, CoreWeave y Oracle</strong> dependen 100% de NVIDIA.</td></tr>
+        <tr><th>Conducta</th>
+          <td>Márgenes récord</td>
+          <td>Carrera de capacidad (Jevons)</td>
+          <td>IPO para financiar el crecimiento</td></tr>
+        <tr><th>Desempeño (Lerner)</th>
+          <td><b class="alerta">≈ 0,75</b>margen bruto de NVIDIA</td>
+          <td><b class="acento">0,21 – 0,83</b>alquiler de GPU, largo plazo</td>
+          <td><b class="alerta">Pierden plata</b>con valuaciones récord</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="credito entra">Chips: cómputo instalado por diseñador en los data centers de Epoch AI. Data centers: MW operativos por dueño. *Laboratorios: medida aproximada (data centers donde aparecen como usuarios).</p>
+</section>
+
+<!-- 13d · Índice de Lerner -->
+<section class="slide" data-titulo="Índice de Lerner">
+  <p class="etiqueta entra">Desempeño · poder de mercado</p>
+  <h2 class="entra">Índice de Lerner: <span class="primario">¿cuánto del precio es margen?</span></h2>
+  <div class="dos-col entra" style="grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); align-items:start">
+    <div>
+      <div class="formula">L = (P − CMg) / P</div>
+      <p style="font-size:0.98rem"><strong>0</strong> = competencia perfecta (precio = costo marginal). <strong>Cerca de 1</strong> = mucho poder de mercado.</p>
+      <h3>Costo de una hora de una H100 (datos propios)</h3>
+      <div class="barras-costo">
+        <div class="fila-costo"><span>Electricidad</span><div class="pista"><div class="relleno" style="width:1.3%"></div></div><span>USD 0,09</span></div>
+        <div class="fila-costo"><span>Operación (incluye luz)</span><div class="pista"><div class="relleno" style="width:1.8%"></div></div><span>USD 0,13</span></div>
+        <div class="fila-costo"><span>+ Capital amortizado</span><div class="pista"><div class="relleno" style="width:16.8%; background:var(--acento)"></div></div><span>USD 1,17</span></div>
+      </div>
+      <p class="credito">Inversión amortizada en 5 años con 80% de uso; electricidad a 73,5 USD/MWh.</p>
+    </div>
+    <div>
+      <table class="tabla-hhi">
+        <thead><tr><th>Proveedor</th><th>Precio USD/hora</th><th>L corto plazo</th><th>L largo plazo</th></tr></thead>
+        <tbody>
+          <tr><td>Vast.ai (más barato)</td><td>1,49</td><td>0,92</td><td>0,21</td></tr>
+          <tr><td>Lambda</td><td>2,99</td><td>0,96</td><td>0,61</td></tr>
+          <tr><td>AWS</td><td>3,90</td><td>0,97</td><td>0,70</td></tr>
+          <tr><td>Azure</td><td>6,98</td><td>0,98</td><td>0,83</td></tr>
+        </tbody>
+      </table>
+      <ul class="lista" style="margin-top:0.9rem">
+        <li><strong>Trampa del corto plazo:</strong> con costos fijos gigantes, L ≈ 1 no prueba monopolio. El precio <em>tiene</em> que cubrir la inversión.</li>
+        <li><strong>Largo plazo:</strong> márgenes altos en los hyperscalers, competencia de <em>neoclouds</em> baratos.</li>
+        <li><strong>Chips:</strong> NVIDIA, con 75% de margen bruto y 66% del mercado, es donde el poder de mercado es claro.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="credito entra">Precios: IntuitionLabs, comparación de alquiler de H100 (actualizada el 16-ago-2026). Costos: Epoch AI y EIA, cálculo propio. Si la vida útil fuera de 3 años, el L de largo plazo de Lambda bajaría a 0,37.</p>
 </section>
 
 <!-- 13 · Frente a los países -->
@@ -577,6 +788,21 @@
     if (Math.abs(dx) > 50) mostrar(actual + (dx < 0 ? 1 : -1));
     toqueX = null;
   }, { passive: true });
+
+  // Calculadora del HHI: n empresas del mismo tamaño → HHI = 10.000 / n
+  const deslizador = document.getElementById('nEmpresas');
+  if (deslizador) {
+    const actualizarHHI = () => {
+      const n = parseInt(deslizador.value, 10);
+      const hhi = 10000 / n;
+      document.getElementById('nSalida').textContent = n;
+      document.getElementById('hhiSalida').textContent = Math.round(hhi).toLocaleString('es-AR');
+      document.getElementById('hhiNivel').textContent =
+        hhi > 1800 ? 'altamente concentrado' : hhi >= 1000 ? 'moderadamente concentrado' : 'no concentrado';
+    };
+    deslizador.addEventListener('input', actualizarHHI);
+    actualizarHHI();
+  }
 
   mostrar((parseInt(location.hash.slice(1), 10) || 1) - 1);
 </script>

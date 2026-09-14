@@ -296,6 +296,30 @@ Mt CO$_2$/año & 0,14 & 0,32 & 0,48 & 0,84 & 1,18 & \textbf{1,57} & 1,75 & 2,53 
 \label{fig:modelos}
 \end{figure}
 
+\subsection{Organización industrial: estructura, conducta y desempeño}
+
+\paragraph{Estructura.} La concentración difiere por eslabón (Tabla~\ref{tab:oi}). El más concentrado es el de \textbf{chips}: NVIDIA diseña el 65,6\,\% del cómputo instalado en los data centers relevados y el HHI (4.890) equivale a un mercado de dos empresas iguales. Google (100\,\% de chips propios) y Amazon (91\,\%) están integradas verticalmente, mientras que Meta, Microsoft, SpaceXAI, CoreWeave y Oracle dependen por completo de NVIDIA. La barrera de entrada es del orden de USD~38.000 millones por GW de capacidad.
+
+\paragraph{Conducta.} La industria compite en capacidad. Entre septiembre de 2025 y septiembre de 2026 la energía por unidad de cómputo cayó 23\,\%, pero el cómputo instalado se multiplicó por 4,1 y el gasto eléctrico por 3,1 (de USD~2.760 a 8.660 millones anuales): una \textbf{paradoja de Jevons}. Las salidas a bolsa de Anthropic y OpenAI se inscriben en esa carrera: valuaciones cercanas al billón de dólares exigen prometer crecimiento, que se traduce en cómputo y electricidad pagados antes que los ingresos, en empresas que todavía pierden dinero \cite{fortuneap}. Bain \& Company estima que la industria necesitaría USD~2 billones de ingresos anuales para recuperar la inversión \cite{wm}.
+
+\paragraph{Desempeño.} El índice de Lerner, $L=(P-CMg)/P$, se estimó para el alquiler de GPU con precios de USD~1,49 a 6,98 por hora de H100 \cite{intuition} y costos construidos con los datos del trabajo. El costo marginal de corto plazo (operación, incluida la electricidad) es de USD~0,13 por hora, lo que da $L$ entre 0,92 y 0,98; pero ese valor sobrestima el poder de mercado en una industria con costos fijos enormes. Sumando el capital amortizado en cinco años (USD~1,17 por hora), $L$ cae a un rango de 0,21 a 0,83 según el proveedor. En el eslabón de chips, el margen bruto de NVIDIA (75\,\% en el trimestre a julio de 2026 \cite{nvidia}) aproxima un Lerner elevado, coherente con su participación dominante.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ & \textbf{Chips} & \textbf{Data centers} & \textbf{Laboratorios}$^{*}$ \\
+\midrule
+HHI & 4.890 & 1.623 & 1.934 \\
+Líder (participación) & NVIDIA (65,6\,\%) & Google (26,9\,\%) & OpenAI (29,0\,\%) \\
+Empresas equivalentes & 2,0 & 6,2 & 5,2 \\
+Lerner (aprox.) & $\approx 0{,}75$ & 0,21--0,83 & pérdidas \\
+\bottomrule
+\end{tabular}
+\caption{Estructura y desempeño por eslabón. $^{*}$Medida aproximada: data centers en los que cada laboratorio figura como usuario.}
+\label{tab:oi}
+\end{table}
+
 % ═════════════════════════════════════════════════════════════════════════════
 \section{Conclusiones}
 
@@ -321,6 +345,10 @@ El trabajo se realizó con asistencia de un modelo de lenguaje (Claude) en códi
 \bibitem{aleph} Aleph Energy (2026). Proyecciones de precios del MEM para 2026 con datos de CAMMESA, citado en \emph{Mejor Energía}, 21 de enero de 2026.
 \bibitem{cnbcanthropic} CNBC (2026). \emph{Anthropic confidentially files IPO prospectus with SEC}, 1 de junio de 2026.
 \bibitem{tcopenai} TechCrunch (2026). \emph{OpenAI files confidentially for IPO, following Anthropic}, 8 de junio de 2026.
+\bibitem{fortuneap} Fortune / Associated Press (2026). \emph{Anthropic IPO filing and AI bubble comparisons}, 2 de junio de 2026.
+\bibitem{wm} Washington Monthly (2026). \emph{An AI Crash Is Coming. What Then?}, 3 de mayo de 2026.
+\bibitem{intuition} IntuitionLabs (2026). \emph{H100 Rental Prices Compared Across Cloud Providers}, actualizado el 16 de agosto de 2026.
+\bibitem{nvidia} NVIDIA (2026). \emph{Financial Results for Second Quarter Fiscal 2027}, 26 de agosto de 2026.
 \end{thebibliography}
 
 % ═════════════════════════════════════════════════════════════════════════════
