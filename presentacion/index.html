@@ -23,6 +23,8 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; background: var(--fondo); color: var(--texto); font-family: var(--sans); }
   body { overflow: hidden; }
+  a { color: var(--primario); text-decoration: none; }
+  a:hover { text-decoration: underline; }
 
   /* ── Diapositivas ─────────────────────────────────────────── */
   .slide {
@@ -43,11 +45,18 @@
   .slide.activa .entra:nth-child(5) { animation-delay: 0.32s; }
   @keyframes revelar { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
 
+  .portada {
+    background:
+      linear-gradient(90deg, rgba(10,10,10,0.97) 30%, rgba(10,10,10,0.72) 60%, rgba(10,10,10,0.45)),
+      url('img/rack_servidores.jpg') center / cover no-repeat;
+  }
+
   .etiqueta { font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--primario); font-weight: 600; margin: 0 0 0.8rem; }
   h1, h2 { font-family: var(--serif); font-weight: 700; line-height: 1.05; margin: 0 0 1rem; }
   h1 { font-size: clamp(2.4rem, 6.5vw, 5.2rem); }
   h2 { font-size: clamp(1.8rem, 4vw, 3.2rem); }
-  p { font-size: clamp(1rem, 1.6vw, 1.3rem); line-height: 1.55; color: var(--tenue); max-width: 60ch; margin: 0 0 1rem; }
+  h3 { font-size: 1.05rem; margin: 0 0 0.4rem; font-weight: 600; }
+  p { font-size: clamp(1rem, 1.6vw, 1.3rem); line-height: 1.55; color: var(--tenue); max-width: 62ch; margin: 0 0 1rem; }
   strong { color: var(--texto); font-weight: 600; }
   .primario { color: var(--primario); }
   .acento { color: var(--acento); }
@@ -64,14 +73,38 @@
 
   /* ── Bloques ──────────────────────────────────────────────── */
   .dos-col { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: clamp(1.2rem, 4vw, 3.5rem); align-items: center; }
-  .dos-col > * { min-width: 0; }   /* sin esto, el bloque de código ensancha la columna y rompe el celular */
+  .dos-col > * { min-width: 0; }
   .cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; margin-top: 1.4rem; }
   .cifra { background: var(--superficie); border: 1px solid var(--borde); border-radius: 14px; padding: 1.1rem 1.2rem; }
-  .cifra b { display: block; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1; color: var(--primario); }
+  .cifra b { display: block; font-family: var(--serif); font-size: clamp(1.9rem, 3.6vw, 2.9rem); line-height: 1; color: var(--primario); }
+  .cifras.montos .cifra b { font-size: clamp(1.5rem, 2.6vw, 2.3rem); white-space: nowrap; }
   .cifra span { display: block; margin-top: 0.4rem; font-size: 0.92rem; color: var(--tenue); line-height: 1.35; }
   .figura { background: #fff; border-radius: 14px; padding: 0.6rem; box-shadow: 0 18px 50px rgba(79, 195, 247, 0.10); }
-  .figura img { display: block; width: 100%; height: auto; max-height: 64vh; object-fit: contain; }
-  .pie { font-size: 0.78rem; color: #6b6b6b; margin-top: 0.5rem; }
+  .figura img { display: block; width: 100%; height: auto; max-height: 62vh; object-fit: contain; }
+
+  .fotos { display: grid; grid-template-columns: 1.1fr 0.6fr 1.3fr; gap: 0.8rem; margin-top: 0.4rem; }
+  .foto { position: relative; margin: 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--borde); background: var(--superficie); }
+  .foto img { display: block; width: 100%; height: clamp(200px, 38vh, 400px); object-fit: cover; transition: transform 0.6s var(--ease-out); }
+  .foto:hover img { transform: scale(1.04); }
+  .foto figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 2rem 0.9rem 0.7rem; font-size: 0.88rem; line-height: 1.35; color: #fff;
+                     background: linear-gradient(transparent, rgba(0,0,0,0.85)); }
+  .foto figcaption b { display: block; font-size: 0.98rem; }
+  .credito { font-size: 0.72rem; color: #6b6b6b; margin-top: 0.6rem; }
+
+  .flujo { width: 100%; height: auto; }
+  .flujo .caja-svg { fill: var(--superficie); stroke: var(--borde); }
+  .flujo text { font-family: var(--sans); fill: var(--texto); }
+  .flujo .sub { fill: var(--tenue); font-size: 12px; }
+
+  .capas { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.9rem; margin-top: 0.6rem; }
+  .capa { background: var(--superficie); border: 1px solid var(--borde); border-top: 3px solid var(--primario); border-radius: 12px; padding: 1rem; }
+  .capa:nth-child(2) { border-top-color: var(--acento); }
+  .capa:nth-child(3) { border-top-color: var(--alerta); }
+  .capa:nth-child(4) { border-top-color: #9ccc65; }
+  .capa p { font-size: 0.9rem; margin: 0 0 0.6rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .chip { font-size: 0.8rem; padding: 0.22rem 0.55rem; border-radius: 999px; background: #1f1f1f; border: 1px solid var(--borde); color: var(--texto); white-space: nowrap; }
+  .chip small { color: var(--tenue); }
 
   .cruces { display: grid; gap: 0.8rem; margin-top: 0.4rem; }
   .cruce { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0.7rem; }
@@ -84,9 +117,30 @@
   pre.sql .k { color: var(--primario); font-weight: 600; }
   .check { display: inline-block; margin-top: 0.8rem; padding: 0.35rem 0.75rem; border-radius: 999px; background: rgba(79, 195, 247, 0.12); color: var(--primario); font-size: 0.9rem; }
 
+  .barras-share { display: grid; gap: 0.55rem; margin-top: 0.4rem; }
+  .fila-share { display: grid; grid-template-columns: 6.5rem 1fr 3rem; align-items: center; gap: 0.6rem; font-size: 0.92rem; }
+  .fila-share .pista { height: 12px; border-radius: 999px; background: #1f1f1f; overflow: hidden; }
+  .fila-share .relleno { height: 100%; border-radius: 999px; background: var(--primario); transform-origin: left; }
+  .slide.activa .relleno { animation: crecer 1.1s var(--ease-out) both; }
+  @keyframes crecer { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .fila-share span:last-child { text-align: right; color: var(--tenue); font-variant-numeric: tabular-nums; }
+
+  .noticias { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; margin-top: 0.4rem; }
+  .noticia { background: var(--superficie); border: 1px solid var(--borde); border-radius: 14px; padding: 1.1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .noticia .fecha { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--acento); }
+  .noticia h3 { font-family: var(--serif); font-size: 1.45rem; line-height: 1.1; }
+  .noticia p { font-size: 0.92rem; margin: 0; }
+  .noticia blockquote { margin: 0.2rem 0 0; padding-left: 0.8rem; border-left: 3px solid var(--alerta); font-size: 0.92rem; color: var(--texto); font-style: italic; line-height: 1.45; }
+  .noticia .fuentes { margin-top: auto; font-size: 0.78rem; color: #7a7a7a; }
+  .pregunta-critica { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 12px; background: rgba(255, 213, 79, 0.08); border: 1px solid rgba(255, 213, 79, 0.3); color: var(--texto); font-size: 1rem; }
+
   ul.lista { list-style: none; padding: 0; margin: 0.4rem 0 0; display: grid; gap: 0.75rem; }
   ul.lista li { position: relative; padding-left: 1.4rem; font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.45; color: var(--tenue); }
   ul.lista li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 8px; height: 8px; border-radius: 50%; background: var(--primario); }
+
+  .robot { width: 100%; max-width: 360px; height: auto; display: block; margin: 0 auto; }
+  .robot .ojo { animation: parpadeo 3.2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes parpadeo { 0%, 92%, 100% { opacity: 1; } 95% { opacity: 0.15; } }
 
   /* ── Navegación ───────────────────────────────────────────── */
   .barra { position: fixed; left: 0; top: 0; height: 3px; background: var(--primario); transition: width 0.5s var(--ease-out); z-index: 10; }
@@ -96,13 +150,18 @@
   .contador { font-size: 0.85rem; color: var(--tenue); min-width: 3.5rem; text-align: center; font-variant-numeric: tabular-nums; }
   .marca { position: fixed; bottom: 2.5vh; left: max(16px, 3vw); font-size: 0.78rem; color: #5c5c5c; z-index: 10; }
 
+  @media (max-width: 900px) {
+    .capas, .noticias { grid-template-columns: minmax(0, 1fr); }
+    .fotos { grid-template-columns: minmax(0, 1fr); }
+    .foto img { height: 220px; }
+  }
   @media (max-width: 760px) {
     .dos-col { grid-template-columns: minmax(0, 1fr); }
     .cruce { grid-template-columns: 1fr; gap: 0.3rem; }
+    .cruce > * { min-width: 0; }
     .clave::after { content: ' ↓'; }
     .marca { display: none; }
-    .slide { justify-content: flex-start; padding-top: 7vh; padding-bottom: 96px; }   /* espacio para los botones */
-    .cruce > * { min-width: 0; }
+    .slide { justify-content: flex-start; padding-top: 7vh; padding-bottom: 96px; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -114,24 +173,121 @@
 <div class="barra" id="barra"></div>
 
 <!-- 1 · Portada -->
-<section class="slide" data-titulo="Portada">
+<section class="slide portada" data-titulo="Portada">
   <p class="etiqueta entra">Trabajo práctico modelo · Laboratorio de Métodos Cuantitativos · FCE UBA</p>
   <h1 class="entra">¿Cuánta electricidad<br>se <span class="gradiente">come la IA</span>?</h1>
-  <p class="entra">Data centers de inteligencia artificial: potencia, energía, localización y un escenario para Argentina.</p>
-  <div class="cifras entra">
+  <p class="entra">Data centers de inteligencia artificial: potencia, energía, dinero, poder de mercado y un escenario para Argentina.</p>
+  <div class="cifras entra" style="max-width:720px">
     <div class="cifra"><b data-contar="73" data-sufijo="%">0%</b><span>de la demanda eléctrica argentina consumen hoy 69 data centers</span></div>
+    <div class="cifra"><b data-contar="8700" data-prefijo="USD " data-sufijo=" M">0</b><span>por año se pagan de electricidad</span></div>
   </div>
 </section>
 
-<!-- 2 · Pregunta -->
+<!-- 2 · Qué es un data center -->
+<section class="slide" data-titulo="Qué es un data center">
+  <p class="etiqueta entra">Para empezar · ¿qué es un data center?</p>
+  <h2 class="entra">Una fábrica que convierte <span class="acento">electricidad</span> en <span class="primario">cálculos</span></h2>
+  <div class="fotos entra">
+    <figure class="foto">
+      <img src="img/rack_servidores.jpg" alt="Pasillo de un data center con filas de servidores iluminados">
+      <figcaption><b>Filas de servidores</b>Miles de computadoras apiladas en estanterías (racks), conectadas entre sí.</figcaption>
+    </figure>
+    <figure class="foto">
+      <img src="img/rack_gb200.jpg" alt="Rack NVIDIA GB200 con 72 GPUs refrigeradas por líquido" style="object-position: center 40%">
+      <figcaption><b>Un rack de IA</b>NVIDIA GB200: 72 chips GPU en un armario de 2 metros, enfriado con líquido.</figcaption>
+    </figure>
+    <figure class="foto">
+      <img src="img/techo_refrigeracion.jpg" alt="Techo de un data center cubierto de equipos de refrigeración">
+      <figcaption><b>El techo: refrigeración</b>Todo ese calor hay que sacarlo. Por eso el techo está lleno de enfriadores.</figcaption>
+    </figure>
+  </div>
+  <p class="credito entra">Fotos: BalticServers.com (CC BY-SA 3.0), Pokiiri (CC BY-SA 4.0), Rsparks3 (CC0) · Wikimedia Commons.</p>
+</section>
+
+<!-- 3 · Cómo funciona una IA -->
+<section class="slide" data-titulo="Cómo funciona una IA">
+  <p class="etiqueta entra">¿Y qué hace una IA con todo eso?</p>
+  <h2 class="entra">Entrenar es ajustar una <span class="primario">función gigante</span></h2>
+  <div class="dos-col entra" style="grid-template-columns: minmax(0,1.5fr) minmax(0,1fr)">
+    <svg class="flujo" viewBox="0 0 760 300" role="img" aria-label="Flujo: electricidad alimenta chips GPU que entrenan el modelo y responden preguntas; el calor se va a refrigeración">
+      <defs>
+        <marker id="flecha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#4FC3F7"/>
+        </marker>
+      </defs>
+      <rect class="caja-svg" x="10" y="40" width="160" height="96" rx="12"/>
+      <text x="90" y="80" text-anchor="middle" font-size="30">⚡</text>
+      <text x="90" y="108" text-anchor="middle" font-size="16" font-weight="600">Electricidad</text>
+      <text x="90" y="126" class="sub" text-anchor="middle">100% de la potencia</text>
+
+      <rect class="caja-svg" x="215" y="40" width="160" height="96" rx="12" style="stroke:#4FC3F7"/>
+      <text x="295" y="80" text-anchor="middle" font-size="30">🧮</text>
+      <text x="295" y="108" text-anchor="middle" font-size="16" font-weight="600">Chips GPU</text>
+      <text x="295" y="126" class="sub" text-anchor="middle">miles en paralelo</text>
+
+      <rect class="caja-svg" x="420" y="10" width="330" height="72" rx="12"/>
+      <text x="436" y="40" font-size="16" font-weight="600">1 · Entrenamiento</text>
+      <text x="436" y="62" class="sub">lee billones de palabras y ajusta sus parámetros</text>
+
+      <rect class="caja-svg" x="420" y="96" width="330" height="72" rx="12"/>
+      <text x="436" y="126" font-size="16" font-weight="600">2 · Inferencia</text>
+      <text x="436" y="148" class="sub">usa lo aprendido para responder tu pregunta</text>
+
+      <rect class="caja-svg" x="215" y="200" width="160" height="86" rx="12" style="stroke:#E07A5F"/>
+      <text x="295" y="236" text-anchor="middle" font-size="26">🌡️</text>
+      <text x="295" y="262" text-anchor="middle" font-size="15" font-weight="600">Calor</text>
+      <text x="295" y="278" class="sub" text-anchor="middle">refrigeración: +30%</text>
+
+      <path d="M172 88 H210" stroke="#4FC3F7" stroke-width="2.5" marker-end="url(#flecha)"/>
+      <path d="M377 78 L415 50" stroke="#4FC3F7" stroke-width="2.5" marker-end="url(#flecha)"/>
+      <path d="M377 98 L415 128" stroke="#4FC3F7" stroke-width="2.5" marker-end="url(#flecha)"/>
+      <path d="M295 138 V195" stroke="#E07A5F" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#flecha)"/>
+    </svg>
+    <div>
+      <p>Un modelo de lenguaje es una <strong>función con cientos de miles de millones de parámetros</strong>. Entrenarlo es encontrar los valores que mejor predicen la próxima palabra: <strong>como una regresión, pero gigante</strong>.</p>
+      <p>Cada chip hace multiplicaciones de matrices sin parar, y cada multiplicación consume energía y genera calor. Por cada 100 MW de chips hacen falta unos <strong>30 MW más</strong> para enfriar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · Pregunta -->
 <section class="slide" data-titulo="Pregunta">
   <p class="etiqueta entra">El problema</p>
   <h2 class="entra">La IA parece software.<br>Su insumo crítico es <span class="acento">la electricidad</span>.</h2>
   <p class="entra">En octubre de 2025, OpenAI y Sur Energy firmaron una carta de intención por un data center de <strong>500 MW en la Patagonia</strong> (<em>Stargate Argentina</em>), por <strong>USD 25.000 millones</strong> bajo el RIGI. Todavía no tiene sitio ni obra.</p>
-  <p class="entra"><strong>Pregunta:</strong> ¿cuánta electricidad demandan estos data centers, a qué ritmo crece y qué implicaría uno de 500 MW en Argentina en energía, emisiones y costo?</p>
+  <p class="entra"><strong>Pregunta:</strong> ¿cuánta electricidad demandan estos data centers, a qué ritmo crece, cuánto cuesta y qué implicaría uno de 500 MW en Argentina?</p>
 </section>
 
-<!-- 3 · Datos y cruces -->
+<!-- 5 · Quiénes están en el negocio -->
+<section class="slide" data-titulo="Empresas">
+  <p class="etiqueta entra">La cadena de valor · quién es quién</p>
+  <h2 class="entra">Cuatro eslabones, pocas empresas</h2>
+  <div class="capas entra">
+    <div class="capa">
+      <h3>1 · Chips</h3>
+      <p>Diseñan los procesadores que hacen el cálculo.</p>
+      <div class="chips"><span class="chip">NVIDIA</span><span class="chip">AMD</span><span class="chip">Google <small>TPU</small></span><span class="chip">Amazon <small>Trainium</small></span><span class="chip">Huawei</span></div>
+    </div>
+    <div class="capa">
+      <h3>2 · Dueños de data centers</h3>
+      <p>Construyen y operan las instalaciones.</p>
+      <div class="chips"><span class="chip">Google <small>3,3 GW</small></span><span class="chip">Meta <small>2,4</small></span><span class="chip">Amazon <small>1,7</small></span><span class="chip">Microsoft <small>1,5</small></span><span class="chip">SpaceXAI <small>1,3</small></span><span class="chip">CoreWeave</span><span class="chip">Oracle</span></div>
+    </div>
+    <div class="capa">
+      <h3>3 · Laboratorios de IA</h3>
+      <p>Entrenan los modelos. Aparecen como usuarios en…</p>
+      <div class="chips"><span class="chip">OpenAI <small>20 DC</small></span><span class="chip">Meta <small>16</small></span><span class="chip">Google DeepMind <small>12</small></span><span class="chip">Anthropic <small>8</small></span><span class="chip">Microsoft <small>7</small></span></div>
+    </div>
+    <div class="capa">
+      <h3>4 · Energía</h3>
+      <p>Generan y transportan la electricidad.</p>
+      <div class="chips"><span class="chip">Eléctricas locales <small>ej. Georgia Power</small></span><span class="chip">Operadores de red</span><span class="chip">En Argentina: CAMMESA</span></div>
+    </div>
+  </div>
+  <p class="entra" style="margin-top:1rem; font-size:1rem">Fuente: Epoch AI (dueños, usuarios y diseñadores de chips que figuran en la base). GW = potencia operativa.</p>
+</section>
+
+<!-- 6 · Datos y cruces -->
 <section class="slide" data-titulo="Datos">
   <p class="etiqueta entra">Los datos · cómo se cruzaron</p>
   <h2 class="entra">Cuatro fuentes, tres claves</h2>
@@ -154,7 +310,7 @@
   </div>
 </section>
 
-<!-- 4 · Crecimiento -->
+<!-- 7 · Crecimiento -->
 <section class="slide" data-titulo="Crecimiento">
   <p class="etiqueta entra">Resultado 1 · crecimiento</p>
   <h2 class="entra">Una curva <span class="primario">explosiva</span></h2>
@@ -168,7 +324,7 @@
   </div>
 </section>
 
-<!-- 5 · Derivada e integral -->
+<!-- 8 · Derivada e integral -->
 <section class="slide" data-titulo="Derivada e integral">
   <p class="etiqueta entra">Concepto de la materia · derivadas e integrales</p>
   <h2 class="entra">La derivada dice <em>qué tan rápido</em>;<br>la integral, <em>cuánta energía</em></h2>
@@ -176,7 +332,20 @@
   <p class="entra" style="margin-top:1rem">La instalación se acelera: de <strong>3 GW/año</strong> en 2025 a <strong>casi 10 GW/año</strong> en 2027-28. Solo entre enero y septiembre de 2026 consumieron <strong>~57 TWh</strong>, casi 4 veces lo que usa Uruguay en un año.</p>
 </section>
 
-<!-- 6 · Quién y dónde -->
+<!-- 9 · Cuánto se paga de luz -->
+<section class="slide" data-titulo="Gasto eléctrico">
+  <p class="etiqueta entra">En dólares · ¿cuánto se paga de luz?</p>
+  <h2 class="entra">La factura de luz más cara del mundo</h2>
+  <div class="cifras montos entra">
+    <div class="cifra"><b data-contar="8700" data-prefijo="USD " data-sufijo=" M">0</b><span>por año hoy: 118 TWh × 73,5 USD/MWh (precio industrial de los estados donde están)</span></div>
+    <div class="cifra"><b class="acento" data-contar="23900" data-prefijo="USD " data-sufijo=" M">0</b><span>por año con la potencia proyectada (325 TWh)</span></div>
+    <div class="cifra"><b class="alerta" data-contar="305" data-prefijo="USD " data-sufijo=" M">0</b><span>por año pagaría Stargate Argentina: 4,55 TWh × 67 USD/MWh (costo monómico de grandes usuarios, 2026)</span></div>
+    <div class="cifra"><b data-contar="68" data-sufijo="%">0%</b><span>de su costo operativo anual sería electricidad</span></div>
+  </div>
+  <p class="entra" style="margin-top:1.2rem">Energía = potencia × PUE 1,3 × uso 0,8 × 8.760 horas. Gasto = energía × precio. Precio argentino: proyección de CAMMESA citada por Aleph Energy (enero 2026).</p>
+</section>
+
+<!-- 10 · Quién y dónde -->
 <section class="slide" data-titulo="Quién y dónde">
   <p class="etiqueta entra">Resultado 2 · concentración y localización</p>
   <h2 class="entra">Pocas empresas, electricidad barata… y fósil</h2>
@@ -191,7 +360,68 @@
   </div>
 </section>
 
-<!-- 7 · Frente a los países -->
+<!-- 11 · Oligopolio -->
+<section class="slide" data-titulo="Oligopolio">
+  <p class="etiqueta entra">Estructura de mercado · ¿oligopolio?</p>
+  <h2 class="entra">Pocos jugadores controlan <span class="alerta">las máquinas</span></h2>
+  <div class="dos-col entra" style="grid-template-columns: minmax(0,1.2fr) minmax(0,1fr)">
+    <div>
+      <div class="barras-share">
+        <div class="fila-share"><span>Google</span><div class="pista"><div class="relleno" style="width:100%"></div></div><span>24,9%</span></div>
+        <div class="fila-share"><span>Meta</span><div class="pista"><div class="relleno" style="width:72%"></div></div><span>18,0%</span></div>
+        <div class="fila-share"><span>Amazon</span><div class="pista"><div class="relleno" style="width:53%"></div></div><span>13,2%</span></div>
+        <div class="fila-share"><span>Microsoft</span><div class="pista"><div class="relleno" style="width:46%"></div></div><span>11,5%</span></div>
+        <div class="fila-share"><span>SpaceXAI</span><div class="pista"><div class="relleno" style="width:39%"></div></div><span>9,8%</span></div>
+        <div class="fila-share"><span>Resto</span><div class="pista"><div class="relleno" style="width:91%; background:#555"></div></div><span>22,7%</span></div>
+      </div>
+      <div class="cifras" style="margin-top:1.2rem">
+        <div class="cifra"><b class="acento" data-contar="1623" data-miles="1">0</b><span>índice HHI · más de 1.800 = altamente concentrado</span></div>
+        <div class="cifra"><b data-contar="73" data-sufijo="%">0%</b><span>de la potencia en las 4 mayores (CR4)</span></div>
+      </div>
+    </div>
+    <div>
+      <svg class="robot" viewBox="0 0 320 340" role="img" aria-label="Ilustración de un robot metálico con ojos rojos">
+        <defs>
+          <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9aa3ab"/><stop offset="1" stop-color="#3b4046"/></linearGradient>
+          <radialGradient id="brillo"><stop offset="0" stop-color="#ff5a3c"/><stop offset="0.5" stop-color="#e02020"/><stop offset="1" stop-color="#e0202000"/></radialGradient>
+        </defs>
+        <rect x="150" y="6" width="20" height="30" rx="4" fill="#555"/>
+        <circle cx="160" cy="8" r="7" fill="#e02020"/>
+        <path d="M70 70 Q160 20 250 70 L262 190 Q160 250 58 190 Z" fill="url(#metal)" stroke="#1d1f22" stroke-width="4"/>
+        <path d="M92 110 H228 V148 H92 Z" fill="#141414" stroke="#1d1f22" stroke-width="3"/>
+        <circle class="ojo" cx="125" cy="129" r="26" fill="url(#brillo)"/>
+        <circle class="ojo" cx="195" cy="129" r="26" fill="url(#brillo)"/>
+        <circle cx="125" cy="129" r="8" fill="#ffd0c0"/>
+        <circle cx="195" cy="129" r="8" fill="#ffd0c0"/>
+        <path d="M110 185 H210" stroke="#1d1f22" stroke-width="4"/>
+        <path d="M120 175 V196 M140 175 V198 M160 175 V199 M180 175 V198 M200 175 V196" stroke="#1d1f22" stroke-width="3"/>
+        <path d="M120 232 H200 L214 300 H106 Z" fill="url(#metal)" stroke="#1d1f22" stroke-width="4"/>
+        <rect x="136" y="252" width="48" height="26" rx="4" fill="#141414"/>
+        <text x="160" y="270" text-anchor="middle" font-size="13" font-family="ui-monospace, Consolas, monospace" fill="#4FC3F7">HHI</text>
+        <text x="160" y="332" text-anchor="middle" font-size="14" font-family="Inter, system-ui, sans-serif" fill="#a3a3a3">¿Skynet o solo un oligopolio?</text>
+      </svg>
+      <p style="font-size:0.95rem; text-align:center">Barreras de entrada de <strong>miles de millones por instalación</strong>, poder de negociación frente a gobiernos y eléctricas, y pocas decisiones que mueven la demanda de regiones enteras.</p>
+    </div>
+  </div>
+  <p class="credito entra">Participación sobre la potencia operativa (Epoch AI). HHI calculado sin dueños no informados; umbral según las guías de fusiones de EE.UU. (2023). Ilustración propia.</p>
+</section>
+
+<!-- 12 · Regresión y ML -->
+<section class="slide" data-titulo="Regresión y ML">
+  <p class="etiqueta entra">Modelos · regresión y machine learning</p>
+  <h2 class="entra">Explicar vs. predecir</h2>
+  <div class="dos-col entra" style="grid-template-columns: minmax(0,1fr) minmax(0,1.4fr)">
+    <div class="figura"><img src="../figuras/07_regresion_eficiencia.png" alt="Regresión: los kW por H100 equivalente caen con el año"></div>
+    <div class="figura"><img src="../figuras/08_machine_learning.png" alt="Machine learning: real contra predicho y R2 según el sorteo"></div>
+  </div>
+  <div class="cifras entra">
+    <div class="cifra"><b data-contar="-31" data-sufijo="% por año">0</b><span><strong>Regresión:</strong> energía por unidad de cómputo. Más eficiencia… y aun así más consumo (paradoja de Jevons)</span></div>
+    <div class="cifra"><b data-contar="940" data-sufijo=" H100e/MW">0</b><span><strong>ML:</strong> lo que aprende el modelo. 500 MW → ~487.000 chips</span></div>
+    <div class="cifra"><b class="acento">0,20 → 0,95</b><span>R² según el sorteo train/test. Validación cruzada: <strong>0,75</strong>. Con pocos datos, un solo sorteo engaña</span></div>
+  </div>
+</section>
+
+<!-- 13 · Frente a los países -->
 <section class="slide" data-titulo="Frente a los países">
   <p class="etiqueta entra">Resultado 3 · dimensión</p>
   <h2 class="entra">Hoy, casi una Argentina.<br>Mañana, <span class="acento">dos</span>.</h2>
@@ -206,7 +436,7 @@
   </div>
 </section>
 
-<!-- 8 · Escenario Argentina -->
+<!-- 14 · Escenario Argentina -->
 <section class="slide" data-titulo="Stargate Argentina">
   <p class="etiqueta entra">Escenario · Stargate Argentina (500 MW)</p>
   <h2 class="entra">Absorbible en demanda.<br>La clave es <span class="primario">con qué energía</span>.</h2>
@@ -221,7 +451,35 @@
   </div>
 </section>
 
-<!-- 9 · Conclusiones -->
+<!-- 15 · Noticias -->
+<section class="slide" data-titulo="Noticias">
+  <p class="etiqueta entra">Mientras tanto, en las noticias</p>
+  <h2 class="entra">Salidas a bolsa récord… y advertencias de catástrofe</h2>
+  <div class="noticias entra">
+    <article class="noticia">
+      <span class="fecha">1 jun 2026 · Anthropic (Claude)</span>
+      <h3>Presenta en forma confidencial su pedido de IPO</h3>
+      <p>Valuada en <strong>USD 965.000 millones</strong> tras una ronda de USD 65.000 M. Según el <em>Financial Times</em>, apunta a salir a bolsa en <strong>octubre con ~USD 2 billones</strong>: sería la IPO más grande de la historia. No está confirmado.</p>
+      <p class="fuentes"><a href="https://www.cnbc.com/2026/06/01/anthropic-ipo-s1-prospectus.html">CNBC</a> · <a href="https://fortune.com/2026/08/13/anthropic-ipo-2-trillion-october-largest-ever-spacex/">Fortune</a></p>
+    </article>
+    <article class="noticia">
+      <span class="fecha">8 jun 2026 · OpenAI (ChatGPT)</span>
+      <h3>También presenta su S-1 confidencial</h3>
+      <p>Valuada en <strong>USD 852.000 millones</strong> (marzo). Pero el 12 de septiembre Sam Altman frenó el apuro:</p>
+      <blockquote>“Dado todo lo que está sucediendo con la seguridad, este sería un momento poco aconsejable para salir al mercado bursátil.”</blockquote>
+      <p class="fuentes"><a href="https://techcrunch.com/2026/06/08/following-anthropic-openai-files-confidentially-for-ipo/">TechCrunch</a> · <a href="https://www.infobae.com/america/agencias/2026/09/12/altman-afirma-que-seria-poco-aconsejable-sacar-openai-a-bolsa-ante-los-riesgos-de-la-ia/">Infobae</a></p>
+    </article>
+    <article class="noticia">
+      <span class="fecha">9 sep 2026 · La supuesta catástrofe</span>
+      <h3>“La IA podría matar a todos los humanos”</h3>
+      <p>Tras la renuncia del investigador Jacob Coxon, Evan Hubinger, responsable de seguridad en Anthropic, estimó <strong>más de 10% de probabilidad en la próxima década</strong>. La ONU habló de “riesgo existencial”. Otros advierten un riesgo más terrenal: <strong>que estalle la burbuja</strong> de inversión.</p>
+      <p class="fuentes"><a href="https://www.lanacion.com.ar/el-mundo/el-jefe-de-seguridad-de-anthropic-dice-que-hay-mas-de-un-10-de-probabilidad-de-que-la-ia-mate-a-nid09092026/">La Nación</a> · <a href="https://washingtonmonthly.com/2026/05/03/an-ai-crash-is-coming-what-then/">Washington Monthly</a></p>
+    </article>
+  </div>
+  <p class="pregunta-critica entra">🧠 <strong>Para pensar con datos:</strong> ¿qué parte de cada titular se puede verificar? ¿A quién le conviene cada relato: el de la IA imparable, el del apocalipsis o el de la burbuja?</p>
+</section>
+
+<!-- 16 · Conclusiones -->
 <section class="slide" data-titulo="Conclusiones">
   <p class="etiqueta entra">Conclusiones</p>
   <h2 class="entra">Lo que aprendimos</h2>
@@ -229,28 +487,30 @@
     <ul class="lista">
       <li><strong>El desafío es la velocidad:</strong> las redes tardan años en crecer; la demanda de la IA llega en meses.</li>
       <li><strong>Barato ≠ limpio:</strong> en EE.UU. se instalan donde la luz es barata y mayormente fósil.</li>
-      <li><strong>Argentina:</strong> 500 MW son el 2,8% de la demanda; su huella depende de abastecerse con eólica dedicada.</li>
+      <li><strong>Argentina:</strong> 500 MW son el 2,8% de la demanda y ~USD 305 M/año de luz; su huella depende de abastecerse con eólica.</li>
+      <li><strong>Mercado:</strong> oligopolio moderado (HHI 1.623), con barreras de entrada enormes.</li>
     </ul>
     <ul class="lista">
-      <li><strong>Lección de método:</strong> el costo de Epoch era un coeficiente fijo. Antes de modelar, entendé cómo se construyó el dato.</li>
-      <li><strong>Lección de cruces:</strong> un merge no avisa cuando pierde claves. Diagnosticá antes de unir.</li>
+      <li><strong>Método:</strong> el costo de Epoch era un coeficiente fijo. Antes de modelar, entendé cómo se construyó el dato.</li>
+      <li><strong>Cruces:</strong> un merge no avisa cuando pierde claves. Diagnosticá antes de unir.</li>
+      <li><strong>Machine learning:</strong> con pocos datos, validá con varios sorteos antes de celebrar un R².</li>
       <li><strong>Limitaciones:</strong> estimaciones (±1,4×), factor de uso supuesto, intensidad promedio de red.</li>
     </ul>
   </div>
 </section>
 
-<!-- 10 · Cierre -->
+<!-- 17 · Cierre -->
 <section class="slide" data-titulo="Fuentes">
   <p class="etiqueta entra">Gracias</p>
   <h2 class="entra">¿Preguntas?</h2>
   <p class="entra">Código, datos, notebook e informe: <strong class="primario">github.com/Datso653/datacenters-ia</strong></p>
-  <p class="entra" style="font-size:0.95rem">Fuentes: Epoch AI (<em>AI Data Centers</em>, <em>GPU Clusters</em>, CC-BY) · U.S. Energy Information Administration · Our World in Data (Ember, IEA) · DatacenterDynamics. Análisis en Python con asistencia de IA, verificado contra los datos.</p>
+  <p class="entra" style="font-size:0.95rem">Datos: Epoch AI (<em>AI Data Centers</em>, <em>GPU Clusters</em>, CC-BY) · U.S. Energy Information Administration · Our World in Data (Ember, IEA) · CAMMESA vía Aleph Energy. Noticias: CNBC, TechCrunch, Fortune, Infobae, La Nación, Washington Monthly, DatacenterDynamics. Fotos: Wikimedia Commons (ver <code>img/CREDITOS.md</code>). Análisis en Python con asistencia de IA, verificado contra los datos.</p>
 </section>
 
 <div class="marca">¿Cuánta electricidad se come la IA? · FCE UBA</div>
 <nav class="controles" aria-label="Navegación de diapositivas">
   <button id="anterior" aria-label="Diapositiva anterior">←</button>
-  <span class="contador" id="contador">1 / 10</span>
+  <span class="contador" id="contador">1 / 17</span>
   <button id="siguiente" aria-label="Diapositiva siguiente">→</button>
 </nav>
 
@@ -266,8 +526,9 @@
     slide.querySelectorAll('[data-contar]').forEach(el => {
       const objetivo = parseFloat(el.dataset.contar);
       const decimales = parseInt(el.dataset.decimales || '0', 10);
+      const prefijo = el.dataset.prefijo || '';
       const sufijo = el.dataset.sufijo || '';
-      const formato = v => v.toLocaleString('es-AR', { minimumFractionDigits: decimales, maximumFractionDigits: decimales }) + sufijo;
+      const formato = v => prefijo + v.toLocaleString('es-AR', { minimumFractionDigits: decimales, maximumFractionDigits: decimales }) + sufijo;
       if (sinMovimiento) { el.textContent = formato(objetivo); return; }
       let inicio;
       const paso = t => {

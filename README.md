@@ -33,11 +33,12 @@ datacenters-ia/
 │   ├── carga.py       # lee y renombra columnas
 │   ├── transformaciones.py  # limpieza, clave de estado, serie mensual
 │   ├── cruces.py      # diagnóstico de claves + las mismas uniones en SQL (sqlite3)
-│   ├── costos.py      # derivadas, integrales, energía, emisiones, escenario
+│   ├── costos.py      # derivadas, integrales, energía, emisiones, gasto eléctrico, escenario
+│   ├── modelos.py     # regresión (statsmodels) y machine learning (scikit-learn)
 │   └── graficos.py    # estilo común y exportación de figuras
 ├── figuras/           # gráficos exportados para el informe
 ├── informe/           # informe académico en LaTeX (informe.tex → informe.pdf)
-├── presentacion/      # presentación HTML de 10 diapositivas (index.html)
+├── presentacion/      # presentación HTML de 17 diapositivas (index.html + img/ con créditos)
 └── requirements.txt
 ```
 

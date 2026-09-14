@@ -40,3 +40,9 @@ def guardar(fig, nombre: str) -> Path:
 def nota_fuente(ax, texto: str) -> None:
     """Pie de gráfico con la fuente de los datos."""
     ax.annotate(texto, xy=(0, -0.14), xycoords="axes fraction", fontsize=8, color="#555555")
+
+
+def nota_fuente_figura(fig, texto: str) -> None:
+    """Pie para figuras con varios paneles: reserva espacio abajo para no pisar las etiquetas de los ejes."""
+    fig.tight_layout(rect=(0, 0.05, 1, 1))
+    fig.text(0.01, 0.01, texto, fontsize=8, color="#555555")

@@ -62,6 +62,14 @@ def emisiones_anuales_mt_co2(energia_twh, gco2_kwh):
     return np.asarray(energia_twh, dtype=float) * np.asarray(gco2_kwh, dtype=float) / 1000
 
 
+def gasto_electrico_usd_bn(energia_twh, precio_usd_mwh):
+    """Gasto en electricidad (miles de millones de USD por año).
+
+    1 TWh = 10⁶ MWh, entonces TWh · USD/MWh = millones de USD; / 1000 = miles de millones.
+    """
+    return np.asarray(energia_twh, dtype=float) * np.asarray(precio_usd_mwh, dtype=float) / 1000
+
+
 # ── Escenario de costos con los coeficientes de Epoch ─────────────────────────
 
 def coeficientes_epoch(timelines: pd.DataFrame) -> dict:

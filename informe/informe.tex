@@ -76,7 +76,7 @@ Este trabajo cuantifica la demanda eléctrica de los grandes data centers de int
 % ═════════════════════════════════════════════════════════════════════════════
 \section{Introducción}
 
-La inteligencia artificial suele discutirse como un fenómeno de software, pero su insumo crítico es físico: la \textbf{electricidad}. Entrenar y operar modelos requiere instalaciones con decenas de miles de chips que consumen, cada una, tanta potencia como una ciudad mediana. En octubre de 2025, OpenAI y la firma Sur Energy firmaron una carta de intención para construir en la Patagonia un data center de hasta 500~MW (\emph{Stargate Argentina}), con una inversión anunciada de USD~25.000 millones bajo el Régimen de Incentivo para Grandes Inversiones (RIGI). A septiembre de 2026 el proyecto no tiene sitio ni obra confirmados.
+La inteligencia artificial suele discutirse como un fenómeno de software, pero su insumo crítico es físico: la \textbf{electricidad}. Entrenar y operar modelos requiere instalaciones con decenas de miles de chips que consumen, cada una, tanta potencia como una ciudad mediana. En octubre de 2025, OpenAI y la firma Sur Energy firmaron una carta de intención para construir en la Patagonia un data center de hasta 500~MW (\emph{Stargate Argentina}), con una inversión anunciada de USD~25.000 millones bajo el Régimen de Incentivo para Grandes Inversiones (RIGI). A septiembre de 2026 el proyecto no tiene sitio ni obra confirmados. El contexto financiero es de euforia: Anthropic y OpenAI presentaron en junio de 2026 pedidos confidenciales de salida a bolsa, con valuaciones privadas de USD~965.000 y 852.000 millones respectivamente \cite{cnbcanthropic,tcopenai}.
 
 Dimensionar un proyecto así exige números: cuánto consume, cómo se compara con la red del país, cuánto emitiría y cuánto costaría. La pregunta que guía el trabajo es:
 
@@ -217,7 +217,7 @@ La potencia de los data centers relevados pasó de \gw{0,4} en enero de 2024 a \
 
 \subsection{Concentración y localización}
 
-Cinco empresas —Google, Meta, Amazon, Microsoft y SpaceXAI— concentran el \textbf{77,3\,\%} de la potencia operativa; Google encabeza con 3,3~GW en 17 instalaciones (Figura~\ref{fig:quienes}a). La eficiencia del hardware también difiere: Google y CoreWeave alojan unos 1.200 H100 equivalentes por MW, frente a unos 750 en Amazon, que usa chips propios.
+Cinco empresas —Google, Meta, Amazon, Microsoft y SpaceXAI— concentran el \textbf{77,3\,\%} de la potencia operativa; Google encabeza con 3,3~GW en 17 instalaciones (Figura~\ref{fig:quienes}a). La eficiencia del hardware también difiere: Google y CoreWeave alojan unos 1.200 H100 equivalentes por MW, frente a unos 750 en Amazon, que usa chips propios. Sobre los dueños identificados, el índice de Herfindahl-Hirschman es de 1.623 y las cuatro mayores empresas reúnen el 72,9\,\%: un mercado moderadamente concentrado, cercano al umbral de alta concentración (1.800) de las guías de fusiones de Estados Unidos de 2023.
 
 En Estados Unidos, el cruce con la EIA muestra que los data centers se ubican en estados con \textbf{electricidad industrial más barata}: el precio ponderado por potencia es 7,35~¢/kWh contra 8,13 del promedio nacional, y la mediana es 7,77 en los 27 estados con data centers operativos frente a 8,72 en el resto. La correlación es negativa pero débil ($r=-0{,}28$), lo que sugiere que otros factores —acceso a la red, suelo, incentivos— también pesan. Esa electricidad barata es mayormente \textbf{fósil}: 62\,\% ponderado por potencia, con Ohio (82\,\%) como el estado de mayor capacidad (Figura~\ref{fig:quienes}b).
 
@@ -237,13 +237,13 @@ En Estados Unidos, el cruce con la EIA muestra que los data centers se ubican en
 
 \subsection{Dimensión frente a los países}
 
-Con la potencia actual, el consumo anual estimado es de 118~TWh, el \textbf{73\,\% de la demanda eléctrica argentina} de 2024 (161,7~TWh) y 1,3 veces la de Chile. Con la potencia proyectada llegaría a 325~TWh, \textbf{dos veces la demanda argentina} (Figura~\ref{fig:escenario}a). La conclusión resiste el supuesto de uso: con $u=0{,}6$ el consumo equivale al 55\,\% de la demanda argentina y con $u=1$, al 91\,\%.
+Con la potencia actual, el consumo anual estimado es de 118~TWh, el \textbf{73\,\% de la demanda eléctrica argentina} de 2024 (161,7~TWh) y 1,3 veces la de Chile. Con la potencia proyectada llegaría a 325~TWh, \textbf{dos veces la demanda argentina} (Figura~\ref{fig:escenario}a). Valuada al precio industrial ponderado de los estados donde se ubican (73,5~USD/MWh), esa energía implica un gasto de \textbf{USD~8.700 millones anuales}, y de USD~23.900 millones con la potencia proyectada. La conclusión resiste el supuesto de uso: con $u=0{,}6$ el consumo equivale al 55\,\% de la demanda argentina y con $u=1$, al 91\,\%.
 
 Fuera de Estados Unidos el cómputo de IA es escaso. La base de clusters atribuye a ese país el 75,6\,\% de la potencia registrada; en América Latina solo figuran nueve clusters en Brasil —casi todos supercomputadoras de Petrobras de menos de 2~MW— y uno en México. Según la IEA, los data centers usan el 4,9\,\% de la electricidad de Estados Unidos (2025), pero apenas el 0,12\,\% en Centro y Sudamérica, sin cambios desde 2020.
 
 \subsection{Escenario: \emph{Stargate Argentina}}
 
-Un data center de 500~MW operando con PUE~1,3 y uso de 0,8 demandaría \textbf{4,55~TWh anuales, el 2,8\,\% de la demanda eléctrica del país}. Con los coeficientes de Epoch, su costo de capital sería de unos USD~18.900 millones, más USD~450 millones anuales de operación (USD~23.500 millones a diez años), del mismo orden que los USD~25.000 millones anunciados.
+Un data center de 500~MW operando con PUE~1,3 y uso de 0,8 demandaría \textbf{4,55~TWh anuales, el 2,8\,\% de la demanda eléctrica del país}. Con los coeficientes de Epoch, su costo de capital sería de unos USD~18.900 millones, más USD~450 millones anuales de operación (USD~23.500 millones a diez años), del mismo orden que los USD~25.000 millones anunciados. Al costo monómico proyectado para grandes usuarios en 2026 (67~USD/MWh \cite{aleph}), la electricidad costaría unos \textbf{USD~305 millones por año}, cerca de dos tercios del costo operativo que asigna Epoch.
 
 Las emisiones dependen críticamente de la red que lo abastezca (Tabla~\ref{tab:emisiones} y Figura~\ref{fig:escenario}b): con la intensidad promedio argentina serían 1,57~Mt de CO$_2$ por año, similar a Estados Unidos y once veces más que en Noruega.
 
@@ -276,6 +276,27 @@ Mt CO$_2$/año & 0,14 & 0,32 & 0,48 & 0,84 & 1,18 & \textbf{1,57} & 1,75 & 2,53 
 \end{figure}
 
 % ═════════════════════════════════════════════════════════════════════════════
+\subsection{Extensión: una regresión y un modelo de aprendizaje automático}
+
+\paragraph{Regresión.} Sobre 404 clusters de GPU (2017--2025) se estimó por MCO, con errores robustos, $\ln(\text{kW por H100e}) = a + b\,t + \varepsilon$. La pendiente es $b=-0{,}369$: la potencia necesaria por unidad de cómputo \textbf{cae un 30,9\,\% por año} (IC~95\,\%: $-32{,}4$\,\% a $-29{,}3$\,\%; $R^2=0{,}73$; Figura~\ref{fig:modelos}a). Aun así la demanda total crece, porque el cómputo instalado aumenta mucho más rápido que la eficiencia (paradoja de Jevons). Como Epoch estima parte de la potencia a partir de las especificaciones de los chips, la tendencia refleja sobre todo el recambio de generaciones de hardware.
+
+\paragraph{Aprendizaje automático.} Con una regresión lineal de \texttt{scikit-learn} se predijo el cómputo (H100e) de cada data center a partir de su potencia, entrenando con el 70\,\% de los 69 operativos y evaluando con el 30\,\% restante. El modelo aprende unos 940 H100e por MW, obtiene $R^2=0{,}86$ en los datos de prueba y un error absoluto medio 59\,\% menor que el de un modelo que predice siempre el promedio. Sin embargo, al repetir el sorteo 20 veces el $R^2$ oscila entre 0,20 y 0,95; la validación cruzada de 5 pliegues da $0{,}75 \pm 0{,}15$, y agregar el año de inicio no mejora la predicción (Figura~\ref{fig:modelos}b). Con pocos datos, una única partición puede ser engañosa.
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{0.40\textwidth}
+  \includegraphics[width=\linewidth]{07_regresion_eficiencia.png}
+  \caption{Regresión de eficiencia.}
+\end{subfigure}\hfill
+\begin{subfigure}{0.58\textwidth}
+  \includegraphics[width=\linewidth]{08_machine_learning.png}
+  \caption{Predicción y estabilidad del $R^2$.}
+\end{subfigure}
+\caption{Modelos: explicar (regresión) y predecir (aprendizaje automático).}
+\label{fig:modelos}
+\end{figure}
+
+% ═════════════════════════════════════════════════════════════════════════════
 \section{Conclusiones}
 
 Los grandes data centers de IA ya consumen una cantidad de electricidad comparable a la de un país mediano y su expansión se acelera: el desafío para las redes es la \textbf{velocidad}, no solo el volumen. En Estados Unidos, la búsqueda de electricidad barata los lleva a estados con generación mayormente fósil. Para Argentina, un proyecto de 500~MW sería absorbible en términos de demanda (2,8\,\%) siempre que se acompañe de generación nueva, y su huella de carbono dependería de abastecerse con renovables dedicadas —el argumento eólico de la Patagonia— antes que con la red promedio.
@@ -297,6 +318,9 @@ El trabajo se realizó con asistencia de un modelo de lenguaje (Claude) en códi
 \bibitem{owid} Our World in Data (2026). \emph{Energy}; datos de Ember e IEA. \url{https://ourworldindata.org/energy}
 \bibitem{iea} International Energy Agency (2025). \emph{Energy and AI}. \url{https://www.iea.org/reports/energy-and-ai}
 \bibitem{dcd} DatacenterDynamics (2025). \emph{OpenAI plans 500MW data center in Argentina}. \url{https://www.datacenterdynamics.com/en/news/openai-plans-500mw-data-center-in-argentina/}
+\bibitem{aleph} Aleph Energy (2026). Proyecciones de precios del MEM para 2026 con datos de CAMMESA, citado en \emph{Mejor Energía}, 21 de enero de 2026.
+\bibitem{cnbcanthropic} CNBC (2026). \emph{Anthropic confidentially files IPO prospectus with SEC}, 1 de junio de 2026.
+\bibitem{tcopenai} TechCrunch (2026). \emph{OpenAI files confidentially for IPO, following Anthropic}, 8 de junio de 2026.
 \end{thebibliography}
 
 % ═════════════════════════════════════════════════════════════════════════════
