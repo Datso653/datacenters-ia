@@ -71,6 +71,35 @@
   .calculadora p { margin: 0; font-size: 0.95rem; }
   .calculadora b { color: var(--primario); font-size: 1.2rem; }
 
+  .oligo2 { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.75fr); gap: 1.6rem; align-items: center; }
+  .logo-fila { display: grid; grid-template-columns: 8.5rem 1fr 3.2rem; gap: 0.7rem; align-items: center; margin-bottom: 0.5rem; font-size: 0.92rem; }
+  .logo-fila .logo { background: #fff; border-radius: 8px; height: 2.4rem; display: grid; place-items: center; padding: 0.3rem 0.7rem; }
+  .logo-fila .logo { overflow: hidden; }
+  .logo-fila .logo img { display: block; height: 1.5rem; width: auto; max-width: 100%; object-fit: contain; }
+  .logo-fila .logo.texto { background: #1f1f1f; color: var(--tenue); font-size: 0.85rem; border: 1px solid var(--borde); }
+  .logo-fila .pista { height: 12px; border-radius: 999px; background: #1f1f1f; overflow: hidden; }
+  .logo-fila .relleno { height: 100%; border-radius: 999px; background: var(--primario); transform-origin: left; }
+  .slide.activa .logo-fila .relleno { animation: crecer 1.1s var(--ease-out) both; }
+  .logo-fila > span { text-align: right; color: var(--tenue); font-variant-numeric: tabular-nums; }
+  .poster { margin: 0; text-align: center; }
+  .poster img { width: 100%; max-width: 260px; max-height: 56vh; object-fit: contain; border-radius: 10px; border: 1px solid var(--borde);
+                box-shadow: 0 18px 50px rgba(224, 122, 95, 0.2); }
+  .poster figcaption { margin-top: 0.6rem; font-size: 0.9rem; color: var(--tenue); line-height: 1.4; }
+  .poster figcaption b { display: block; color: var(--texto); font-size: 1.05rem; }
+  @media (max-width: 900px) { .oligo2 { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-height: 760px) { .poster img { max-height: 46vh; } .logo-fila .logo { height: 2rem; } .logo-fila .logo img { height: 1.2rem; } }
+
+  .crecimiento { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 1.2rem; align-items: center; }
+  .crecimiento .figura img { max-height: 66vh; }
+  .hitos { display: grid; gap: 0.7rem; }
+  .hito { background: var(--superficie); border: 1px solid var(--borde); border-left: 3px solid var(--primario); border-radius: 12px; padding: 0.65rem 0.9rem; }
+  .hito.futuro { border-left-color: var(--acento); }
+  .hito b { font-family: var(--serif); font-size: clamp(1.5rem, 2.6vw, 2.2rem); color: var(--primario); line-height: 1; margin-right: 0.5rem; }
+  .hito.futuro b { color: var(--acento); }
+  .hito .cuando { color: var(--tenue); font-size: 0.85rem; }
+  .hito .analogia { display: block; margin-top: 0.35rem; font-size: 0.86rem; color: #d6d6d6; line-height: 1.45; }
+  .hito .analogia strong { color: var(--acento); font-weight: 600; }
+
   .cadena { list-style: none; counter-reset: paso; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
   .cadena li { position: relative; counter-increment: paso; background: var(--superficie); border: 1px solid var(--borde);
                border-radius: 12px; padding: 0.6rem 0.8rem 0.6rem 2.8rem; font-size: 0.88rem; color: var(--tenue); line-height: 1.4; }
@@ -389,15 +418,23 @@
 <section class="slide" data-titulo="Crecimiento">
   <p class="etiqueta entra">Resultado 1 · crecimiento</p>
   <h2 class="entra">Una curva <span class="primario">explosiva</span></h2>
-      <div class="cifras tres entra">
-        <div class="cifra"><b data-contar="0.4" data-decimales="1" data-sufijo=" GW">0</b><span>enero 2024</span>
-          <span class="analogia">📱 cargar el celular de <strong>20 millones de personas</strong> cada hora<br>❄️ 360.000 aires prendidos</span></div>
-        <div class="cifra"><b data-contar="12.9" data-decimales="1" data-sufijo=" GW">0</b><span>septiembre 2026 · 69 operativos</span>
-          <span class="analogia">📱 cargar el celular de <strong>todos los argentinos 14 veces</strong> cada hora<br>❄️ 11,7 millones de aires</span></div>
-        <div class="cifra"><b class="acento" data-contar="35.5" data-decimales="1" data-sufijo=" GW">0</b><span>2029 si terminan las obras en curso</span>
-          <span class="analogia">📱 cargar el celular de <strong>todos los argentinos 39 veces</strong> cada hora<br>❄️ 32 millones de aires</span></div>
+  <div class="crecimiento entra">
+    <div class="figura"><img src="../figuras/01_potencia_en_el_tiempo.png" alt="Potencia IT agregada de los 86 data centers, 2019-2030"></div>
+    <div class="hitos">
+      <div class="hito">
+        <b>0,4 GW</b><span class="cuando">enero 2024</span>
+        <span class="analogia">📱 cargar <strong>20 millones de celulares</strong> por hora<br>❄️ 360.000 aires prendidos</span>
       </div>
-  <div class="figura figura-baja entra"><img src="../figuras/01_potencia_en_el_tiempo.png" alt="Potencia IT agregada de los 86 data centers, 2019-2030"></div>
+      <div class="hito">
+        <b>12,9 GW</b><span class="cuando">hoy · septiembre 2026</span>
+        <span class="analogia">📱 el celular de <strong>todos los argentinos, 14 veces por hora</strong><br>❄️ 11,7 millones de aires</span>
+      </div>
+      <div class="hito futuro">
+        <b>35,5 GW</b><span class="cuando">2029, si terminan las obras</span>
+        <span class="analogia">📱 el celular de <strong>todos los argentinos, 39 veces por hora</strong><br>❄️ 32 millones de aires</span>
+      </div>
+    </div>
+  </div>
   <p class="credito entra">Supuestos: una carga completa de celular ≈ 20 Wh (batería de ~15 Wh más pérdidas del cargador); un aire split de 3.000 frigorías ≈ 1,1 kW; Argentina ≈ 46 millones de habitantes (Censo 2022).</p>
 </section>
 
@@ -441,31 +478,25 @@
 <section class="slide" data-titulo="Oligopolio">
   <p class="etiqueta entra">Estructura de mercado · ¿oligopolio?</p>
   <h2 class="entra">Pocos jugadores controlan <span class="alerta">las máquinas</span></h2>
-  <div class="oligo entra">
+  <div class="oligo2 entra">
     <div>
-      <div class="barras-share">
-        <div class="fila-share"><span>Google</span><div class="pista"><div class="relleno" style="width:100%"></div></div><span>26,9%</span></div>
-        <div class="fila-share"><span>Meta</span><div class="pista"><div class="relleno" style="width:72%"></div></div><span>19,4%</span></div>
-        <div class="fila-share"><span>Amazon</span><div class="pista"><div class="relleno" style="width:53%"></div></div><span>14,2%</span></div>
-        <div class="fila-share"><span>Microsoft</span><div class="pista"><div class="relleno" style="width:46%"></div></div><span>12,4%</span></div>
-        <div class="fila-share"><span>SpaceXAI</span><div class="pista"><div class="relleno" style="width:40%"></div></div><span>10,6%</span></div>
-        <div class="fila-share"><span>Otras 10</span><div class="pista"><div class="relleno" style="width:61%; background:#555"></div></div><span>16,5%</span></div>
-      </div>
+      <div class="logo-fila"><div class="logo"><img src="img/logos/google.png" alt="Google"></div><div class="pista"><div class="relleno" style="width:100%"></div></div><span>26,9%</span></div>
+      <div class="logo-fila"><div class="logo"><img src="img/logos/meta.png" alt="Meta"></div><div class="pista"><div class="relleno" style="width:72%"></div></div><span>19,4%</span></div>
+      <div class="logo-fila"><div class="logo"><img src="img/logos/amazon.png" alt="Amazon"></div><div class="pista"><div class="relleno" style="width:53%"></div></div><span>14,2%</span></div>
+      <div class="logo-fila"><div class="logo"><img src="img/logos/microsoft.png" alt="Microsoft"></div><div class="pista"><div class="relleno" style="width:46%"></div></div><span>12,4%</span></div>
+      <div class="logo-fila"><div class="logo"><img src="img/logos/xai.png" alt="SpaceXAI (xAI)"></div><div class="pista"><div class="relleno" style="width:40%"></div></div><span>10,6%</span></div>
+      <div class="logo-fila"><div class="logo texto">Otras 10</div><div class="pista"><div class="relleno" style="width:61%; background:#555"></div></div><span>16,5%</span></div>
       <div class="cifras" style="margin-top:1rem">
-        <div class="cifra"><b class="acento" data-contar="1623">0</b><span>índice HHI · lo explicamos en la próxima</span></div>
-        <div class="cifra"><b data-contar="73" data-sufijo="%">0%</b><span>de la potencia en las 4 mayores (CR4)</span></div>
+        <div class="cifra"><b class="acento" data-contar="83" data-sufijo="%">0%</b><span>de la potencia en 5 empresas</span></div>
+        <div class="cifra"><b data-contar="1623">0</b><span>índice HHI · lo explicamos en la próxima</span></div>
       </div>
     </div>
-    <figure class="foto foto-alta">
-      <img src="img/terminator_t800.jpg" alt="Figura del T-800 de Terminator 2" style="object-position: center 20%">
-      <figcaption><b>¿Skynet?</b>En la ficción, una sola IA lo controla todo.</figcaption>
-    </figure>
-    <figure class="foto foto-alta contener">
-      <img src="img/oligopolio_bosses_senate.jpg" alt="Caricatura de 1889: los grandes trusts, dibujados como bolsas de dinero gigantes, vigilan el Senado de EE.UU.">
-      <figcaption><b>El oligopolio de verdad</b><em>The Bosses of the Senate</em> (1889): los grandes trusts vigilando el Senado de EE.UU.</figcaption>
+    <figure class="poster">
+      <img src="img/terminator_poster.png" alt="Póster de la película The Terminator (1984)">
+      <figcaption><b>¿Skynet?</b>En <em>Terminator</em> (1984) una sola IA controla las máquinas. En la vida real no hace falta una: alcanzan <strong>cinco empresas</strong>.</figcaption>
     </figure>
   </div>
-  <p class="credito entra">Participación sobre la potencia operativa con dueño identificado (Epoch AI, 15 empresas). Fotos: T-800 en Disneyland París, David Jafra (CC BY 2.0); Joseph Keppler, revista <em>Puck</em>, 1889 (dominio público) · Wikimedia Commons.</p>
+  <p class="credito entra">Participación sobre la potencia operativa con dueño identificado (Epoch AI, 15 empresas). Logos: Wikimedia Commons, marcas de sus respectivos dueños. Póster de <em>The Terminator</em> (1984), derechos de sus titulares, citado con fines educativos.</p>
 </section>
 
 <!-- 12 · Qué es el HHI -->
