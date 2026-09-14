@@ -77,6 +77,8 @@
   .cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; margin-top: 1.4rem; }
   .cifra { background: var(--superficie); border: 1px solid var(--borde); border-radius: 14px; padding: 1.1rem 1.2rem; }
   .cifra b { display: block; font-family: var(--serif); font-size: clamp(1.9rem, 3.6vw, 2.9rem); line-height: 1; color: var(--primario); }
+  .cifra .analogia { margin-top: 0.55rem; padding-top: 0.55rem; border-top: 1px dashed var(--borde); color: #d6d6d6; font-size: 0.88rem; }
+  .cifra .analogia strong { color: var(--acento); }
   .cifras.montos .cifra b { font-size: clamp(1.5rem, 2.6vw, 2.3rem); white-space: nowrap; }
   .cifra span { display: block; margin-top: 0.4rem; font-size: 0.92rem; color: var(--tenue); line-height: 1.35; }
   .figura { background: #fff; border-radius: 14px; padding: 0.6rem; box-shadow: 0 18px 50px rgba(79, 195, 247, 0.10); }
@@ -315,10 +317,16 @@
   <p class="etiqueta entra">Resultado 1 · crecimiento</p>
   <h2 class="entra">Una curva <span class="primario">explosiva</span></h2>
   <div class="dos-col entra">
-    <div class="cifras" style="grid-template-columns:1fr; margin-top:0">
-      <div class="cifra"><b data-contar="0.4" data-decimales="1" data-sufijo=" GW">0</b><span>enero 2024</span></div>
-      <div class="cifra"><b data-contar="12.9" data-decimales="1" data-sufijo=" GW">0</b><span>septiembre 2026 · 69 operativos</span></div>
-      <div class="cifra"><b class="acento" data-contar="35.5" data-decimales="1" data-sufijo=" GW">0</b><span>2029 si terminan las obras en curso</span></div>
+    <div>
+      <div class="cifras" style="grid-template-columns:1fr; margin-top:0">
+        <div class="cifra"><b data-contar="0.4" data-decimales="1" data-sufijo=" GW">0</b><span>enero 2024</span>
+          <span class="analogia">📱 cargar el celular de <strong>20 millones de personas</strong> cada hora<br>❄️ 360.000 aires prendidos</span></div>
+        <div class="cifra"><b data-contar="12.9" data-decimales="1" data-sufijo=" GW">0</b><span>septiembre 2026 · 69 operativos</span>
+          <span class="analogia">📱 cargar el celular de <strong>todos los argentinos 14 veces</strong> cada hora<br>❄️ 11,7 millones de aires</span></div>
+        <div class="cifra"><b class="acento" data-contar="35.5" data-decimales="1" data-sufijo=" GW">0</b><span>2029 si terminan las obras en curso</span>
+          <span class="analogia">📱 cargar el celular de <strong>todos los argentinos 39 veces</strong> cada hora<br>❄️ 32 millones de aires</span></div>
+      </div>
+      <p class="credito">Supuestos: una carga completa de celular ≈ 20 Wh (batería de ~15 Wh más pérdidas del cargador); un aire split de 3.000 frigorías ≈ 1,1 kW; Argentina ≈ 46 millones de habitantes (Censo 2022).</p>
     </div>
     <div class="figura"><img src="../figuras/01_potencia_en_el_tiempo.png" alt="Potencia IT agregada de los 86 data centers, 2019-2030"></div>
   </div>
