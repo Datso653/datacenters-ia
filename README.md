@@ -31,12 +31,29 @@ datacenters-ia/
 ├── src/               # módulos reutilizables
 │   ├── descarga.py    # baja todas las fuentes
 │   ├── carga.py       # lee y renombra columnas
-│   ├── transformaciones.py  # limpieza, cruce por estado, serie mensual
+│   ├── transformaciones.py  # limpieza, clave de estado, serie mensual
+│   ├── cruces.py      # diagnóstico de claves + las mismas uniones en SQL (sqlite3)
 │   ├── costos.py      # derivadas, integrales, energía, emisiones, escenario
 │   └── graficos.py    # estilo común y exportación de figuras
 ├── figuras/           # gráficos exportados para el informe
+├── informe/           # informe académico en LaTeX (informe.tex → informe.pdf)
+├── presentacion/      # presentación HTML de 10 diapositivas (index.html)
 └── requirements.txt
 ```
+
+## Cómo se cruzaron las bases
+
+| Cruce | Clave | Cobertura |
+|---|---|---|
+| data centers → línea de tiempo | `nombre` | 86/86 |
+| data centers de EE.UU. → EIA | `estado` (sale de la dirección) | 29/29 estados |
+| clusters → Our World in Data | `pais` (normalizado) | 36/36 países; sin normalizar eran 34/36 y **EE.UU. quedaba afuera** |
+
+Cada unión se escribe dos veces, con `merge` de pandas y con `LEFT JOIN` en SQL, y se verifica que den lo mismo. Así se integra la unidad *SQL y manejo de tablas* de la materia.
+
+## Presentación
+
+Abrir `presentacion/index.html` en el navegador. Se navega con ← → o deslizando en el celular; con `f` se pasa a pantalla completa.
 
 ## Cómo correrlo
 
@@ -67,8 +84,3 @@ Cita: *Epoch AI, 'AI Data Centers'. Published online at epoch.ai. Retrieved from
 - El costo de Epoch es un **coeficiente fijo por MW** (37,9 M USD). Sirve para escenarios, pero no para estimar funciones de costo.
 - La intensidad de carbono usada es el promedio de la red de cada país.
 - *Stargate Argentina* es, a septiembre de 2026, una carta de intención sin sitio ni obra confirmados.
-
-## Pendiente
-
-- [ ] Informe académico en PDF (LaTeX)
-- [ ] Presentación de 6 a 10 diapositivas

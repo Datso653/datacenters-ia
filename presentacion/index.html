@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¿Cuánta electricidad se come la IA?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fondo: #0a0a0a;
+    --superficie: #141414;
+    --borde: #262626;
+    --texto: #f2f2f2;
+    --tenue: #a3a3a3;
+    --primario: #4FC3F7;
+    --acento: #FFD54F;
+    --alerta: #E07A5F;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --serif: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+    --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--fondo); color: var(--texto); font-family: var(--sans); }
+  body { overflow: hidden; }
+
+  /* ── Diapositivas ─────────────────────────────────────────── */
+  .slide {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 5vh max(16px, 7vw) 9vh;
+    opacity: 0; pointer-events: none;
+    transform: translateY(24px);
+    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+    overflow-y: auto;
+  }
+  .slide.activa { opacity: 1; pointer-events: auto; transform: none; }
+  .slide > * { min-width: 0; max-width: 100%; }   /* un flex en columna deja crecer a sus hijos: esto los contiene */
+  .slide.activa .entra { animation: revelar 0.8s var(--ease-out) both; }
+  .slide.activa .entra:nth-child(2) { animation-delay: 0.08s; }
+  .slide.activa .entra:nth-child(3) { animation-delay: 0.16s; }
+  .slide.activa .entra:nth-child(4) { animation-delay: 0.24s; }
+  .slide.activa .entra:nth-child(5) { animation-delay: 0.32s; }
+  @keyframes revelar { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+
+  .etiqueta { font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--primario); font-weight: 600; margin: 0 0 0.8rem; }
+  h1, h2 { font-family: var(--serif); font-weight: 700; line-height: 1.05; margin: 0 0 1rem; }
+  h1 { font-size: clamp(2.4rem, 6.5vw, 5.2rem); }
+  h2 { font-size: clamp(1.8rem, 4vw, 3.2rem); }
+  p { font-size: clamp(1rem, 1.6vw, 1.3rem); line-height: 1.55; color: var(--tenue); max-width: 60ch; margin: 0 0 1rem; }
+  strong { color: var(--texto); font-weight: 600; }
+  .primario { color: var(--primario); }
+  .acento { color: var(--acento); }
+  .alerta { color: var(--alerta); }
+
+  .gradiente {
+    background: linear-gradient(120deg, var(--primario), var(--acento), var(--primario));
+    background-size: 250% 250%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: desplazar 12s ease infinite;
+  }
+  @keyframes desplazar { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+  /* ── Bloques ──────────────────────────────────────────────── */
+  .dos-col { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: clamp(1.2rem, 4vw, 3.5rem); align-items: center; }
+  .dos-col > * { min-width: 0; }   /* sin esto, el bloque de código ensancha la columna y rompe el celular */
+  .cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; margin-top: 1.4rem; }
+  .cifra { background: var(--superficie); border: 1px solid var(--borde); border-radius: 14px; padding: 1.1rem 1.2rem; }
+  .cifra b { display: block; font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); line-height: 1; color: var(--primario); }
+  .cifra span { display: block; margin-top: 0.4rem; font-size: 0.92rem; color: var(--tenue); line-height: 1.35; }
+  .figura { background: #fff; border-radius: 14px; padding: 0.6rem; box-shadow: 0 18px 50px rgba(79, 195, 247, 0.10); }
+  .figura img { display: block; width: 100%; height: auto; max-height: 64vh; object-fit: contain; }
+  .pie { font-size: 0.78rem; color: #6b6b6b; margin-top: 0.5rem; }
+
+  .cruces { display: grid; gap: 0.8rem; margin-top: 0.4rem; }
+  .cruce { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0.7rem; }
+  .caja { background: var(--superficie); border: 1px solid var(--borde); border-radius: 10px; padding: 0.7rem 0.9rem; font-size: 0.95rem; }
+  .caja small { display: block; color: var(--tenue); font-size: 0.78rem; margin-top: 2px; }
+  .caja.prota { border-color: rgba(79, 195, 247, 0.55); }
+  .clave { font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; font-size: 0.8rem; color: var(--acento); white-space: nowrap; }
+  .clave::after { content: ' →'; color: var(--tenue); }
+  pre.sql { background: var(--superficie); border: 1px solid var(--borde); border-radius: 10px; padding: 0.9rem 1rem; font-size: clamp(0.72rem, 1.1vw, 0.9rem); line-height: 1.5; color: #d4d4d4; overflow-x: auto; margin: 0; }
+  pre.sql .k { color: var(--primario); font-weight: 600; }
+  .check { display: inline-block; margin-top: 0.8rem; padding: 0.35rem 0.75rem; border-radius: 999px; background: rgba(79, 195, 247, 0.12); color: var(--primario); font-size: 0.9rem; }
+
+  ul.lista { list-style: none; padding: 0; margin: 0.4rem 0 0; display: grid; gap: 0.75rem; }
+  ul.lista li { position: relative; padding-left: 1.4rem; font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.45; color: var(--tenue); }
+  ul.lista li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 8px; height: 8px; border-radius: 50%; background: var(--primario); }
+
+  /* ── Navegación ───────────────────────────────────────────── */
+  .barra { position: fixed; left: 0; top: 0; height: 3px; background: var(--primario); transition: width 0.5s var(--ease-out); z-index: 10; }
+  .controles { position: fixed; bottom: 2.5vh; right: max(16px, 3vw); display: flex; align-items: center; gap: 0.6rem; z-index: 10; }
+  .controles button { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--borde); background: var(--superficie); color: var(--texto); font-size: 1.1rem; cursor: pointer; transition: transform 0.2s var(--ease-out), border-color 0.2s; }
+  .controles button:hover { transform: translateY(-2px); border-color: var(--primario); }
+  .contador { font-size: 0.85rem; color: var(--tenue); min-width: 3.5rem; text-align: center; font-variant-numeric: tabular-nums; }
+  .marca { position: fixed; bottom: 2.5vh; left: max(16px, 3vw); font-size: 0.78rem; color: #5c5c5c; z-index: 10; }
+
+  @media (max-width: 760px) {
+    .dos-col { grid-template-columns: minmax(0, 1fr); }
+    .cruce { grid-template-columns: 1fr; gap: 0.3rem; }
+    .clave::after { content: ' ↓'; }
+    .marca { display: none; }
+    .slide { justify-content: flex-start; padding-top: 7vh; padding-bottom: 96px; }   /* espacio para los botones */
+    .cruce > * { min-width: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="barra" id="barra"></div>
+
+<!-- 1 · Portada -->
+<section class="slide" data-titulo="Portada">
+  <p class="etiqueta entra">Trabajo práctico modelo · Laboratorio de Métodos Cuantitativos · FCE UBA</p>
+  <h1 class="entra">¿Cuánta electricidad<br>se <span class="gradiente">come la IA</span>?</h1>
+  <p class="entra">Data centers de inteligencia artificial: potencia, energía, localización y un escenario para Argentina.</p>
+  <div class="cifras entra">
+    <div class="cifra"><b data-contar="73" data-sufijo="%">0%</b><span>de la demanda eléctrica argentina consumen hoy 69 data centers</span></div>
+  </div>
+</section>
+
+<!-- 2 · Pregunta -->
+<section class="slide" data-titulo="Pregunta">
+  <p class="etiqueta entra">El problema</p>
+  <h2 class="entra">La IA parece software.<br>Su insumo crítico es <span class="acento">la electricidad</span>.</h2>
+  <p class="entra">En octubre de 2025, OpenAI y Sur Energy firmaron una carta de intención por un data center de <strong>500 MW en la Patagonia</strong> (<em>Stargate Argentina</em>), por <strong>USD 25.000 millones</strong> bajo el RIGI. Todavía no tiene sitio ni obra.</p>
+  <p class="entra"><strong>Pregunta:</strong> ¿cuánta electricidad demandan estos data centers, a qué ritmo crece y qué implicaría uno de 500 MW en Argentina en energía, emisiones y costo?</p>
+</section>
+
+<!-- 3 · Datos y cruces -->
+<section class="slide" data-titulo="Datos">
+  <p class="etiqueta entra">Los datos · cómo se cruzaron</p>
+  <h2 class="entra">Cuatro fuentes, tres claves</h2>
+  <div class="dos-col entra">
+    <div class="cruces">
+      <div class="cruce"><div class="caja prota">data centers<small>Epoch AI · 86</small></div><span class="clave">nombre</span><div class="caja">línea de tiempo<small>499 hitos · 100%</small></div></div>
+      <div class="cruce"><div class="caja prota">data centers EE.UU.<small>estado sacado de la dirección</small></div><span class="clave">estado</span><div class="caja">precio y mix eléctrico<small>EIA · 29/29 estados</small></div></div>
+      <div class="cruce"><div class="caja prota">clusters de GPU<small>Epoch AI · 482</small></div><span class="clave">pais</span><div class="caja">CO₂/kWh y demanda<small>Our World in Data</small></div></div>
+    </div>
+    <div>
+      <pre class="sql"><span class="k">SELECT</span> d.estado, <span class="k">SUM</span>(d.mw_it),
+       p.precio_industrial, m.pct_fosil
+<span class="k">FROM</span> data_centers d
+<span class="k">LEFT JOIN</span> precios_2024 p <span class="k">ON</span> d.estado = p.estado
+<span class="k">LEFT JOIN</span> mix_2024     m <span class="k">ON</span> d.estado = m.estado
+<span class="k">GROUP BY</span> d.estado</pre>
+      <p style="margin-top:0.9rem">Sin normalizar los nombres, <strong>EE.UU. quedaba fuera del cruce</strong> ("United States of America" ≠ "United States"): coincidían 34 de 36 países.</p>
+      <span class="check">✓ El JOIN de SQL da lo mismo que el merge de pandas</span>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · Crecimiento -->
+<section class="slide" data-titulo="Crecimiento">
+  <p class="etiqueta entra">Resultado 1 · crecimiento</p>
+  <h2 class="entra">Una curva <span class="primario">explosiva</span></h2>
+  <div class="dos-col entra">
+    <div class="cifras" style="grid-template-columns:1fr; margin-top:0">
+      <div class="cifra"><b data-contar="0.4" data-decimales="1" data-sufijo=" GW">0</b><span>enero 2024</span></div>
+      <div class="cifra"><b data-contar="12.9" data-decimales="1" data-sufijo=" GW">0</b><span>septiembre 2026 · 69 operativos</span></div>
+      <div class="cifra"><b class="acento" data-contar="35.5" data-decimales="1" data-sufijo=" GW">0</b><span>2029 si terminan las obras en curso</span></div>
+    </div>
+    <div class="figura"><img src="../figuras/01_potencia_en_el_tiempo.png" alt="Potencia IT agregada de los 86 data centers, 2019-2030"></div>
+  </div>
+</section>
+
+<!-- 5 · Derivada e integral -->
+<section class="slide" data-titulo="Derivada e integral">
+  <p class="etiqueta entra">Concepto de la materia · derivadas e integrales</p>
+  <h2 class="entra">La derivada dice <em>qué tan rápido</em>;<br>la integral, <em>cuánta energía</em></h2>
+  <div class="figura entra"><img src="../figuras/04_derivada_e_integral.png" alt="Derivada: GW agregados por año; integral: TWh acumulados"></div>
+  <p class="entra" style="margin-top:1rem">La instalación se acelera: de <strong>3 GW/año</strong> en 2025 a <strong>casi 10 GW/año</strong> en 2027-28. Solo entre enero y septiembre de 2026 consumieron <strong>~57 TWh</strong>, casi 4 veces lo que usa Uruguay en un año.</p>
+</section>
+
+<!-- 6 · Quién y dónde -->
+<section class="slide" data-titulo="Quién y dónde">
+  <p class="etiqueta entra">Resultado 2 · concentración y localización</p>
+  <h2 class="entra">Pocas empresas, electricidad barata… y fósil</h2>
+  <div class="dos-col entra" style="grid-template-columns: minmax(0,1fr) minmax(0,1.2fr)">
+    <div class="figura"><img src="../figuras/02_potencia_por_empresa.png" alt="Potencia IT por empresa dueña"></div>
+    <div class="figura"><img src="../figuras/03_precio_vs_potencia.png" alt="Precio industrial de la electricidad contra potencia de data centers por estado"></div>
+  </div>
+  <div class="cifras entra">
+    <div class="cifra"><b data-contar="77" data-sufijo="%">0%</b><span>de la potencia en 5 empresas</span></div>
+    <div class="cifra"><b>7,35 <small style="font-size:0.45em">vs 8,13</small></b><span>¢/kWh industrial: estados con data centers vs promedio EE.UU.</span></div>
+    <div class="cifra"><b class="alerta" data-contar="62" data-sufijo="%">0%</b><span>de esa electricidad es fósil</span></div>
+  </div>
+</section>
+
+<!-- 7 · Frente a los países -->
+<section class="slide" data-titulo="Frente a los países">
+  <p class="etiqueta entra">Resultado 3 · dimensión</p>
+  <h2 class="entra">Hoy, casi una Argentina.<br>Mañana, <span class="acento">dos</span>.</h2>
+  <div class="dos-col entra">
+    <div>
+      <p><strong>118 TWh/año</strong> con la potencia actual: el <strong>73%</strong> de la demanda eléctrica argentina (161,7 TWh).</p>
+      <p><strong>325 TWh/año</strong> con la proyectada: <strong>2 veces</strong> Argentina.</p>
+      <p>Resiste el supuesto: con un uso del 60% sigue siendo más de la mitad de Argentina.</p>
+      <p>En Latinoamérica casi no hay cómputo de IA: los data centers usan el <strong>0,12%</strong> de la electricidad regional, contra el <strong>4,9%</strong> en EE.UU.</p>
+    </div>
+    <div class="figura"><img src="../figuras/05_datacenters_vs_paises.png" alt="Consumo de los data centers contra demanda eléctrica de países"></div>
+  </div>
+</section>
+
+<!-- 8 · Escenario Argentina -->
+<section class="slide" data-titulo="Stargate Argentina">
+  <p class="etiqueta entra">Escenario · Stargate Argentina (500 MW)</p>
+  <h2 class="entra">Absorbible en demanda.<br>La clave es <span class="primario">con qué energía</span>.</h2>
+  <div class="dos-col entra">
+    <div class="cifras" style="grid-template-columns:repeat(2, minmax(0, 1fr)); margin-top:0">
+      <div class="cifra"><b data-contar="2.8" data-decimales="1" data-sufijo="%">0%</b><span>de la demanda eléctrica del país (4,55 TWh/año)</span></div>
+      <div class="cifra"><b class="alerta" data-contar="1.57" data-decimales="2" data-sufijo=" Mt">0</b><span>CO₂/año con la red promedio argentina</span></div>
+      <div class="cifra"><b data-contar="0.14" data-decimales="2" data-sufijo=" Mt">0</b><span>con una red como la de Noruega</span></div>
+      <div class="cifra"><b>USD 19-25 mil M</b><span>capex: coeficientes de Epoch vs anuncio</span></div>
+    </div>
+    <div class="figura"><img src="../figuras/06_emisiones_escenario_500mw.png" alt="Emisiones de un data center de 500 MW según la red de cada país"></div>
+  </div>
+</section>
+
+<!-- 9 · Conclusiones -->
+<section class="slide" data-titulo="Conclusiones">
+  <p class="etiqueta entra">Conclusiones</p>
+  <h2 class="entra">Lo que aprendimos</h2>
+  <div class="dos-col entra" style="align-items:start">
+    <ul class="lista">
+      <li><strong>El desafío es la velocidad:</strong> las redes tardan años en crecer; la demanda de la IA llega en meses.</li>
+      <li><strong>Barato ≠ limpio:</strong> en EE.UU. se instalan donde la luz es barata y mayormente fósil.</li>
+      <li><strong>Argentina:</strong> 500 MW son el 2,8% de la demanda; su huella depende de abastecerse con eólica dedicada.</li>
+    </ul>
+    <ul class="lista">
+      <li><strong>Lección de método:</strong> el costo de Epoch era un coeficiente fijo. Antes de modelar, entendé cómo se construyó el dato.</li>
+      <li><strong>Lección de cruces:</strong> un merge no avisa cuando pierde claves. Diagnosticá antes de unir.</li>
+      <li><strong>Limitaciones:</strong> estimaciones (±1,4×), factor de uso supuesto, intensidad promedio de red.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 10 · Cierre -->
+<section class="slide" data-titulo="Fuentes">
+  <p class="etiqueta entra">Gracias</p>
+  <h2 class="entra">¿Preguntas?</h2>
+  <p class="entra">Código, datos, notebook e informe: <strong class="primario">github.com/Datso653/datacenters-ia</strong></p>
+  <p class="entra" style="font-size:0.95rem">Fuentes: Epoch AI (<em>AI Data Centers</em>, <em>GPU Clusters</em>, CC-BY) · U.S. Energy Information Administration · Our World in Data (Ember, IEA) · DatacenterDynamics. Análisis en Python con asistencia de IA, verificado contra los datos.</p>
+</section>
+
+<div class="marca">¿Cuánta electricidad se come la IA? · FCE UBA</div>
+<nav class="controles" aria-label="Navegación de diapositivas">
+  <button id="anterior" aria-label="Diapositiva anterior">←</button>
+  <span class="contador" id="contador">1 / 10</span>
+  <button id="siguiente" aria-label="Diapositiva siguiente">→</button>
+</nav>
+
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  const barra = document.getElementById('barra');
+  const contador = document.getElementById('contador');
+  const sinMovimiento = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let actual = 0;
+
+  // Contador con easing: se dispara cada vez que la diapositiva se muestra
+  function animarCifras(slide) {
+    slide.querySelectorAll('[data-contar]').forEach(el => {
+      const objetivo = parseFloat(el.dataset.contar);
+      const decimales = parseInt(el.dataset.decimales || '0', 10);
+      const sufijo = el.dataset.sufijo || '';
+      const formato = v => v.toLocaleString('es-AR', { minimumFractionDigits: decimales, maximumFractionDigits: decimales }) + sufijo;
+      if (sinMovimiento) { el.textContent = formato(objetivo); return; }
+      let inicio;
+      const paso = t => {
+        inicio ??= t;
+        const p = Math.min((t - inicio) / 1400, 1);
+        el.textContent = formato(objetivo * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(paso);
+      };
+      requestAnimationFrame(paso);
+    });
+  }
+
+  function mostrar(indice) {
+    actual = Math.max(0, Math.min(slides.length - 1, indice));
+    slides.forEach((s, i) => s.classList.toggle('activa', i === actual));
+    barra.style.width = `${(actual + 1) / slides.length * 100}%`;
+    contador.textContent = `${actual + 1} / ${slides.length}`;
+    history.replaceState(null, '', `#${actual + 1}`);
+    animarCifras(slides[actual]);
+  }
+
+  document.getElementById('anterior').addEventListener('click', () => mostrar(actual - 1));
+  document.getElementById('siguiente').addEventListener('click', () => mostrar(actual + 1));
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); mostrar(actual + 1); }
+    if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); mostrar(actual - 1); }
+    if (e.key === 'Home') mostrar(0);
+    if (e.key === 'End') mostrar(slides.length - 1);
+    if (e.key === 'f') document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+  });
+
+  // Deslizar en el celular
+  let toqueX = null;
+  document.addEventListener('touchstart', e => { toqueX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    if (toqueX === null) return;
+    const dx = e.changedTouches[0].clientX - toqueX;
+    if (Math.abs(dx) > 50) mostrar(actual + (dx < 0 ? 1 : -1));
+    toqueX = null;
+  }, { passive: true });
+
+  mostrar((parseInt(location.hash.slice(1), 10) || 1) - 1);
+</script>
+</body>
+</html>
