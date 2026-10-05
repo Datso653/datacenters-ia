@@ -200,6 +200,23 @@
   .caja.prota { border-color: rgba(79, 195, 247, 0.55); }
   .clave { font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; font-size: 0.8rem; color: var(--acento); white-space: nowrap; }
   .clave::after { content: ' →'; color: var(--tenue); }
+  /* ── Gráficos en SVG ───────────────────────────────────────── */
+  .grafico { margin: 0; width: 100%; }
+  .grafico svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .g-grid { stroke: var(--borde); }
+  .g-eje { fill: var(--tenue); font-size: 13px; }
+  .g-titulo-eje { fill: var(--tenue); font-size: 12px; }
+  .g-area { fill: url(#gradArea); }
+  .g-linea { fill: none; stroke: var(--primario); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+  .g-proy { fill: none; stroke: var(--primario); stroke-width: 3; stroke-dasharray: 7 6; opacity: 0.7; }
+  .g-corte { stroke: var(--tenue); stroke-dasharray: 4 4; opacity: 0.7; }
+  .g-punto { fill: var(--acento); stroke: var(--fondo); stroke-width: 2; }
+  .g-valor { fill: var(--texto); font-size: 15px; font-weight: 600; }
+  .g-nota { fill: var(--tenue); font-size: 12px; }
+  .g-barrido { transform-box: fill-box; transform-origin: left center; }
+  .slide.activa .g-barrido { animation: barrer 1.8s var(--ease-out) both; }
+  @keyframes barrer { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .slide.activa .g-aparece { animation: revelar 0.7s var(--ease-out) both; animation-delay: 1.2s; }
   .fuentes { display: grid; gap: 0.5rem; }
   .fuente { background: var(--superficie); border: 1px solid var(--borde); border-left: 3px solid var(--primario); border-radius: 10px; padding: 0.5rem 0.8rem; }
   .fuente h3 { margin: 0; font-size: 1.05rem; color: var(--texto); font-weight: 600; }
@@ -300,6 +317,8 @@
     .fotos { grid-template-columns: 1.1fr 0.6fr 1.3fr !important; }
     .cruce { grid-template-columns: 1fr auto 1fr !important; }
     .clave::after { content: ' →' !important; }
+    .g-barrido { transform: scaleX(1) !important; animation: none !important; }
+    .g-aparece { opacity: 1 !important; animation: none !important; }
     .poster img { max-height: 95mm !important; }
     .figura img { max-height: 105mm !important; }
     .figura.figura-baja img { max-height: 95mm !important; }
@@ -467,7 +486,7 @@
   <p class="etiqueta entra">Resultado 1 · crecimiento</p>
   <h2 class="entra">Una curva <span class="primario">explosiva</span></h2>
   <div class="crecimiento entra">
-    <div class="figura"><img src="../figuras/01_potencia_en_el_tiempo.png" alt="Potencia IT agregada de los 86 data centers, 2019-2030"></div>
+    <figure class="grafico entra" id="graficoCrecimiento" aria-label="Potencia IT agregada de los 86 data centers de IA, 2023 a 2030"></figure>
     <div class="hitos">
       <div class="hito">
         <b>0,4 GW</b><span class="cuando">enero 2024</span>
@@ -882,6 +901,77 @@
     deslizador.addEventListener('input', actualizarHHI);
     actualizarHHI();
   }
+
+  // ── Gráficos en SVG, dibujados con los datos del análisis ─────────────
+  const DATOS_CRECIMIENTO = {"corte": 2026.667, "puntos": [[2023.0, 0.048], [2023.083, 0.127], [2023.167, 0.127], [2023.25, 0.127], [2023.333, 0.167], [2023.417, 0.167], [2023.5, 0.214], [2023.583, 0.214], [2023.667, 0.34], [2023.75, 0.34], [2023.833, 0.34], [2023.917, 0.34], [2024.0, 0.408], [2024.083, 0.473], [2024.167, 0.473], [2024.25, 0.538], [2024.333, 0.781], [2024.417, 0.828], [2024.5, 0.894], [2024.583, 0.947], [2024.667, 1.14], [2024.75, 1.408], [2024.833, 1.408], [2024.917, 1.814], [2025.0, 1.864], [2025.083, 1.905], [2025.167, 2.341], [2025.25, 2.418], [2025.333, 2.505], [2025.417, 2.673], [2025.5, 3.738], [2025.583, 3.842], [2025.667, 4.128], [2025.75, 4.395], [2025.833, 5.396], [2025.917, 5.612], [2026.0, 6.362], [2026.083, 6.984], [2026.167, 7.243], [2026.25, 7.811], [2026.333, 8.85], [2026.417, 10.057], [2026.5, 11.773], [2026.583, 12.482], [2026.667, 12.942], [2026.75, 13.437], [2026.833, 14.456], [2026.917, 15.354], [2027.0, 16.097], [2027.083, 16.217], [2027.167, 17.935], [2027.25, 18.275], [2027.333, 18.314], [2027.417, 18.733], [2027.5, 19.212], [2027.583, 19.273], [2027.667, 20.161], [2027.75, 21.639], [2027.833, 21.779], [2027.917, 22.94], [2028.0, 26.026], [2028.083, 26.277], [2028.167, 26.417], [2028.25, 27.844], [2028.333, 27.984], [2028.417, 29.65], [2028.5, 29.823], [2028.583, 29.902], [2028.667, 29.902], [2028.75, 30.458], [2028.833, 30.738], [2028.917, 30.878], [2029.0, 35.507], [2029.083, 35.507], [2029.167, 35.507], [2029.25, 35.507], [2029.333, 35.507], [2029.417, 35.507], [2029.5, 35.507], [2029.583, 35.507], [2029.667, 35.507], [2029.75, 35.507], [2029.833, 35.507], [2029.917, 35.507], [2030.0, 35.663]]};
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const nodo = (tag, attrs = {}, texto = null) => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (texto !== null) n.textContent = texto;
+    return n;
+  };
+  const escala = (d0, d1, r0, r1) => v => r0 + (v - d0) / (d1 - d0) * (r1 - r0);
+  const ruta = (pts, x, y) => pts.map((p, i) => (i ? 'L' : 'M') + x(p[0]).toFixed(1) + ',' + y(p[1]).toFixed(1)).join(' ');
+
+  function graficoCrecimiento(figura, datos) {
+    const A = 800, AL = 430, mi = 52, md = 54, ma = 40, mb = 42, maxY = 38;
+    const x = escala(2023, 2030.2, mi, A - md);
+    const y = escala(0, maxY, AL - mb, ma);
+    const svg = nodo('svg', { viewBox: '0 0 ' + A + ' ' + AL, role: 'img' });
+
+    const defs = nodo('defs');
+    const grad = nodo('linearGradient', { id: 'gradArea', x1: 0, y1: 0, x2: 0, y2: 1 });
+    grad.append(nodo('stop', { offset: '0%', 'stop-color': '#4FC3F7', 'stop-opacity': 0.35 }),
+                nodo('stop', { offset: '100%', 'stop-color': '#4FC3F7', 'stop-opacity': 0 }));
+    const clip = nodo('clipPath', { id: 'clipBarrido' });
+    clip.append(nodo('rect', { class: 'g-barrido', x: mi, y: 0, width: A - mi - md, height: AL }));
+    defs.append(grad, clip);
+    svg.append(defs);
+
+    for (let v = 0; v <= 35; v += 5) {
+      svg.append(nodo('line', { class: 'g-grid', x1: mi, x2: A - md, y1: y(v), y2: y(v) }));
+      svg.append(nodo('text', { class: 'g-eje', x: mi - 10, y: y(v) + 4, 'text-anchor': 'end' }, v));
+    }
+    const medio = y(maxY / 2);
+    svg.append(nodo('text', { class: 'g-titulo-eje', x: mi - 38, y: medio,
+                              transform: 'rotate(-90 ' + (mi - 38) + ' ' + medio + ')', 'text-anchor': 'middle' },
+                    'Potencia IT (GW)'));
+    for (let a = 2023; a <= 2030; a++) {
+      svg.append(nodo('text', { class: 'g-eje', x: x(a), y: AL - mb + 22, 'text-anchor': 'middle' }, a));
+    }
+
+    const observado = datos.puntos.filter(p => p[0] <= datos.corte);
+    const proyectado = datos.puntos.filter(p => p[0] >= datos.corte);
+    const hoy = observado[observado.length - 1];
+    const fin = proyectado[proyectado.length - 1];
+
+    const capa = nodo('g', { 'clip-path': 'url(#clipBarrido)' });
+    capa.append(nodo('path', { class: 'g-area',
+                               d: ruta(observado, x, y) + ' L' + x(hoy[0]) + ',' + y(0) + ' L' + x(observado[0][0]) + ',' + y(0) + ' Z' }));
+    capa.append(nodo('path', { class: 'g-linea', d: ruta(observado, x, y) }));
+    capa.append(nodo('path', { class: 'g-proy', d: ruta(proyectado, x, y) }));
+    svg.append(capa);
+
+    const extras = nodo('g', { class: 'g-aparece' });
+    extras.append(nodo('line', { class: 'g-corte', x1: x(datos.corte), x2: x(datos.corte), y1: y(0), y2: ma }));
+    extras.append(nodo('text', { class: 'g-nota', x: x(datos.corte) - 8, y: ma - 6, 'text-anchor': 'end' }, 'hoy · sep-2026'));
+    extras.append(nodo('circle', { class: 'g-punto', cx: x(hoy[0]), cy: y(hoy[1]), r: 6 }));
+    extras.append(nodo('text', { class: 'g-valor', x: x(hoy[0]) - 12, y: y(hoy[1]) + 5, 'text-anchor': 'end' }, '12,9 GW'));
+    extras.append(nodo('circle', { class: 'g-punto', cx: x(fin[0]), cy: y(fin[1]), r: 6 }));
+    extras.append(nodo('text', { class: 'g-valor', x: x(fin[0]) + 10, y: y(fin[1]) + 5 }, '35,5 GW'));
+    extras.append(nodo('line', { class: 'g-linea', x1: mi + 4, x2: mi + 34, y1: ma - 18, y2: ma - 18 }));
+    extras.append(nodo('text', { class: 'g-nota', x: mi + 42, y: ma - 14 }, 'instalada'));
+    extras.append(nodo('line', { class: 'g-proy', x1: mi + 112, x2: mi + 142, y1: ma - 18, y2: ma - 18 }));
+    extras.append(nodo('text', { class: 'g-nota', x: mi + 150, y: ma - 14 }, 'obras en curso'));
+    svg.append(extras);
+
+    figura.append(svg);
+  }
+
+  const figCrecimiento = document.getElementById('graficoCrecimiento');
+  if (figCrecimiento) graficoCrecimiento(figCrecimiento, DATOS_CRECIMIENTO);
 
   // Impresión: las cifras animadas tienen que mostrar su valor final
   function prepararImpresion() {
