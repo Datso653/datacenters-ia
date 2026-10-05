@@ -109,6 +109,33 @@
   .cadena li.riesgo { border-color: rgba(224, 122, 95, 0.6); }
   .cadena li.riesgo::before { background: var(--alerta); }
   .autores { font-size: 1.05rem; color: var(--texto); font-weight: 500; margin-top: -0.3rem; letter-spacing: 0.02em; }
+  /* ── Ficha de concepto: ecuación, variables y rangos ──────── */
+  .concepto { display: grid; gap: 0.7rem; }
+  .formula-grande { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.3rem); text-align: center;
+                    background: var(--superficie); border: 1px solid var(--borde); border-radius: 12px; padding: 0.8rem 1rem; }
+  .formula-grande .v1 { color: var(--primario); }
+  .formula-grande .v2 { color: var(--acento); }
+  .variables { display: grid; gap: 0.4rem; margin: 0; }
+  .variables > div { display: grid; grid-template-columns: 3.4rem 1fr; align-items: baseline; gap: 0.7rem; }
+  .variables dt { font-family: var(--serif); font-size: 1.4rem; text-align: center; }
+  .variables dt.v1 { color: var(--primario); }
+  .variables dt.v2 { color: var(--acento); }
+  .variables dd { margin: 0; font-size: 0.95rem; color: var(--texto); }
+  .variables dd small { display: block; color: var(--tenue); font-size: 0.82rem; }
+  .que-hace { font-size: 0.88rem; margin: 0; }
+  .que-hace b { color: var(--texto); }
+  .rotulo { font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tenue); margin: 0.3rem 0 0.4rem; }
+  .regla { display: grid; grid-template-columns: repeat(3, 1fr); border-radius: 10px; overflow: hidden; }
+  .tramo { background: var(--c); color: #111; padding: 0.5rem 0.4rem; text-align: center; font-size: 0.78rem; line-height: 1.25; }
+  .tramo b { display: block; font-size: 0.9rem; color: #111; }
+  .concepto-chico .regla { margin: 0.5rem 0 0.4rem; }
+  .regla.chica .tramo { padding: 0.3rem 0.25rem; font-size: 0.68rem; }
+  .regla.chica .tramo b { font-size: 0.76rem; }
+  .marcas { position: relative; height: 1.9rem; }
+  .marca-valor { position: absolute; top: 0.2rem; transform: translateX(-50%); font-size: 0.82rem; font-weight: 600; white-space: nowrap; }
+  .marca-valor::before { content: '▲'; display: block; text-align: center; font-size: 0.7rem; }
+  .marca-valor.acento { color: var(--acento); }
+  .marca-valor.alerta { color: var(--alerta); }
   .cadena.corta li { font-size: 0.86rem; padding: 0.42rem 0.7rem 0.42rem 2.6rem; }
   .cadena.corta li b { font-size: 0.98rem; }
   .cadena.corta li::before { top: 0.5rem; }
@@ -603,47 +630,39 @@
   <p class="etiqueta entra">Cómo se mide la concentración · índice de Herfindahl-Hirschman</p>
   <h2 class="entra">HHI: sumar las participaciones <span class="primario">al cuadrado</span></h2>
   <div class="dos-col entra" style="grid-template-columns: minmax(0,1fr) minmax(0,1fr); align-items:start">
-    <div>
-      <div class="formula">HHI = s<sub>1</sub>² + s<sub>2</sub>² + … + s<sub>n</sub>²</div>
-      <p style="font-size:0.98rem">Cada <em>s</em> es la participación de una empresa en %. Elevar al cuadrado <strong>pesa más a las grandes</strong>: una empresa con 50% suma 2.500; diez empresas con 5% cada una suman apenas 250.</p>
-      <table class="tabla-hhi">
-        <thead><tr><th>Empresa</th><th>Participación (s)</th><th>s²</th></tr></thead>
-        <tbody>
-          <tr><td>Google</td><td>26,9%</td><td>722</td></tr>
-          <tr><td>Meta</td><td>19,4%</td><td>377</td></tr>
-          <tr><td>Amazon</td><td>14,2%</td><td>202</td></tr>
-          <tr><td>Microsoft</td><td>12,4%</td><td>153</td></tr>
-          <tr><td>SpaceXAI</td><td>10,6%</td><td>113</td></tr>
-          <tr><td>CoreWeave</td><td>5,5%</td><td>31</td></tr>
-          <tr><td>Oracle</td><td>4,0%</td><td>16</td></tr>
-          <tr><td>Otras 8 empresas</td><td>7,0%</td><td>10</td></tr>
-        </tbody>
-        <tfoot><tr><td>HHI</td><td>100%</td><td>1.623</td></tr></tfoot>
-      </table>
-      <p class="credito">La columna s² suma 1.624 por redondeo; el cálculo exacto da 1.623.</p>
+    <div class="concepto">
+      <div class="formula-grande">HHI = <span class="v1">s</span><sub>1</sub>² + <span class="v1">s</span><sub>2</sub>² + … + <span class="v1">s</span><sub class="v2">n</sub>²</div>
+      <dl class="variables">
+        <div><dt class="v1">s</dt><dd>participación de cada empresa<small>qué porcentaje del mercado tiene</small></dd></div>
+        <div><dt class="v2">n</dt><dd>cuántas empresas hay<small>se suman todas</small></dd></div>
+      </dl>
+      <p class="que-hace"><b>Qué hace el cuadrado:</b> le da más peso a las grandes. Una empresa con 50% aporta 2.500; diez con 5% aportan 250 entre todas.</p>
     </div>
     <div>
-      <h3>¿Es mucho o poco?</h3>
-      <div class="escala">
-        <div style="background:#9ccc65">No concentrado<br>&lt; 1.000</div>
-        <div style="background:#FFD54F">Moderado<br>1.000 – 1.800</div>
-        <div style="background:#E07A5F">Alto<br>&gt; 1.800</div>
-        <span class="marcador" style="left:59%">▲ IA: 1.623</span>
+      <p class="rotulo">¿Qué significa el número?</p>
+      <div class="regla">
+        <div class="tramo" style="--c:#9ccc65">0 – 1.000<b>No concentrado</b></div>
+        <div class="tramo" style="--c:#FFD54F">1.000 – 1.800<b>Moderado</b></div>
+        <div class="tramo" style="--c:#E07A5F">1.800 – 10.000<b>Alto</b></div>
+      </div>
+      <div class="marcas">
+        <span class="marca-valor acento" style="left:59%">1.623 · data centers</span>
+        <span class="marca-valor alerta" style="left:84%">4.890 · chips</span>
       </div>
       <div class="ejemplos">
-        <div class="ejemplo"><b>10.000</b>monopolio: 1 empresa con 100% → 100²</div>
-        <div class="ejemplo"><b>2.500</b>4 empresas iguales: 4 × 25²</div>
-        <div class="ejemplo"><b>1.000</b>10 empresas iguales: 10 × 10²</div>
-        <div class="ejemplo"><b>100</b>100 empresas iguales: 100 × 1²</div>
+        <div class="ejemplo"><b>10.000</b>1 empresa con todo</div>
+        <div class="ejemplo"><b>2.500</b>4 empresas iguales</div>
+        <div class="ejemplo"><b>1.000</b>10 iguales</div>
+        <div class="ejemplo"><b>100</b>100 iguales</div>
       </div>
       <div class="calculadora">
-        <label for="nEmpresas">Probá: mercado con <strong><output id="nSalida">6</output></strong> empresas del mismo tamaño</label>
+        <label for="nEmpresas">Probá: <strong><output id="nSalida">6</output></strong> empresas del mismo tamaño</label>
         <input type="range" id="nEmpresas" min="1" max="20" value="6">
         <p>HHI = 10.000 / n = <b id="hhiSalida">1.667</b> → <span id="hhiNivel">moderadamente concentrado</span></p>
       </div>
-      <p class="credito">El mercado de la IA equivale a tener <strong>~6 empresas iguales</strong> (10.000 / 1.623 ≈ 6,2). Escala no proporcional. Umbrales: guías de fusiones del Departamento de Justicia y la FTC de EE.UU. (2023).</p>
     </div>
   </div>
+  <p class="credito entra">Escala no proporcional. Umbrales: guías de fusiones del Departamento de Justicia y la FTC de EE.UU. (2023). El cálculo empresa por empresa está en el notebook.</p>
 </section>
 
 <!-- 12 · Regresión y ML -->
@@ -657,7 +676,15 @@
   <div class="cifras entra">
     <div class="cifra"><b data-contar="-31" data-sufijo="% por año">0</b><span><strong>Regresión:</strong> energía por unidad de cómputo. Más eficiencia… y aun así más consumo (paradoja de Jevons)</span></div>
     <div class="cifra"><b data-contar="940" data-sufijo=" H100e/MW">0</b><span><strong>ML:</strong> lo que aprende el modelo. 500 MW → ~487.000 chips</span></div>
-    <div class="cifra"><b class="acento">0,20 → 0,95</b><span>R² según el sorteo train/test. Validación cruzada: <strong>0,75</strong>. Con pocos datos, un solo sorteo engaña</span></div>
+    <div class="cifra concepto-chico">
+      <b class="acento">R² = 0,75</b><span>qué parte de lo que varía entre data centers logra explicar el modelo</span>
+      <div class="regla chica">
+        <div class="tramo" style="--c:#E07A5F">0 – 0,3<b>Flojo</b></div>
+        <div class="tramo" style="--c:#FFD54F">0,3 – 0,7<b>Aceptable</b></div>
+        <div class="tramo" style="--c:#9ccc65">0,7 – 1<b>Bueno</b></div>
+      </div>
+      <span>Según cómo se sortean los datos da entre <strong>0,20 y 0,95</strong>: con pocos casos, una sola partición engaña</span>
+    </div>
   </div>
 </section>
 
@@ -738,36 +765,34 @@
 <section class="slide" data-titulo="Índice de Lerner">
   <p class="etiqueta entra">Desempeño · poder de mercado</p>
   <h2 class="entra">Índice de Lerner: <span class="primario">¿cuánto del precio es margen?</span></h2>
-  <div class="dos-col entra" style="grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); align-items:start">
-    <div>
-      <div class="formula">L = (P − CMg) / P</div>
-      <p style="font-size:0.98rem"><strong>0</strong> = competencia perfecta (precio = costo marginal). <strong>Cerca de 1</strong> = mucho poder de mercado.</p>
-      <h3>Costo de una hora de una H100 (datos propios)</h3>
-      <div class="barras-costo">
-        <div class="fila-costo"><span>Electricidad</span><div class="pista"><div class="relleno" style="width:1.3%"></div></div><span>USD 0,09</span></div>
-        <div class="fila-costo"><span>Operación (incluye luz)</span><div class="pista"><div class="relleno" style="width:1.8%"></div></div><span>USD 0,13</span></div>
-        <div class="fila-costo"><span>+ Capital amortizado</span><div class="pista"><div class="relleno" style="width:16.8%; background:var(--acento)"></div></div><span>USD 1,17</span></div>
+  <div class="dos-col entra" style="grid-template-columns: minmax(0,1fr) minmax(0,1.1fr); align-items:start">
+    <div class="concepto">
+      <div class="formula-grande">L = (<span class="v1">P</span> − <span class="v2">CMg</span>) / <span class="v1">P</span></div>
+      <dl class="variables">
+        <div><dt class="v1">P</dt><dd>precio<small>lo que cobran por una hora de GPU</small></dd></div>
+        <div><dt class="v2">CMg</dt><dd>costo marginal<small>lo que cuesta encender esa hora</small></dd></div>
+      </dl>
+      <p class="rotulo">¿Qué significa el número?</p>
+      <div class="regla">
+        <div class="tramo" style="--c:#9ccc65">0 – 0,3<b>Competencia</b></div>
+        <div class="tramo" style="--c:#FFD54F">0,3 – 0,7<b>Poder medio</b></div>
+        <div class="tramo" style="--c:#E07A5F">0,7 – 1<b>Mucho poder</b></div>
       </div>
-      <p class="credito">Inversión amortizada en 5 años con 80% de uso; electricidad a 73,5 USD/MWh.</p>
+      <div class="marcas">
+        <span class="marca-valor acento" style="left:21%">0,21</span>
+        <span class="marca-valor alerta" style="left:83%">0,83 · alquiler de GPU</span>
+      </div>
+      <p class="credito">Los tramos son una guía de lectura, no umbrales oficiales como los del HHI.</p>
     </div>
     <div>
-      <table class="tabla-hhi">
-        <thead><tr><th>Proveedor</th><th>Precio USD/hora</th><th>L corto plazo</th><th>L largo plazo</th></tr></thead>
-        <tbody>
-          <tr><td>Vast.ai (más barato)</td><td>1,49</td><td>0,92</td><td>0,21</td></tr>
-          <tr><td>Lambda</td><td>2,99</td><td>0,96</td><td>0,61</td></tr>
-          <tr><td>AWS</td><td>3,90</td><td>0,97</td><td>0,70</td></tr>
-          <tr><td>Azure</td><td>6,98</td><td>0,98</td><td>0,83</td></tr>
-        </tbody>
-      </table>
-      <ul class="lista" style="margin-top:0.9rem">
-        <li><strong>Trampa del corto plazo:</strong> con costos fijos gigantes, L ≈ 1 no prueba monopolio. El precio <em>tiene</em> que cubrir la inversión.</li>
-        <li><strong>Largo plazo:</strong> márgenes altos en los hyperscalers, competencia de <em>neoclouds</em> baratos.</li>
-        <li><strong>Chips:</strong> NVIDIA, con 75% de margen bruto y 66% del mercado, es donde el poder de mercado es claro.</li>
-      </ul>
+      <figure class="grafico" id="graficoMargen" aria-label="Precio por hora de una H100 en cada proveedor contra su costo"></figure>
+      <div class="cifras" style="grid-template-columns:repeat(2, minmax(0,1fr)); margin-top:0.5rem">
+        <div class="cifra"><b class="acento">0,13</b><span>USD cuesta la hora extra: electricidad y operación</span></div>
+        <div class="cifra"><b>1,17</b><span>USD si se suma el capital amortizado en 5 años</span></div>
+      </div>
     </div>
   </div>
-  <p class="credito entra">Precios: IntuitionLabs, comparación de alquiler de H100 (actualizada el 16-ago-2026). Costos: Epoch AI y EIA, cálculo propio. Si la vida útil fuera de 3 años, el L de largo plazo de Lambda bajaría a 0,37.</p>
+  <p class="credito entra"><strong>La trampa:</strong> con costos fijos enormes, un L cercano a 1 en el corto plazo no prueba monopolio: el precio <em>tiene</em> que recuperar la inversión. Precios: IntuitionLabs (16-ago-2026). Costos: Epoch AI y EIA, cálculo propio.</p>
 </section>
 
 <!-- 13 · Frente a los países -->
@@ -1250,6 +1275,37 @@
   const figBrecha = document.getElementById('graficoBrecha');
   if (figBrecha) graficoBarras(figBrecha, { unidad: 'miles de millones de USD', decimales: 0,
     items: [['Vale (valuación)', 965, 'alerta'], ['Factura por año', 47]] });
+
+  // Precio por hora de cada proveedor contra el costo: lo que sobra es margen
+  function graficoMargen(figura) {
+    const proveedores = [['Vast.ai', 1.49], ['Lambda', 2.99], ['AWS', 3.90], ['Azure', 6.98]];
+    const CMG = 0.13, TOTAL = 1.17;
+    const A = 700, fila = 46, mi = 96, md = 70, ma = 30;
+    const AL = ma + proveedores.length * fila + 34;
+    const max = 7.4;
+    const x = escala(0, max, mi, A - md);
+    const svg = nodo('svg', { viewBox: '0 0 ' + A + ' ' + AL, role: 'img' });
+
+    svg.append(nodo('rect', { x: x(0), y: ma - 6, width: x(TOTAL) - x(0), height: proveedores.length * fila + 4,
+                              fill: '#FFD54F', opacity: 0.12 }));
+    proveedores.forEach(([nombre, precio], i) => {
+      const y = ma + i * fila;
+      svg.append(nodo('text', { class: 'g-etiqueta', x: mi - 14, y: y + 22, 'text-anchor': 'end' }, nombre));
+      const barra = nodo('rect', { class: 'g-barra', x: mi, y: y + 7, width: x(precio) - x(0), height: 24, rx: 5 });
+      barra.style.animationDelay = (i * 80) + 'ms';
+      svg.append(barra);
+      svg.append(nodo('text', { class: 'g-cifra', x: x(precio) + 10, y: y + 24 },
+                      'USD ' + precio.toFixed(2).replace('.', ',')));
+    });
+    const linea = nodo('g', { class: 'g-aparece' });
+    linea.append(nodo('line', { class: 'g-corte', x1: x(TOTAL), x2: x(TOTAL), y1: ma - 8, y2: AL - 30, stroke: '#FFD54F' }));
+    linea.append(nodo('text', { class: 'g-nota', x: x(TOTAL) + 6, y: ma - 12, fill: '#FFD54F' }, 'costo total: 1,17'));
+    linea.append(nodo('text', { class: 'g-nota', x: mi, y: AL - 10 }, 'lo que sobra a la derecha del costo es margen'));
+    svg.append(linea);
+    figura.append(svg);
+  }
+  const figMargen = document.getElementById('graficoMargen');
+  if (figMargen) graficoMargen(figMargen);
 
   // Impresión: las cifras animadas tienen que mostrar su valor final
   function prepararImpresion() {
