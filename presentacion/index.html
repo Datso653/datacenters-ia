@@ -270,6 +270,38 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   }
+
+  /* ── Impresión / PDF: una diapositiva por página ───────────── */
+  @media print {
+    @page { size: 297mm 167mm; margin: 0; }
+    html, body { height: auto; overflow: visible; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .barra, .controles, .marca { display: none !important; }
+    .slide {
+      position: relative !important; inset: auto !important;
+      width: 297mm; height: 167mm;
+      opacity: 1 !important; transform: none !important; pointer-events: auto !important;
+      overflow: hidden; break-after: page; page-break-after: always;
+    }
+    .slide:last-of-type { break-after: auto; page-break-after: auto; }
+    .entra { animation: none !important; opacity: 1 !important; transform: none !important; }
+    /* En impresión las consultas de ancho no se evalúan como en pantalla: fijamos las grillas */
+    .crecimiento { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) !important; }
+    .oligo2 { grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.75fr) !important; }
+    .oligo { grid-template-columns: minmax(0, 1fr) minmax(0, 0.55fr) minmax(0, 1.15fr) !important; }
+    .cifras.tres { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    .dos-col { grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) !important; }
+    .fotos { grid-template-columns: 1.1fr 0.6fr 1.3fr !important; }
+    .poster img { max-height: 95mm !important; }
+    .figura img { max-height: 105mm !important; }
+    .figura.figura-baja img { max-height: 95mm !important; }
+    .foto img, .foto.foto-alta img { max-height: 85mm !important; }
+    /* los contenedores con barra de desplazamiento recortan en papel */
+    [style*="overflow-x"] { overflow: visible !important; }
+    .tabla-oi { font-size: 0.76rem !important; min-width: 0 !important; border-spacing: 0.3rem !important; }
+    .tabla-oi th, .tabla-oi td { padding: 0.3rem 0.55rem !important; }
+    .tabla-oi td b { font-size: 1rem !important; }
+  }
 </style>
 </head>
 <body>
@@ -834,6 +866,19 @@
     deslizador.addEventListener('input', actualizarHHI);
     actualizarHHI();
   }
+
+  // Impresión: las cifras animadas tienen que mostrar su valor final
+  function prepararImpresion() {
+    document.querySelectorAll('[data-contar]').forEach(el => {
+      const decimales = parseInt(el.dataset.decimales || '0', 10);
+      el.textContent = (el.dataset.prefijo || '')
+        + parseFloat(el.dataset.contar).toLocaleString('es-AR',
+            { minimumFractionDigits: decimales, maximumFractionDigits: decimales })
+        + (el.dataset.sufijo || '');
+    });
+  }
+  window.addEventListener('beforeprint', prepararImpresion);
+  if (location.search.includes('imprimir')) prepararImpresion();
 
   mostrar((parseInt(location.hash.slice(1), 10) || 1) - 1);
 </script>

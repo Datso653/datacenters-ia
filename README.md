@@ -4,6 +4,17 @@
 
 Es un **trabajo práctico modelo** para la Tecnicatura en Gestión y Análisis de Datos en Organizaciones (Laboratorio de Métodos Cuantitativos, FCE UBA). Sigue la consigna del TP grupal: notebook, informe académico y presentación.
 
+## Cómo verlo
+
+| | |
+|---|---|
+| **Presentación online** | https://datso653.github.io/datacenters-ia/presentacion/ |
+| **Presentación en PDF** | [`presentacion/presentacion.pdf`](presentacion/presentacion.pdf) (22 páginas) |
+| **Informe** | [`informe/informe.pdf`](informe/informe.pdf) |
+| **Notebook** | [`notebooks/analisis_datacenters.ipynb`](notebooks/analisis_datacenters.ipynb) |
+
+En la presentación se navega con las flechas ← →, y con la tecla `f` se pone en pantalla completa. Para regenerar el PDF: abrirla con `?imprimir=1` al final de la dirección e imprimir a PDF.
+
 ## Pregunta de investigación
 
 > ¿Cuánta electricidad demandan los grandes data centers de IA, a qué ritmo crece esa demanda y qué implicaría —en energía, emisiones y costo— instalar uno de 500 MW en Argentina?
@@ -15,7 +26,7 @@ Es un **trabajo práctico modelo** para la Tecnicatura en Gestión y Análisis d
 | Potencia IT operativa (sep-2026) | **12,9 GW** en 69 data centers |
 | Consumo anual estimado | **~118 TWh**, el 73% de la demanda eléctrica argentina |
 | Potencia proyectada (obras en curso) | **35,5 GW**, unos 325 TWh por año (≈ 2 Argentinas) |
-| Concentración | 5 empresas tienen el **77%** de la potencia |
+| Concentración | 5 empresas tienen el **77%** de la potencia (83% si se mira solo la que tiene dueño identificado) |
 | Localización en EE.UU. | Electricidad industrial más barata (7,35 contra 8,13 ¢/kWh) pero **62% fósil** |
 | Stargate Argentina (500 MW) | 4,6 TWh/año (**2,8%** de la demanda), 1,6 Mt CO₂/año con la red promedio |
 
