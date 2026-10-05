@@ -110,6 +110,28 @@
   .cadena li.riesgo::before { background: var(--alerta); }
   .autores { font-size: 1.05rem; color: var(--texto); font-weight: 500; margin-top: -0.3rem; letter-spacing: 0.02em; }
   /* ── Ficha de concepto: ecuación, variables y rangos ──────── */
+  /* ── Cadena de valor: ruta con nodos ───────────────────────── */
+  .cadena-valor { display: grid; gap: 0.2rem; }
+  .ruta { width: 100%; height: auto; overflow: visible; }
+  .ruta-linea { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .slide.activa .ruta-linea { animation: dibujarRuta 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both; }
+  @keyframes dibujarRuta { to { stroke-dashoffset: 0; } }
+  .ruta-nodo { opacity: 0; transform-box: fill-box; transform-origin: center; }
+  .slide.activa .ruta-nodo { animation: aparecerNodo 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) var(--retraso, 0s) both; }
+  @keyframes aparecerNodo { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }
+  .eslabones { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.2rem; }
+  .eslabon { text-align: center; }
+  .eslabon h3 { font-family: var(--serif); font-size: clamp(1.2rem, 2.2vw, 1.7rem); color: var(--texto); margin: 0 0 0.2rem; }
+  .eslabon p { font-size: 0.88rem; color: var(--tenue); margin: 0 0 0.6rem; max-width: none; }
+  .eslabon .chips { justify-content: center; }
+  .chip.destacado { border-color: var(--primario); color: var(--texto); }
+  .base-energia { display: flex; align-items: center; gap: 0.9rem; margin-top: 1rem; padding: 0.7rem 1.1rem;
+                  background: linear-gradient(90deg, rgba(255, 213, 79, 0.12), rgba(255, 213, 79, 0.04));
+                  border: 1px solid rgba(255, 213, 79, 0.35); border-radius: 12px; }
+  .base-energia .rayo { font-size: 1.6rem; }
+  .base-energia b { display: block; color: var(--acento); font-size: 1rem; }
+  .base-energia span { font-size: 0.88rem; color: var(--tenue); }
+  @media (max-width: 900px) { .eslabones { grid-template-columns: 1fr; } .ruta { display: none; } }
   .concepto { display: grid; gap: 0.7rem; }
   .formula-grande { font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2.3rem); text-align: center;
                     background: var(--superficie); border: 1px solid var(--borde); border-radius: 12px; padding: 0.8rem 1rem; }
@@ -376,6 +398,8 @@
     .g-barrido, .g-barra { transform: scaleX(1) !important; animation: none !important; }
     .g-punto-disp, .g-nube { opacity: 0.6 !important; animation: none !important; }
     .g-hist { transform: scaleY(1) !important; animation: none !important; }
+    .ruta-linea { stroke-dashoffset: 0 !important; animation: none !important; }
+    .ruta-nodo { opacity: 1 !important; animation: none !important; }
     .g-aparece { opacity: 1 !important; animation: none !important; }
     .poster img { max-height: 95mm !important; }
     .figura img { max-height: 105mm !important; }
@@ -483,30 +507,54 @@
 <!-- 5 · Quiénes están en el negocio -->
 <section class="slide" data-titulo="Empresas">
   <p class="etiqueta entra">La cadena de valor · quién es quién</p>
-  <h2 class="entra">Cuatro eslabones, pocas empresas</h2>
-  <div class="capas entra">
-    <div class="capa">
-      <h3>1 · Chips</h3>
-      <p>Diseñan los procesadores que hacen el cálculo.</p>
-      <div class="chips"><span class="chip">NVIDIA</span><span class="chip">AMD</span><span class="chip">Google <small>TPU</small></span><span class="chip">Amazon <small>Trainium</small></span><span class="chip">Huawei</span></div>
+  <h2 class="entra">Tres eslabones sobre <span class="acento">un mismo enchufe</span></h2>
+
+  <div class="cadena-valor entra">
+    <svg class="ruta" viewBox="0 0 900 96" aria-hidden="true">
+      <line class="ruta-linea" pathLength="1" x1="150" y1="40" x2="750" y2="40"
+            stroke="#4FC3F7" stroke-width="2.5" stroke-linecap="round"/>
+      <g class="ruta-nodo" style="--retraso:0.35s">
+        <circle cx="150" cy="40" r="26" fill="#0a0a0a" stroke="#4FC3F7" stroke-width="2.5"/>
+        <text x="150" y="48" text-anchor="middle" font-size="22" font-weight="700" fill="#4FC3F7">1</text>
+      </g>
+      <g class="ruta-nodo" style="--retraso:0.6s">
+        <circle cx="450" cy="40" r="26" fill="#0a0a0a" stroke="#4FC3F7" stroke-width="2.5"/>
+        <text x="450" y="48" text-anchor="middle" font-size="22" font-weight="700" fill="#4FC3F7">2</text>
+      </g>
+      <g class="ruta-nodo" style="--retraso:0.85s">
+        <circle cx="750" cy="40" r="26" fill="#0a0a0a" stroke="#4FC3F7" stroke-width="2.5"/>
+        <text x="750" y="48" text-anchor="middle" font-size="22" font-weight="700" fill="#4FC3F7">3</text>
+      </g>
+    </svg>
+
+    <div class="eslabones">
+      <article class="eslabon">
+        <h3>Chips</h3>
+        <p>Diseñan el procesador que hace la cuenta</p>
+        <div class="chips"><span class="chip destacado">NVIDIA <small>66%</small></span><span class="chip">Google <small>TPU</small></span><span class="chip">Amazon <small>Trainium</small></span></div>
+      </article>
+      <article class="eslabon">
+        <h3>Data centers</h3>
+        <p>Construyen y operan las instalaciones</p>
+        <div class="chips"><span class="chip destacado">Google <small>3,3 GW</small></span><span class="chip">Meta <small>2,4</small></span><span class="chip">Amazon <small>1,7</small></span><span class="chip">Microsoft <small>1,5</small></span></div>
+      </article>
+      <article class="eslabon">
+        <h3>Laboratorios</h3>
+        <p>Entrenan los modelos y los venden</p>
+        <div class="chips"><span class="chip destacado">OpenAI <small>20 DC</small></span><span class="chip">Meta <small>16</small></span><span class="chip">DeepMind <small>12</small></span><span class="chip">Anthropic <small>8</small></span></div>
+      </article>
     </div>
-    <div class="capa">
-      <h3>2 · Dueños de data centers</h3>
-      <p>Construyen y operan las instalaciones.</p>
-      <div class="chips"><span class="chip">Google <small>3,3 GW</small></span><span class="chip">Meta <small>2,4</small></span><span class="chip">Amazon <small>1,7</small></span><span class="chip">Microsoft <small>1,5</small></span><span class="chip">SpaceXAI <small>1,3</small></span><span class="chip">CoreWeave</span><span class="chip">Oracle</span></div>
-    </div>
-    <div class="capa">
-      <h3>3 · Laboratorios de IA</h3>
-      <p>Entrenan los modelos. Aparecen como usuarios en…</p>
-      <div class="chips"><span class="chip">OpenAI <small>20 DC</small></span><span class="chip">Meta <small>16</small></span><span class="chip">Google DeepMind <small>12</small></span><span class="chip">Anthropic <small>8</small></span><span class="chip">Microsoft <small>7</small></span></div>
-    </div>
-    <div class="capa">
-      <h3>4 · Energía</h3>
-      <p>Generan y transportan la electricidad.</p>
-      <div class="chips"><span class="chip">Eléctricas locales <small>ej. Georgia Power</small></span><span class="chip">Operadores de red</span><span class="chip">En Argentina: CAMMESA</span></div>
+
+    <div class="base-energia">
+      <span class="rayo">⚡</span>
+      <div>
+        <b>Electricidad</b>
+        <span>Los tres eslabones dependen de la misma red: eléctricas locales, operadores de red y, en Argentina, CAMMESA.</span>
+      </div>
     </div>
   </div>
-  <p class="entra" style="margin-top:1rem; font-size:1rem">Fuente: Epoch AI (dueños, usuarios y diseñadores de chips que figuran en la base). GW = potencia operativa.</p>
+
+  <p class="credito entra">Fuente: Epoch AI (dueños, usuarios y diseñadores de chips que figuran en la base). GW = potencia operativa; DC = cantidad de data centers donde aparece como usuario.</p>
 </section>
 
 <!-- 6 · Datos y cruces -->
