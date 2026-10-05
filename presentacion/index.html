@@ -213,6 +213,31 @@
   .g-punto { fill: var(--acento); stroke: var(--fondo); stroke-width: 2; }
   .g-valor { fill: var(--texto); font-size: 15px; font-weight: 600; }
   .g-nota { fill: var(--tenue); font-size: 12px; }
+  .g-dos { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .g-dos h4 { margin: 0 0 0.2rem; font-size: 0.88rem; font-weight: 600; color: var(--tenue); text-align: center; }
+  .g-area2 { fill: var(--acento); opacity: 0.18; }
+  .g-linea2 { fill: none; stroke: var(--acento); stroke-width: 3; stroke-linejoin: round; }
+  .g-recta { stroke: var(--alerta); stroke-width: 3; fill: none; }
+  .g-nube { fill: var(--primario); opacity: 0.45; }
+  .slide.activa .g-nube { animation: revelar 0.5s var(--ease-out) both; }
+  .g-ref { stroke: var(--tenue); stroke-dasharray: 5 5; opacity: 0.6; fill: none; }
+  .g-hist { fill: #8d99ae; transform-box: fill-box; transform-origin: bottom; }
+  .slide.activa .g-hist { animation: subir 0.8s var(--ease-out) both; }
+  @keyframes subir { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  .g-punto-disp { stroke: var(--fondo); stroke-width: 1.5; opacity: 0.9; }
+  .g-sigla { fill: var(--texto); font-size: 11px; font-weight: 600; pointer-events: none; }
+  .slide.activa .g-punto-disp { animation: revelar 0.6s var(--ease-out) both; }
+  .g-serie { fill: none; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+  .g-serie.s1 { stroke: var(--primario); }
+  .g-serie.s2 { stroke: var(--alerta); }
+  .g-serie.s3 { stroke: #8d99ae; stroke-dasharray: 7 6; }
+  .g-barra { fill: var(--primario); transform-box: fill-box; transform-origin: left center; }
+  .g-barra.gris { fill: #555; }
+  .g-barra.acento { fill: var(--acento); }
+  .g-barra.alerta { fill: var(--alerta); }
+  .slide.activa .g-barra { animation: barrer 0.9s var(--ease-out) both; }
+  .g-etiqueta { fill: var(--texto); font-size: 15px; }
+  .g-cifra { fill: var(--tenue); font-size: 14px; font-variant-numeric: tabular-nums; }
   .g-barrido { transform-box: fill-box; transform-origin: left center; }
   .slide.activa .g-barrido { animation: barrer 1.8s var(--ease-out) both; }
   @keyframes barrer { from { transform: scaleX(0); } to { transform: scaleX(1); } }
@@ -317,7 +342,9 @@
     .fotos { grid-template-columns: 1.1fr 0.6fr 1.3fr !important; }
     .cruce { grid-template-columns: 1fr auto 1fr !important; }
     .clave::after { content: ' →' !important; }
-    .g-barrido { transform: scaleX(1) !important; animation: none !important; }
+    .g-barrido, .g-barra { transform: scaleX(1) !important; animation: none !important; }
+    .g-punto-disp, .g-nube { opacity: 0.6 !important; animation: none !important; }
+    .g-hist { transform: scaleY(1) !important; animation: none !important; }
     .g-aparece { opacity: 1 !important; animation: none !important; }
     .poster img { max-height: 95mm !important; }
     .figura img { max-height: 105mm !important; }
@@ -509,7 +536,7 @@
 <section class="slide" data-titulo="Derivada e integral">
   <p class="etiqueta entra">Concepto de la materia · derivadas e integrales</p>
   <h2 class="entra">La derivada dice <em>qué tan rápido</em>;<br>la integral, <em>cuánta energía</em></h2>
-  <div class="figura entra"><img src="../figuras/04_derivada_e_integral.png" alt="Derivada: GW agregados por año; integral: TWh acumulados"></div>
+  <div class="g-dos entra"><figure class="grafico" id="graficoDerivada"></figure><figure class="grafico" id="graficoIntegral"></figure></div>
   <p class="entra" style="margin-top:1rem">La instalación se acelera: de <strong>3 GW/año</strong> en 2025 a <strong>casi 10 GW/año</strong> en 2027-28. Solo entre enero y septiembre de 2026 consumieron <strong>~57 TWh</strong>, casi 4 veces lo que usa Uruguay en un año.</p>
 </section>
 
@@ -531,8 +558,8 @@
   <p class="etiqueta entra">Resultado 2 · concentración y localización</p>
   <h2 class="entra">Pocas empresas, electricidad barata… y fósil</h2>
   <div class="dos-col entra" style="grid-template-columns: minmax(0,1fr) minmax(0,1.2fr)">
-    <div class="figura"><img src="../figuras/02_potencia_por_empresa.png" alt="Potencia IT por empresa dueña"></div>
-    <div class="figura"><img src="../figuras/03_precio_vs_potencia.png" alt="Precio industrial de la electricidad contra potencia de data centers por estado"></div>
+    <figure class="grafico entra" id="graficoEmpresas" aria-label="Potencia operativa por empresa dueña, en GW"></figure>
+    <figure class="grafico entra" id="graficoDispersion" aria-label="Precio industrial de la electricidad contra potencia de data centers, por estado de EE.UU."></figure>
   </div>
   <div class="cifras entra">
     <div class="cifra"><b data-contar="77" data-sufijo="%">0%</b><span>de la potencia en 5 empresas</span></div>
@@ -619,8 +646,8 @@
   <p class="etiqueta entra">Modelos · regresión y machine learning</p>
   <h2 class="entra">Explicar vs. predecir</h2>
   <div class="dos-col entra" style="grid-template-columns: minmax(0,1fr) minmax(0,1.4fr)">
-    <div class="figura"><img src="../figuras/07_regresion_eficiencia.png" alt="Regresión: los kW por H100 equivalente caen con el año"></div>
-    <div class="figura"><img src="../figuras/08_machine_learning.png" alt="Machine learning: real contra predicho y R2 según el sorteo"></div>
+    <figure class="grafico entra" id="graficoRegresion" aria-label="Energía por unidad de cómputo de 404 clusters de GPU, 2017 a 2025"></figure>
+    <div class="g-dos entra"><figure class="grafico" id="graficoML"></figure><figure class="grafico" id="graficoSorteos"></figure></div>
   </div>
   <div class="cifras entra">
     <div class="cifra"><b data-contar="-31" data-sufijo="% por año">0</b><span><strong>Regresión:</strong> energía por unidad de cómputo. Más eficiencia… y aun así más consumo (paradoja de Jevons)</span></div>
@@ -634,7 +661,7 @@
   <p class="etiqueta entra">Conducta · la paradoja de Jevons</p>
   <h2 class="entra">Cada chip gasta menos… <span class="alerta">pero se instalan muchísimos más</span></h2>
   <div class="dos-col entra" style="grid-template-columns: minmax(0,1.3fr) minmax(0,1fr)">
-    <div class="figura"><img src="../figuras/09_paradoja_jevons.png" alt="Índices de cómputo instalado, potencia y energía por unidad de cómputo desde enero de 2024"></div>
+    <figure class="grafico entra" id="graficoJevons" aria-label="Cómputo instalado, potencia y energía por unidad de cómputo desde enero de 2024"></figure>
     <div class="cifras" style="grid-template-columns:1fr; margin-top:0">
       <div class="cifra"><b data-contar="-23" data-sufijo="%">0</b><span>energía por unidad de cómputo en el último año (sep-2025 → sep-2026)</span></div>
       <div class="cifra"><b class="acento" data-contar="4.1" data-decimales="1" data-prefijo="×">0</b><span>se multiplicó el cómputo instalado</span></div>
@@ -743,13 +770,12 @@
   <p class="etiqueta entra">Resultado 3 · dimensión</p>
   <h2 class="entra">Hoy, casi una Argentina.<br>Mañana, <span class="acento">dos</span>.</h2>
   <div class="dos-col entra">
-    <div>
-      <p><strong>118 TWh/año</strong> con la potencia actual: el <strong>73%</strong> de la demanda eléctrica argentina (161,7 TWh).</p>
-      <p><strong>325 TWh/año</strong> con la proyectada: <strong>2 veces</strong> Argentina.</p>
-      <p>Resiste el supuesto: con un uso del 60% sigue siendo más de la mitad de Argentina.</p>
-      <p>En Latinoamérica casi no hay cómputo de IA: los data centers usan el <strong>0,12%</strong> de la electricidad regional, contra el <strong>4,9%</strong> en EE.UU.</p>
+    <div class="cifras" style="grid-template-columns:1fr; margin-top:0">
+      <div class="cifra"><b data-contar="73" data-sufijo="%">0%</b><span>de la demanda eléctrica argentina, hoy</span></div>
+      <div class="cifra"><b class="alerta" data-contar="2" data-prefijo="×">0</b><span>Argentina enteras, si terminan las obras</span></div>
+      <div class="cifra"><b data-contar="0.12" data-decimales="2" data-sufijo="%">0</b><span>de la electricidad de Latinoamérica va a data centers · en EE.UU., 4,9%</span></div>
     </div>
-    <div class="figura"><img src="../figuras/05_datacenters_vs_paises.png" alt="Consumo de los data centers contra demanda eléctrica de países"></div>
+    <figure class="grafico entra" id="graficoPaises" aria-label="Consumo anual de los data centers de IA comparado con la demanda eléctrica de países"></figure>
   </div>
 </section>
 
@@ -764,7 +790,7 @@
       <div class="cifra"><b data-contar="0.14" data-decimales="2" data-sufijo=" Mt">0</b><span>con una red como la de Noruega</span></div>
       <div class="cifra"><b>USD 19-25 mil M</b><span>capex: coeficientes de Epoch vs anuncio</span></div>
     </div>
-    <div class="figura"><img src="../figuras/06_emisiones_escenario_500mw.png" alt="Emisiones de un data center de 500 MW según la red de cada país"></div>
+    <figure class="grafico entra" id="graficoEmisiones" aria-label="Emisiones anuales de un data center de 500 MW según la red eléctrica de cada país"></figure>
   </div>
 </section>
 
@@ -972,6 +998,249 @@
 
   const figCrecimiento = document.getElementById('graficoCrecimiento');
   if (figCrecimiento) graficoCrecimiento(figCrecimiento, DATOS_CRECIMIENTO);
+
+  const DATOS_EMPRESAS = {"unidad": "GW", "decimales": 2, "items": [["Google", 3.3], ["Meta", 2.38], ["Amazon", 1.74], ["Microsoft", 1.52], ["SpaceXAI", 1.3], ["CoreWeave", 0.68], ["Oracle", 0.49], ["Otras 8", 0.86, "gris"]]};
+  const DATOS_PAISES = {"unidad": "TWh/año", "decimales": 0, "items": [["Brasil", 757], ["Canadá", 624], ["IA proyectada", 325, "alerta"], ["Argentina", 162], ["Noruega", 139], ["IA hoy", 118, "acento"], ["Chile", 89], ["Uruguay", 15]]};
+  const DATOS_EMISIONES = {"unidad": "Mt CO₂/año", "decimales": 2, "items": [["Noruega", 0.14], ["Uruguay", 0.32], ["Brasil", 0.48], ["Canadá", 0.84], ["Chile", 1.18], ["Argentina", 1.57, "acento"], ["EE.UU.", 1.75], ["China", 2.53]]};
+
+  function graficoBarras(figura, datos) {
+    const A = 800, fila = 42, mi = 150, md = 92, ma = 8;
+    const AL = ma + datos.items.length * fila + 26;
+    const max = Math.max(...datos.items.map(i => i[1]));
+    const ancho = A - mi - md;
+    const svg = nodo('svg', { viewBox: '0 0 ' + A + ' ' + AL, role: 'img' });
+
+    datos.items.forEach((item, i) => {
+      const [etiqueta, valor, estilo] = item;
+      const y = ma + i * fila;
+      const largo = Math.max(2, valor / max * ancho);
+      svg.append(nodo('text', { class: 'g-etiqueta', x: mi - 14, y: y + 22, 'text-anchor': 'end' }, etiqueta));
+      const barra = nodo('rect', { class: 'g-barra' + (estilo ? ' ' + estilo : ''), x: mi, y: y + 7, width: largo, height: 22, rx: 5 });
+      barra.style.animationDelay = (i * 70) + 'ms';
+      svg.append(barra);
+      const cifra = valor.toLocaleString('es-AR', { minimumFractionDigits: datos.decimales, maximumFractionDigits: datos.decimales });
+      svg.append(nodo('text', { class: 'g-cifra', x: mi + largo + 10, y: y + 23 }, cifra));
+    });
+    svg.append(nodo('text', { class: 'g-nota', x: A - md + 10, y: AL - 6, 'text-anchor': 'end' }, datos.unidad));
+    figura.append(svg);
+  }
+
+  const barras = [['graficoEmpresas', DATOS_EMPRESAS], ['graficoPaises', DATOS_PAISES], ['graficoEmisiones', DATOS_EMISIONES]];
+  barras.forEach(([id, datos]) => {
+    const f = document.getElementById(id);
+    if (f) graficoBarras(f, datos);
+  });
+
+  const DATOS_DISPERSION = {"promedio": 8.13, "puntos": [["AL", 7.25, 299, 2, 60], ["AZ", 7.9, 449, 3, 56], ["GA", 7.21, 681, 3, 54], ["IA", 6.8, 427, 2, 34], ["ID", 7.69, 152, 1, 31], ["IN", 8.15, 1088, 2, 85], ["MN", 9.15, 178, 1, 47], ["MO", 7.87, 105, 1, 72], ["MS", 6.81, 512, 2, 82], ["NC", 7.77, 65, 1, 54], ["ND", 7.25, 68, 1, 60], ["NE", 7.66, 695, 4, 48], ["NJ", 11.93, 50, 1, 50], ["NM", 5.43, 87, 1, 51], ["NV", 8.64, 161, 1, 60], ["NY", 9.17, 100, 2, 49], ["OH", 7.1, 1668, 5, 82], ["OK", 5.84, 368, 1, 57], ["OR", 8.05, 334, 2, 39], ["PA", 7.87, 108, 1, 65], ["SC", 6.84, 142, 1, 40], ["TN", 6.21, 1373, 3, 45], ["TX", 6.12, 1301, 9, 64], ["UT", 7.86, 133, 1, 79], ["VA", 8.99, 1044, 7, 62], ["WI", 8.54, 369, 1, 72], ["WY", 7.96, 152, 1, 74]]};
+  const DATOS_JEVONS = {"series": [{"nombre": "Cómputo instalado", "clase": "s1", "puntos": [[2024.0, 1.0], [2024.083, 1.253], [2024.167, 1.253], [2024.25, 1.424], [2024.333, 2.077], [2024.417, 2.246], [2024.5, 2.49], [2024.583, 2.627], [2024.667, 3.17], [2024.75, 4.084], [2024.833, 4.084], [2024.917, 5.556], [2025.0, 5.735], [2025.083, 5.886], [2025.167, 7.937], [2025.25, 8.29], [2025.333, 8.687], [2025.417, 9.564], [2025.5, 14.368], [2025.583, 15.028], [2025.667, 17.001], [2025.75, 18.32], [2025.833, 24.332], [2025.917, 25.429], [2026.0, 29.424], [2026.083, 32.71], [2026.167, 34.222], [2026.25, 37.029], [2026.333, 43.416], [2026.417, 50.674], [2026.5, 61.187], [2026.583, 65.771], [2026.667, 69.41]]}, {"nombre": "Potencia y gasto eléctrico", "clase": "s2", "puntos": [[2024.0, 1.0], [2024.083, 1.159], [2024.167, 1.159], [2024.25, 1.319], [2024.333, 1.914], [2024.417, 2.029], [2024.5, 2.191], [2024.583, 2.321], [2024.667, 2.794], [2024.75, 3.451], [2024.833, 3.451], [2024.917, 4.446], [2025.0, 4.569], [2025.083, 4.669], [2025.167, 5.739], [2025.25, 5.927], [2025.333, 6.141], [2025.417, 6.551], [2025.5, 9.161], [2025.583, 9.416], [2025.667, 10.117], [2025.75, 10.771], [2025.833, 13.225], [2025.917, 13.754], [2026.0, 15.592], [2026.083, 17.116], [2026.167, 17.751], [2026.25, 19.143], [2026.333, 21.69], [2026.417, 24.648], [2026.5, 28.856], [2026.583, 30.593], [2026.667, 31.721]]}, {"nombre": "Energía por unidad de cómputo", "clase": "s3", "puntos": [[2024.0, 1.0], [2024.083, 0.925], [2024.167, 0.925], [2024.25, 0.926], [2024.333, 0.922], [2024.417, 0.904], [2024.5, 0.88], [2024.583, 0.883], [2024.667, 0.882], [2024.75, 0.845], [2024.833, 0.845], [2024.917, 0.8], [2025.0, 0.797], [2025.083, 0.793], [2025.167, 0.723], [2025.25, 0.715], [2025.333, 0.707], [2025.417, 0.685], [2025.5, 0.638], [2025.583, 0.627], [2025.667, 0.595], [2025.75, 0.588], [2025.833, 0.543], [2025.917, 0.541], [2026.0, 0.53], [2026.083, 0.523], [2026.167, 0.519], [2026.25, 0.517], [2026.333, 0.5], [2026.417, 0.486], [2026.5, 0.472], [2026.583, 0.465], [2026.667, 0.457]]}]};
+
+  function graficoDispersion(figura, datos) {
+    const A = 800, AL = 430, mi = 56, md = 24, ma = 24, mb = 44;
+    const maxX = 13, maxY = 1800;
+    const x = escala(5, maxX, mi, A - md);
+    const y = escala(0, maxY, AL - mb, ma);
+    const svg = nodo('svg', { viewBox: '0 0 ' + A + ' ' + AL, role: 'img' });
+
+    for (let v = 0; v <= maxY; v += 300) {
+      svg.append(nodo('line', { class: 'g-grid', x1: mi, x2: A - md, y1: y(v), y2: y(v) }));
+      svg.append(nodo('text', { class: 'g-eje', x: mi - 10, y: y(v) + 4, 'text-anchor': 'end' }, v));
+    }
+    for (let v = 5; v <= maxX; v += 1) {
+      svg.append(nodo('text', { class: 'g-eje', x: x(v), y: AL - mb + 22, 'text-anchor': 'middle' }, v));
+    }
+    svg.append(nodo('text', { class: 'g-titulo-eje', x: (mi + A - md) / 2, y: AL - 6, 'text-anchor': 'middle' },
+                    'Precio industrial de la electricidad (¢ por kWh)'));
+    const medio = y(maxY / 2);
+    svg.append(nodo('text', { class: 'g-titulo-eje', x: mi - 40, y: medio,
+                              transform: 'rotate(-90 ' + (mi - 40) + ' ' + medio + ')', 'text-anchor': 'middle' },
+                    'Potencia instalada (MW)'));
+
+    svg.append(nodo('line', { class: 'g-corte', x1: x(datos.promedio), x2: x(datos.promedio), y1: y(0), y2: ma }));
+    svg.append(nodo('text', { class: 'g-nota', x: x(datos.promedio) + 8, y: ma + 10 }, 'promedio EE.UU.'));
+
+    datos.puntos.forEach((p, i) => {
+      const [sigla, precio, mwTotal, cantidad, fosil] = p;
+      const r = 6 + Math.sqrt(cantidad) * 4;
+      const color = fosil > 70 ? '#E07A5F' : fosil > 45 ? '#FFD54F' : '#4FC3F7';
+      const c = nodo('circle', { class: 'g-punto-disp', cx: x(precio), cy: y(Math.min(mwTotal, maxY)), r: r, fill: color });
+      c.style.animationDelay = (i * 25) + 'ms';
+      svg.append(c);
+      if (mwTotal > 350) svg.append(nodo('text', { class: 'g-sigla', x: x(precio), y: y(mwTotal) + 4, 'text-anchor': 'middle' }, sigla));
+    });
+    const leyenda = [['#4FC3F7', 'menos de 45% fósil'], ['#FFD54F', '45 a 70%'], ['#E07A5F', 'más de 70%']];
+    leyenda.forEach(([color, txt], i) => {
+      svg.append(nodo('circle', { cx: A - md - 210 + i * 0, cy: ma + 4 + i * 20, r: 6, fill: color }));
+      svg.append(nodo('text', { class: 'g-nota', x: A - md - 196, y: ma + 8 + i * 20 }, txt));
+    });
+    figura.append(svg);
+  }
+
+  function graficoSeries(figura, datos) {
+    const A = 800, AL = 400, mi = 46, md = 20, ma = 52, mb = 40;
+    const x = escala(2024, 2026.667, mi, A - md);
+    const logY = escala(Math.log10(0.4), Math.log10(80), AL - mb, ma);
+    const y = v => logY(Math.log10(Math.max(v, 0.4)));
+    const ticks = [0.5, 1, 2, 5, 10, 20, 50];
+    const svg = nodo('svg', { viewBox: '0 0 ' + A + ' ' + AL, role: 'img' });
+
+    const clip = nodo('clipPath', { id: 'clipSeries' });
+    clip.append(nodo('rect', { class: 'g-barrido', x: mi, y: 0, width: A - mi - md, height: AL }));
+    const defs = nodo('defs'); defs.append(clip); svg.append(defs);
+
+    ticks.forEach(v => {
+      svg.append(nodo('line', { class: 'g-grid', x1: mi, x2: A - md, y1: y(v), y2: y(v) }));
+      svg.append(nodo('text', { class: 'g-eje', x: mi - 10, y: y(v) + 4, 'text-anchor': 'end' },
+                      '×' + (v < 1 ? v.toString().replace('.', ',') : v)));
+    });
+    svg.append(nodo('line', { class: 'g-corte', x1: mi, x2: A - md, y1: y(1), y2: y(1) }));
+    [['2024', 2024], ['2025', 2025], ['2026', 2026], ['sep-26', 2026.667]].forEach(([txt, a]) => {
+      svg.append(nodo('text', { class: 'g-eje', x: x(a), y: AL - mb + 22, 'text-anchor': 'middle' }, txt));
+    });
+
+    const capa = nodo('g', { 'clip-path': 'url(#clipSeries)' });
+    datos.series.forEach(s => capa.append(nodo('path', { class: 'g-serie ' + s.clase, d: ruta(s.puntos, x, y) })));
+    svg.append(capa);
+
+    const leyenda = nodo('g', { class: 'g-aparece' });
+    datos.series.forEach((s, i) => {
+      const yl = 16 + i * 17;
+      leyenda.append(nodo('line', { class: 'g-serie ' + s.clase, x1: mi, x2: mi + 28, y1: yl, y2: yl }));
+      leyenda.append(nodo('text', { class: 'g-nota', x: mi + 36, y: yl + 4 }, s.nombre));
+      const ult = s.puntos[s.puntos.length - 1];
+      leyenda.append(nodo('text', { class: 'g-valor', x: x(ult[0]) - 4, y: y(ult[1]) - 8, 'text-anchor': 'end' },
+                          '×' + ult[1].toFixed(1).replace('.', ',')));
+    });
+    svg.append(leyenda);
+    figura.append(svg);
+  }
+
+  const figDisp = document.getElementById('graficoDispersion');
+  if (figDisp) graficoDispersion(figDisp, DATOS_DISPERSION);
+  const figJevons = document.getElementById('graficoJevons');
+  if (figJevons) graficoSeries(figJevons, DATOS_JEVONS);
+
+  const DATOS_DERIVADA = {"unidad": "GW por año (tendencia 12 meses)", "corte": 2026.667, "puntos": [[2024.0, 0.67], [2024.083, 0.7], [2024.167, 0.76], [2024.25, 0.93], [2024.333, 1.07], [2024.417, 1.28], [2024.5, 1.48], [2024.583, 1.46], [2024.667, 1.7], [2024.75, 1.95], [2024.833, 1.88], [2024.917, 1.86], [2025.0, 2.43], [2025.083, 2.97], [2025.167, 3.04], [2025.25, 3.08], [2025.333, 3.57], [2025.417, 3.95], [2025.5, 4.19], [2025.583, 4.82], [2025.667, 4.99], [2025.75, 5.12], [2025.833, 5.85], [2025.917, 6.84], [2026.0, 7.68], [2026.083, 8.3], [2026.167, 8.69], [2026.25, 8.89], [2026.333, 9.01], [2026.417, 9.37], [2026.5, 9.72], [2026.583, 9.47], [2026.667, 10.07], [2026.75, 10.8], [2026.833, 10.17], [2026.917, 9.28], [2027.0, 8.26], [2027.083, 7.31], [2027.167, 7.2], [2027.25, 7.91], [2027.333, 8.0], [2027.417, 7.71], [2027.5, 8.97], [2027.583, 10.19], [2027.667, 9.35], [2027.75, 8.96], [2027.833, 9.54], [2027.917, 10.19], [2028.0, 10.64], [2028.083, 10.49], [2028.167, 10.06], [2028.25, 9.16], [2028.333, 8.75], [2028.417, 8.29], [2028.5, 8.51], [2028.583, 9.14], [2028.667, 8.95], [2028.75, 8.19], [2028.833, 7.43], [2028.917, 6.56], [2029.0, 5.66]]};
+  const DATOS_INTEGRAL = {"unidad": "TWh acumulados", "corte": 2026.667, "puntos": [[2024.0, 3.0], [2024.083, 3.3], [2024.167, 3.7], [2024.25, 4.0], [2024.333, 4.5], [2024.417, 5.2], [2024.5, 5.8], [2024.583, 6.5], [2024.667, 7.3], [2024.75, 8.3], [2024.833, 9.4], [2024.917, 10.6], [2025.0, 12.0], [2025.083, 13.5], [2025.167, 14.9], [2025.25, 16.8], [2025.333, 18.6], [2025.417, 20.6], [2025.5, 23.0], [2025.583, 26.0], [2025.667, 29.0], [2025.75, 32.2], [2025.833, 36.0], [2025.917, 40.1], [2026.0, 44.8], [2026.083, 49.9], [2026.167, 54.9], [2026.25, 60.7], [2026.333, 66.9], [2026.417, 74.3], [2026.5, 82.4], [2026.583, 91.8], [2026.667, 101.6], [2026.75, 111.5], [2026.833, 122.3], [2026.917, 133.5], [2027.0, 145.6], [2027.083, 158.1], [2027.167, 170.1], [2027.25, 184.1], [2027.333, 197.8], [2027.417, 212.1], [2027.5, 226.3], [2027.583, 241.2], [2027.667, 256.4], [2027.75, 272.1], [2027.833, 288.9], [2027.917, 305.6], [2028.0, 324.5], [2028.083, 344.8], [2028.167, 363.8], [2028.25, 384.8], [2028.333, 405.7], [2028.417, 428.0], [2028.5, 450.3], [2028.583, 473.4], [2028.667, 496.5], [2028.75, 519.1], [2028.833, 542.7], [2028.917, 565.8], [2029.0, 591.5]]};
+  const DATOS_REGRESION = {"puntos": [[8.0, 1.278], [8.0, 1.401], [7.0, 1.5], [7.0, 1.427], [7.0, 1.427], [7.0, 1.427], [7.0, 1.427], [7.0, 0.793], [7.0, 1.427], [7.0, 1.427], [7.0, 1.427], [8.0, 0.765], [7.0, 1.157], [7.0, 1.427], [7.0, 1.427], [6.0, 1.452], [6.0, 1.452], [7.0, 1.108], [6.0, 2.632], [6.0, 1.452], [6.0, 1.452], [7.0, 1.427], [7.0, 1.427], [7.0, 1.25], [5.0, 2.701], [8.0, 1.136], [5.0, 5.492], [7.0, 1.357], [8.0, 1.401], [8.0, 1.401], [6.0, 2.632], [8.0, 1.401], [6.0, 1.452], [7.0, 1.24], [5.0, 5.21], [6.0, 1.339], [6.0, 1.452], [5.0, 2.89], [6.0, 2.632], [6.0, 2.415], [7.0, 1.427], [8.0, 1.401], [7.0, 1.427], [8.0, 1.401], [6.0, 1.452], [8.0, 1.401], [8.0, 1.25], [6.0, 2.5], [6.0, 5.077], [7.0, 1.157], [7.0, 1.499], [6.0, 4.606], [7.0, 0.967], [4.0, 2.0], [8.0, 1.401], [7.0, 5.266], [7.0, 1.085], [6.0, 2.632], [6.0, 1.452], [8.0, 1.401], [5.0, 2.701], [5.0, 5.245], [4.0, 3.053], [7.0, 1.427], [7.0, 1.427], [8.0, 1.401], [7.0, 1.427], [7.0, 1.427], [7.0, 1.427], [7.0, 1.427], [7.0, 1.427], [7.0, 1.427], [8.0, 1.401], [7.0, 1.427], [7.0, 1.427], [7.0, 1.427], [8.0, 1.401], [7.0, 1.5], [5.0, 2.701], [7.0, 1.057], [4.0, 2.724], [5.0, 2.701], [7.0, 35.529], [7.0, 1.523], [6.0, 1.478], [7.0, 1.232], [3.0, 3.355], [0.0, 11.151], [7.0, 1.157], [7.0, 1.427], [4.0, 2.724], [5.0, 2.701], [3.0, 2.677], [8.0, 1.401], [1.0, 10.536], [7.0, 1.741], [7.0, 1.427], [7.0, 1.427], [7.0, 1.427], [7.0, 1.427], [6.0, 1.452], [7.0, 1.427], [6.0, 1.452], [7.0, 1.427], [7.0, 1.427], [7.0, 1.427], [6.0, 1.452], [6.0, 1.452], [7.0, 1.427], [7.0, 1.427], [6.0, 1.452], [3.0, 3.0], [7.0, 0.7], [7.0, 1.421], [7.0, 5.379], [7.0, 4.444], [5.0, 5.21], [6.0, 2.566], [7.0, 1.427], [3.0, 3.409], [6.0, 2.632], [4.0, 2.724], [4.0, 2.724], [6.0, 2.632], [5.0, 2.838], [3.0, 10.373], [4.0, 2.724], [5.0, 2.669], [2.0, 5.0], [4.0, 5.255], [7.0, 1.587], [4.0, 2.724], [4.0, 2.724], [6.0, 1.452], [7.0, 1.563], [7.0, 1.563], [7.0, 1.427], [7.0, 1.427], [4.0, 2.724], [7.0, 1.427], [4.0, 0.6], [3.0, 60.0], [6.0, 2.0], [4.0, 10.2], [7.0, 1.142], [3.0, 8.772], [7.0, 1.427], [7.0, 1.665], [7.0, 1.427], [4.0, 2.724], [4.0, 2.724], [4.0, 2.724], [4.0, 2.724], [6.0, 2.5], [7.0, 1.5], [6.0, 1.5], [6.0, 2.5], [7.0, 1.719], [6.0, 5.36], [3.0, 2.771], [4.0, 2.906], [7.0, 1.427], [4.0, 2.724], [4.0, 2.724], [1.0, 10.892], [6.0, 2.632], [7.0, 1.427], [7.0, 1.427], [4.0, 9.311], [3.0, 66.667], [6.0, 2.632], [1.0, 10.892], [5.0, 6.15], [6.0, 1.452], [3.0, 15.813], [4.0, 2.725], [6.0, 2.632], [4.0, 2.724], [3.0, 10.59], [7.0, 1.427], [7.0, 1.427], [4.0, 2.794], [4.0, 2.742], [6.0, 2.632], [4.0, 2.708], [0.0, 3.788], [5.0, 5.501], [6.0, 4.4], [5.0, 2.442], [2.0, 11.646], [5.0, 3.136], [6.0, 2.632], [4.0, 2.724], [4.0, 2.733], [3.0, 10.373], [6.0, 2.5], [6.0, 2.0], [5.0, 3.0], [4.0, 3.0], [6.0, 2.632], [5.0, 2.701], [4.0, 3.016], [1.0, 10.892], [3.0, 10.373], [3.0, 2.771], [4.0, 2.724], [5.0, 2.701], [4.0, 2.724], [5.0, 5.6], [4.0, 3.041], [6.0, 2.632], [4.0, 12.085], [5.0, 15.831], [2.0, 10.546], [1.0, 11.779], [3.0, 2.771], [5.0, 2.701], [5.0, 2.701], [4.0, 2.853], [5.0, 2.701], [4.0, 2.724], [3.0, 2.771], [4.0, 2.724], [4.0, 2.558], [3.0, 2.771], [6.0, 3.0], [4.0, 3.0], [2.0, 10.0], [5.0, 3.0], [6.0, 3.0], [6.0, 2.632], [2.0, 8.788], [2.0, 9.725], [0.0, 28.282], [4.0, 2.724], [0.0, 222.222], [1.0, 11.111], [1.0, 11.111], [1.0, 11.111], [4.0, 2.724], [4.0, 3.36], [4.0, 2.724], [2.0, 14.971], [0.0, 32.074], [4.0, 2.724], [5.0, 2.701], [6.0, 4.127], [3.0, 10.0], [6.0, 2.5], [5.0, 2.026], [3.0, 10.373], [4.0, 25.201], [2.0, 10.546], [4.0, 2.043], [1.0, 7.143], [3.0, 14.244], [3.0, 10.373], [2.0, 10.546], [2.0, 10.546], [2.0, 16.076], [4.0, 2.724], [4.0, 2.724], [3.0, 2.771], [3.0, 3.129], [4.0, 2.724], [4.0, 2.724], [4.0, 2.724], [2.0, 45.445], [3.0, 10.373], [0.0, 79.669], [2.0, 10.546], [2.0, 10.546], [4.0, 2.724], [4.0, 2.496], [4.0, 2.724], [2.0, 10.0], [3.0, 11.445], [2.0, 10.546], [3.0, 15.35], [4.0, 3.995], [2.0, 10.056], [3.0, 10.373], [4.0, 2.724], [2.0, 10.0], [2.0, 10.0], [2.0, 10.0], [3.0, 10.0], [3.0, 10.0], [1.0, 12.5], [1.0, 10.0], [3.0, 10.0], [3.0, 10.0], [3.0, 10.0], [2.0, 10.0], [3.0, 10.0], [3.0, 7.5], [2.0, 10.0], [2.0, 10.0], [3.0, 10.0], [3.0, 10.0], [3.0, 10.0], [2.0, 10.0], [2.0, 10.0], [2.0, 10.0], [2.0, 10.0], [3.0, 10.0], [3.0, 10.0], [2.0, 10.0], [3.0, 10.0], [3.0, 10.0], [3.0, 10.0], [2.0, 10.0], [3.0, 10.373], [2.0, 10.546], [2.0, 14.364], [1.0, 10.892], [2.0, 14.906], [3.0, 6.358], [3.0, 10.373], [2.0, 10.0], [2.0, 10.0], [2.0, 10.0], [2.0, 10.0], [1.0, 10.0], [2.0, 13.333], [3.0, 10.0], [2.0, 10.0], [2.0, 10.0], [2.0, 10.0], [3.0, 10.0], [3.0, 10.0], [2.0, 13.333], [2.0, 10.0], [2.0, 10.0], [2.0, 10.0], [3.0, 10.0], [3.0, 10.0], [2.0, 10.0], [3.0, 10.0], [2.0, 10.0], [2.0, 10.0], [3.0, 10.0], [2.0, 10.0], [2.0, 10.0], [2.0, 10.0], [2.0, 10.0], [0.0, 33.333], [3.0, 10.0], [1.0, 10.0], [2.0, 10.0], [2.0, 13.333], [3.0, 10.0], [3.0, 10.0], [2.0, 10.0], [3.0, 10.0], [2.0, 10.0], [2.0, 10.0], [0.0, 33.333], [2.0, 10.0], [1.0, 10.0], [1.0, 82.874], [3.0, 10.373], [1.0, 7.642], [2.0, 10.546], [0.0, 65.966], [2.0, 10.546], [2.0, 10.546], [3.0, 10.373], [1.0, 10.0], [1.0, 10.0], [2.0, 10.0], [1.0, 10.0], [1.0, 10.0], [2.0, 10.0], [1.0, 10.0], [1.0, 10.0], [2.0, 15.0], [1.0, 10.0], [1.0, 10.0], [2.0, 10.0], [1.0, 10.0], [1.0, 10.0], [1.0, 10.0], [1.0, 10.0], [1.0, 15.0], [1.0, 10.0], [1.0, 10.0], [1.0, 10.0], [1.0, 10.0], [1.0, 10.0], [1.0, 10.0], [1.0, 10.0], [1.0, 10.0], [1.0, 10.0], [1.0, 10.0], [1.0, 10.0], [1.0, 10.0], [1.0, 10.0], [2.0, 10.0], [2.0, 10.546], [2.0, 10.546], [0.0, 11.151], [0.0, 24.352], [0.0, 71.787]], "base": 2017, "recta": [[0, 20.04939808202757], [8, 1.0464960372063665]], "pendiente": -30.9};
+  const DATOS_ML = {"puntos": [[198.6, 219.2], [1111.7, 917.8], [99.5, 112.2], [636.7, 344.8], [81.4, 113.9], [205.2, 167.1], [281.7, 222.0], [161.7, 165.0], [108.1, 102.6], [255.7, 219.2], [171.3, 247.5], [289.5, 185.8], [56.8, 76.7], [550.8, 426.4], [11.5, 26.9], [172.8, 174.6], [61.1, 73.3], [155.6, 118.6], [64.7, 63.8], [100.6, 200.7], [214.3, 282.7]], "r2": 0.86, "sorteos": [0.67, 0.48, 0.92, 0.75, 0.76, 0.82, 0.95, 0.53, 0.92, 0.73, 0.75, 0.35, 0.69, 0.87, 0.64, 0.2, 0.81, 0.94, 0.81, 0.88], "cv": 0.75};
+
+  function graficoArea(figura, datos, clase) {
+    const A = 560, AL = 300, mi = 54, md = 18, ma = 22, mb = 36;
+    const max = Math.max(...datos.puntos.map(p => p[1])) * 1.1;
+    const x = escala(datos.puntos[0][0], datos.puntos[datos.puntos.length - 1][0], mi, A - md);
+    const y = escala(0, max, AL - mb, ma);
+    const svg = nodo('svg', { viewBox: '0 0 ' + A + ' ' + AL, role: 'img' });
+    const clip = nodo('clipPath', { id: 'clip' + clase });
+    clip.append(nodo('rect', { class: 'g-barrido', x: mi, y: 0, width: A - mi - md, height: AL }));
+    const defs = nodo('defs'); defs.append(clip); svg.append(defs);
+
+    const paso = max > 50 ? 50 : max > 20 ? 5 : 2;
+    for (let v = 0; v <= max; v += paso) {
+      svg.append(nodo('line', { class: 'g-grid', x1: mi, x2: A - md, y1: y(v), y2: y(v) }));
+      svg.append(nodo('text', { class: 'g-eje', x: mi - 8, y: y(v) + 4, 'text-anchor': 'end' }, v));
+    }
+    for (let a = 2024; a <= 2029; a++) {
+      svg.append(nodo('text', { class: 'g-eje', x: x(a), y: AL - mb + 20, 'text-anchor': 'middle' }, a));
+    }
+    const capa = nodo('g', { 'clip-path': 'url(#clip' + clase + ')' });
+    const p0 = datos.puntos[0], pN = datos.puntos[datos.puntos.length - 1];
+    capa.append(nodo('path', { class: 'g-area2', d: ruta(datos.puntos, x, y) + ' L' + x(pN[0]) + ',' + y(0) + ' L' + x(p0[0]) + ',' + y(0) + ' Z' }));
+    capa.append(nodo('path', { class: 'g-linea2', d: ruta(datos.puntos, x, y) }));
+    svg.append(capa);
+    const extras = nodo('g', { class: 'g-aparece' });
+    extras.append(nodo('line', { class: 'g-corte', x1: x(datos.corte), x2: x(datos.corte), y1: y(0), y2: ma }));
+    extras.append(nodo('text', { class: 'g-nota', x: x(datos.corte) - 6, y: ma + 10, 'text-anchor': 'end' }, 'hoy'));
+    extras.append(nodo('text', { class: 'g-nota', x: A - md, y: AL - 4, 'text-anchor': 'end' }, datos.unidad));
+    svg.append(extras);
+    figura.append(svg);
+  }
+
+  function graficoRegresion(figura, datos) {
+    const A = 760, AL = 380, mi = 60, md = 20, ma = 24, mb = 42;
+    const x = escala(0, 8.5, mi, A - md);
+    const logY = escala(Math.log10(0.6), Math.log10(200), AL - mb, ma);
+    const y = v => logY(Math.log10(Math.max(v, 0.6)));
+    const svg = nodo('svg', { viewBox: '0 0 ' + A + ' ' + AL, role: 'img' });
+    [1, 10, 100].forEach(v => {
+      svg.append(nodo('line', { class: 'g-grid', x1: mi, x2: A - md, y1: y(v), y2: y(v) }));
+      svg.append(nodo('text', { class: 'g-eje', x: mi - 10, y: y(v) + 4, 'text-anchor': 'end' }, v));
+    });
+    for (let a = 0; a <= 8; a += 2) {
+      svg.append(nodo('text', { class: 'g-eje', x: x(a), y: AL - mb + 22, 'text-anchor': 'middle' }, datos.base + a));
+    }
+    svg.append(nodo('text', { class: 'g-titulo-eje', x: mi - 44, y: (ma + AL - mb) / 2,
+                              transform: 'rotate(-90 ' + (mi - 44) + ' ' + ((ma + AL - mb) / 2) + ')', 'text-anchor': 'middle' },
+                    'kW por H100 equivalente (escala log)'));
+    datos.puntos.forEach((p, i) => {
+      const c = nodo('circle', { class: 'g-nube', cx: x(p[0]), cy: y(p[1]), r: 4 });
+      c.style.animationDelay = Math.min(i * 3, 600) + 'ms';
+      svg.append(c);
+    });
+    const r = datos.recta;
+    svg.append(nodo('path', { class: 'g-recta g-aparece', d: 'M' + x(r[0][0]) + ',' + y(r[0][1]) + ' L' + x(r[1][0]) + ',' + y(r[1][1]) }));
+    svg.append(nodo('text', { class: 'g-valor g-aparece', x: A - md - 10, y: ma + 16, 'text-anchor': 'end', fill: '#E07A5F' },
+                    datos.pendiente.toString().replace('.', ',') + '% por año'));
+    figura.append(svg);
+  }
+
+  function graficoML(figura, datos) {
+    const A = 560, AL = 300, mi = 52, md = 18, ma = 22, mb = 40;
+    const max = 1250;
+    const x = escala(0, max, mi, A - md);
+    const y = escala(0, max, AL - mb, ma);
+    const svg = nodo('svg', { viewBox: '0 0 ' + A + ' ' + AL, role: 'img' });
+    for (let v = 0; v <= max; v += 400) {
+      svg.append(nodo('line', { class: 'g-grid', x1: mi, x2: A - md, y1: y(v), y2: y(v) }));
+      svg.append(nodo('text', { class: 'g-eje', x: mi - 8, y: y(v) + 4, 'text-anchor': 'end' }, v));
+      svg.append(nodo('text', { class: 'g-eje', x: x(v), y: AL - mb + 20, 'text-anchor': 'middle' }, v));
+    }
+    svg.append(nodo('path', { class: 'g-ref', d: 'M' + x(0) + ',' + y(0) + ' L' + x(max) + ',' + y(max) }));
+    svg.append(nodo('text', { class: 'g-nota', x: A - md, y: AL - 4, 'text-anchor': 'end' }, 'miles de H100e'));
+    datos.puntos.forEach((p, i) => {
+      const c = nodo('circle', { class: 'g-nube', cx: x(p[0]), cy: y(p[1]), r: 6 });
+      c.style.animationDelay = (i * 25) + 'ms';
+      svg.append(c);
+    });
+    svg.append(nodo('text', { class: 'g-valor g-aparece', x: mi + 10, y: ma + 16 }, 'R² = ' + datos.r2.toString().replace('.', ',')));
+    figura.append(svg);
+  }
+
+  function graficoSorteos(figura, datos) {
+    const A = 560, AL = 300, mi = 40, md = 18, ma = 22, mb = 40;
+    const cajas = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    datos.sorteos.forEach(v => { cajas[Math.min(9, Math.floor(v * 10))]++; });
+    const maxC = Math.max(...cajas);
+    const x = escala(0, 1, mi, A - md);
+    const y = escala(0, maxC, AL - mb, ma);
+    const svg = nodo('svg', { viewBox: '0 0 ' + A + ' ' + AL, role: 'img' });
+    const ancho = (A - md - mi) / 10 - 4;
+    cajas.forEach((c, i) => {
+      if (!c) return;
+      const barra = nodo('rect', { class: 'g-hist', x: x(i / 10) + 2, y: y(c), width: ancho, height: y(0) - y(c), rx: 3 });
+      barra.style.animationDelay = (i * 50) + 'ms';
+      svg.append(barra);
+    });
+    for (let v = 0; v <= 1.001; v += 0.2) {
+      svg.append(nodo('text', { class: 'g-eje', x: x(v), y: AL - mb + 20, 'text-anchor': 'middle' }, v.toFixed(1).replace('.', ',')));
+    }
+    svg.append(nodo('line', { class: 'g-corte', x1: x(datos.cv), x2: x(datos.cv), y1: y(0), y2: ma, stroke: '#E07A5F' }));
+    svg.append(nodo('text', { class: 'g-valor g-aparece', x: x(datos.cv) + 8, y: ma + 14, fill: '#E07A5F' },
+                    'validación cruzada ' + datos.cv.toString().replace('.', ',')));
+    svg.append(nodo('text', { class: 'g-nota', x: A - md, y: AL - 4, 'text-anchor': 'end' }, 'R² en 20 sorteos distintos'));
+    figura.append(svg);
+  }
+
+  const paresGraficos = [['graficoDerivada', DATOS_DERIVADA, 'Deriv'], ['graficoIntegral', DATOS_INTEGRAL, 'Integ']];
+  paresGraficos.forEach(([id, datos, clase]) => {
+    const f = document.getElementById(id);
+    if (f) graficoArea(f, datos, clase);
+  });
+  const figReg = document.getElementById('graficoRegresion');
+  if (figReg) graficoRegresion(figReg, DATOS_REGRESION);
+  const figML = document.getElementById('graficoML');
+  if (figML) graficoML(figML, DATOS_ML);
+  const figSort = document.getElementById('graficoSorteos');
+  if (figSort) graficoSorteos(figSort, DATOS_ML);
 
   // Impresión: las cifras animadas tienen que mostrar su valor final
   function prepararImpresion() {
