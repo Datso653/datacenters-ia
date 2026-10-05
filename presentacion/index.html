@@ -200,6 +200,12 @@
   .caja.prota { border-color: rgba(79, 195, 247, 0.55); }
   .clave { font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; font-size: 0.8rem; color: var(--acento); white-space: nowrap; }
   .clave::after { content: ' →'; color: var(--tenue); }
+  .fuentes { display: grid; gap: 0.5rem; }
+  .fuente { background: var(--superficie); border: 1px solid var(--borde); border-left: 3px solid var(--primario); border-radius: 10px; padding: 0.5rem 0.8rem; }
+  .fuente h3 { margin: 0 0 0.25rem; font-size: 1rem; color: var(--texto); font-weight: 600; }
+  .fuente .tipo { display: block; font-weight: 400; font-size: 0.76rem; color: var(--primario); margin-top: 2px; }
+  .fuente p { margin: 0.2rem 0 0; font-size: 0.79rem; line-height: 1.4; color: var(--tenue); max-width: none; }
+  .fuente p b { color: var(--texto); font-weight: 600; }
   pre.sql { background: var(--superficie); border: 1px solid var(--borde); border-radius: 10px; padding: 0.9rem 1rem; font-size: clamp(0.72rem, 1.1vw, 0.9rem); line-height: 1.5; color: #d4d4d4; overflow-x: auto; margin: 0; }
   pre.sql .k { color: var(--primario); font-weight: 600; }
   .check { display: inline-block; margin-top: 0.8rem; padding: 0.35rem 0.75rem; border-radius: 999px; background: rgba(79, 195, 247, 0.12); color: var(--primario); font-size: 0.9rem; }
@@ -292,6 +298,8 @@
     .cifras.tres { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
     .dos-col { grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) !important; }
     .fotos { grid-template-columns: 1.1fr 0.6fr 1.3fr !important; }
+    .cruce { grid-template-columns: 1fr auto 1fr !important; }
+    .clave::after { content: ' →' !important; }
     .poster img { max-height: 95mm !important; }
     .figura img { max-height: 105mm !important; }
     .figura.figura-baja img { max-height: 95mm !important; }
@@ -433,17 +441,25 @@
       <div class="cruce"><div class="caja prota">data centers EE.UU.<small>estado sacado de la dirección</small></div><span class="clave">estado</span><div class="caja">precio y mix eléctrico<small>EIA · 29/29 estados</small></div></div>
       <div class="cruce"><div class="caja prota">clusters de GPU<small>Epoch AI · 482</small></div><span class="clave">pais</span><div class="caja">CO₂/kWh y demanda<small>Our World in Data</small></div></div>
     </div>
-    <div>
-      <pre class="sql"><span class="k">SELECT</span> d.estado, <span class="k">SUM</span>(d.mw_it),
-       p.precio_industrial, m.pct_fosil
-<span class="k">FROM</span> data_centers d
-<span class="k">LEFT JOIN</span> precios_2024 p <span class="k">ON</span> d.estado = p.estado
-<span class="k">LEFT JOIN</span> mix_2024     m <span class="k">ON</span> d.estado = m.estado
-<span class="k">GROUP BY</span> d.estado</pre>
-      <p style="margin-top:0.9rem">Sin normalizar los nombres, <strong>EE.UU. quedaba fuera del cruce</strong> ("United States of America" ≠ "United States"): coincidían 34 de 36 países.</p>
-      <span class="check">✓ El JOIN de SQL da lo mismo que el merge de pandas</span>
+    <div class="fuentes">
+      <article class="fuente">
+        <h3>Epoch AI<span class="tipo">Instituto de investigación sin fines de lucro</span></h3>
+        <p><b>Para qué junta datos:</b> entender qué pasa con la IA “desde una perspectiva neutral y apoyada en la mejor evidencia posible”. Publica todo con licencia abierta.</p>
+        <p><b>Qué nos trae:</b> 86 data centers con potencia, cómputo, dueño y dirección; 499 hitos de obra; 482 clusters de GPU.</p>
+      </article>
+      <article class="fuente">
+        <h3>EIA<span class="tipo">Agencia estadística del Departamento de Energía de EE.UU.</span></h3>
+        <p><b>Para qué junta datos:</b> es la estadística oficial de energía de EE.UU.: “recolecta, procesa, analiza y publica datos de energía para el pueblo estadounidense”.</p>
+        <p><b>Qué nos trae:</b> precio de la electricidad y generación por fuente, estado por estado (2024): dónde la luz es barata y cuánto de ella es fósil.</p>
+      </article>
+      <article class="fuente">
+        <h3>Our World in Data<span class="tipo">Universidad de Oxford + Global Change Data Lab</span></h3>
+        <p><b>Para qué junta datos:</b> “investigación y datos para avanzar contra los problemas más grandes del mundo”. No produce los datos: los recopila de terceros y los hace comparables entre países (acá, Ember y la Agencia Internacional de Energía).</p>
+        <p><b>Qué nos trae:</b> demanda eléctrica (TWh) e intensidad de carbono de la red (gCO₂/kWh) por país: la vara para comparar la IA contra países enteros.</p>
+      </article>
     </div>
   </div>
+  <p class="credito entra">Sin normalizar los nombres, <strong>EE.UU. quedaba fuera del cruce</strong> (“United States of America” ≠ “United States”). Las consultas SQL que validan cada cruce están en el notebook.</p>
 </section>
 
 <!-- 7 · Crecimiento -->
