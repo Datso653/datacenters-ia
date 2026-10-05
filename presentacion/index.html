@@ -108,6 +108,10 @@
   .cadena li b { display: block; color: var(--texto); font-size: 0.96rem; }
   .cadena li.riesgo { border-color: rgba(224, 122, 95, 0.6); }
   .cadena li.riesgo::before { background: var(--alerta); }
+  .autores { font-size: 1.05rem; color: var(--texto); font-weight: 500; margin-top: -0.3rem; letter-spacing: 0.02em; }
+  .cadena.corta li { font-size: 0.86rem; padding: 0.42rem 0.7rem 0.42rem 2.6rem; }
+  .cadena.corta li b { font-size: 0.98rem; }
+  .cadena.corta li::before { top: 0.5rem; }
   .cita { margin: 0.9rem 0 0; padding: 0.7rem 0.9rem; border-left: 3px solid var(--alerta); background: var(--superficie); border-radius: 0 10px 10px 0;
           font-style: italic; color: var(--texto); font-size: 0.95rem; line-height: 1.45; }
   .cita span { display: block; margin-top: 0.3rem; font-style: normal; color: var(--tenue); font-size: 0.82rem; }
@@ -367,6 +371,7 @@
   <p class="etiqueta entra">Trabajo práctico modelo · Laboratorio de Métodos Cuantitativos · FCE UBA</p>
   <h1 class="entra">¿Cuánta electricidad<br>se <span class="gradiente">come la IA</span>?</h1>
   <p class="entra">Data centers de inteligencia artificial: potencia, energía, dinero, poder de mercado y un escenario para Argentina.</p>
+  <p class="autores entra">Juan Ignacio Da Torre &middot; Joaquín Romano</p>
   <div class="cifras entra" style="max-width:720px">
     <div class="cifra"><b data-contar="73" data-sufijo="%">0%</b><span>de la demanda eléctrica argentina consumen hoy 69 data centers</span></div>
     <div class="cifra"><b data-contar="8700" data-prefijo="USD " data-sufijo=" M">0</b><span>por año se pagan de electricidad</span></div>
@@ -674,25 +679,25 @@
 <!-- 13b · El dilema de las IPO -->
 <section class="slide" data-titulo="El dilema de las IPO">
   <p class="etiqueta entra">Conducta · ¿por qué salir a bolsa?</p>
-  <h2 class="entra">OpenAI y Anthropic: prometer crecimiento <span class="acento">cuesta electricidad</span></h2>
-  <div class="dos-col entra" style="grid-template-columns: minmax(0,1fr) minmax(0,1fr); align-items:start">
-    <ol class="cadena">
-      <li><b>Valuaciones récord</b>Anthropic USD 965.000 M · OpenAI USD 852.000 M. Ambas pidieron salir a bolsa en junio de 2026.</li>
-      <li><b>Hay que justificarlas con crecimiento</b>Más usuarios, más modelos, más grandes.</li>
-      <li><b>Crecer = más cómputo</b>×4,1 en el último año en los data centers de la base.</li>
-      <li><b>Más cómputo = más luz y más inversión</b>Gasto eléctrico ×3,1; ~USD 38.000 M por cada GW nuevo. Se paga <em>antes</em> de cobrar.</li>
-      <li class="riesgo"><b>¿Y si los ingresos no llegan?</b>Bain: la industria necesita USD 2 billones de ingresos por año para recuperar lo invertido. Si no, burbuja.</li>
+  <h2 class="entra">Prometer crecimiento <span class="acento">cuesta electricidad</span></h2>
+  <div class="dos-col entra" style="grid-template-columns: minmax(0,0.85fr) minmax(0,1.15fr); align-items:center">
+    <ol class="cadena corta">
+      <li><b>Valuación récord</b>USD 965.000 M</li>
+      <li><b>Hay que justificarla</b>crecer, sí o sí</li>
+      <li><b>Crecer es más cómputo</b>×4,1 en un año</li>
+      <li><b>Más cómputo, más luz</b>gasto ×3,1</li>
+      <li class="riesgo"><b>¿Y si los ingresos no llegan?</b>burbuja</li>
     </ol>
     <div>
-      <div class="cifras" style="grid-template-columns:repeat(2, minmax(0,1fr)); margin-top:0">
-        <div class="cifra"><b class="alerta">Pierden plata</b><span>OpenAI, Anthropic y SpaceX/xAI “pierden más dinero del que ganan” (Fortune/AP)</span></div>
-        <div class="cifra"><b data-contar="75" data-sufijo="%">0%</b><span>margen bruto de NVIDIA, que vendió USD 89.000 M en data centers en un trimestre</span></div>
+      <figure class="grafico" id="graficoBrecha" aria-label="Valuación de Anthropic comparada con sus ingresos anuales"></figure>
+      <div class="cifras" style="grid-template-columns:repeat(2, minmax(0,1fr)); margin-top:0.6rem">
+        <div class="cifra"><b class="alerta" data-contar="20" data-prefijo="×">0</b><span>vale lo que factura en un año</span></div>
+        <div class="cifra"><b class="acento">USD 2 billones</b><span>ingresos anuales que necesita la industria, según Bain</span></div>
       </div>
-      <blockquote class="cita">“Dado todo lo que está sucediendo con la seguridad, este sería un momento poco aconsejable para salir al mercado bursátil.”<span>— Sam Altman, 12 de septiembre de 2026</span></blockquote>
-      <p class="pregunta-critica" style="margin-top:0.8rem">🧠 En la fiebre del oro, ¿quién gana seguro: el que busca oro o el que vende las palas?</p>
     </div>
   </div>
-  <p class="credito entra">Fuentes: Fortune/AP (2-jun-2026), Washington Monthly (may-2026, estimación de Bain & Company), NVIDIA (resultados del 2.º trimestre fiscal 2027, 26-ago-2026), Infobae (12-sep-2026). Cómputo y gasto: Epoch AI, cálculo propio.</p>
+  <blockquote class="cita entra">“Este sería un momento poco aconsejable para salir al mercado bursátil.”<span>— Sam Altman, 12 de septiembre de 2026</span></blockquote>
+  <p class="credito entra">Valuación e ingresos anualizados de Anthropic: Fortune/AP, 2-jun-2026. Estimación de Bain &amp; Company vía Washington Monthly (may-2026). Cómputo y gasto eléctrico: Epoch AI, cálculo propio.</p>
 </section>
 
 <!-- 13c · Organización industrial -->
@@ -850,7 +855,7 @@
   <p class="entra" style="font-size:0.95rem">Datos: Epoch AI (<em>AI Data Centers</em>, <em>GPU Clusters</em>, CC-BY) · U.S. Energy Information Administration · Our World in Data (Ember, IEA) · CAMMESA vía Aleph Energy. Noticias: CNBC, TechCrunch, Fortune, Infobae, La Nación, Washington Monthly, DatacenterDynamics. Fotos: Wikimedia Commons (ver <code>img/CREDITOS.md</code>). Análisis en Python con asistencia de IA, verificado contra los datos.</p>
 </section>
 
-<div class="marca">¿Cuánta electricidad se come la IA? · FCE UBA</div>
+<div class="marca">¿Cuánta electricidad se come la IA? · Da Torre y Romano · FCE UBA</div>
 <nav class="controles" aria-label="Navegación de diapositivas">
   <button id="anterior" aria-label="Diapositiva anterior">←</button>
   <span class="contador" id="contador">1 / 17</span>
@@ -1241,6 +1246,10 @@
   if (figML) graficoML(figML, DATOS_ML);
   const figSort = document.getElementById('graficoSorteos');
   if (figSort) graficoSorteos(figSort, DATOS_ML);
+
+  const figBrecha = document.getElementById('graficoBrecha');
+  if (figBrecha) graficoBarras(figBrecha, { unidad: 'miles de millones de USD', decimales: 0,
+    items: [['Vale (valuación)', 965, 'alerta'], ['Factura por año', 47]] });
 
   // Impresión: las cifras animadas tienen que mostrar su valor final
   function prepararImpresion() {

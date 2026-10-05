@@ -2,6 +2,8 @@
 
 **Análisis de datos end to end sobre los data centers de inteligencia artificial**: potencia instalada, energía consumida, dónde se ubican y qué implicaría un proyecto de 500 MW en Argentina (*Stargate Argentina*).
 
+Hecho por **Juan Ignacio Da Torre** y **Joaquín Romano**.
+
 Es un **trabajo práctico modelo** para la Tecnicatura en Gestión y Análisis de Datos en Organizaciones (Laboratorio de Métodos Cuantitativos, FCE UBA). Sigue la consigna del TP grupal: notebook, informe académico y presentación.
 
 ## Cómo verlo
