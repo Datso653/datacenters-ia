@@ -110,6 +110,15 @@
   .cadena li.riesgo::before { background: var(--alerta); }
   .autores { font-size: 1.05rem; color: var(--texto); font-weight: 500; margin-top: -0.3rem; letter-spacing: 0.02em; }
   /* ── Ficha de concepto: ecuación, variables y rangos ──────── */
+  .mapa svg { max-height: 64vh; }
+  .m-estado { fill: #16202b; stroke: #2b3947; stroke-width: 0.8; }
+  .m-base { fill: #4FC3F7; opacity: 0.25; }
+  .m-haz { transform-box: fill-box; transform-origin: bottom; }
+  .slide.activa .m-haz { animation: subir 0.75s var(--ease-out) both; }
+  .m-punta { fill: #FFD54F; }
+  .slide.activa .m-punta { animation: revelar 0.5s var(--ease-out) both; }
+  .m-sigla { fill: var(--texto); font-size: 11px; font-weight: 700; }
+  .m-mw { fill: var(--tenue); font-size: 10px; }
   /* ── Cadena de valor: ruta con nodos ───────────────────────── */
   .cadena-valor { display: grid; gap: 0.2rem; }
   .ruta { width: 100%; height: auto; overflow: visible; }
@@ -397,7 +406,8 @@
     .clave::after { content: ' →' !important; }
     .g-barrido, .g-barra { transform: scaleX(1) !important; animation: none !important; }
     .g-punto-disp, .g-nube { opacity: 0.6 !important; animation: none !important; }
-    .g-hist { transform: scaleY(1) !important; animation: none !important; }
+    .g-hist, .m-haz { transform: scaleY(1) !important; animation: none !important; }
+    .m-punta { opacity: 1 !important; animation: none !important; }
     .ruta-linea { stroke-dashoffset: 0 !important; animation: none !important; }
     .ruta-nodo { opacity: 1 !important; animation: none !important; }
     .g-aparece { opacity: 1 !important; animation: none !important; }
@@ -548,8 +558,8 @@
     <div class="base-energia">
       <span class="rayo">⚡</span>
       <div>
-        <b>Electricidad</b>
-        <span>Los tres eslabones dependen de la misma red: eléctricas locales, operadores de red y, en Argentina, CAMMESA.</span>
+        <b>Toda industria usa electricidad. Esta usa muchísima más</b>
+        <span>Un rack de servidores comunes consume hasta <strong>12 kW</strong>. Uno de IA, unos <strong>120 kW</strong>: diez veces más en el mismo metro cuadrado.</span>
       </div>
     </div>
   </div>
@@ -646,6 +656,19 @@
     <div class="cifra"><b>7,35 <small style="font-size:0.45em">vs 8,13</small></b><span>¢/kWh industrial: estados con data centers vs promedio EE.UU.</span></div>
     <div class="cifra"><b class="alerta" data-contar="62" data-sufijo="%">0%</b><span>de esa electricidad es fósil</span></div>
   </div>
+</section>
+
+<!-- 10b · Mapa -->
+<section class="slide" data-titulo="Mapa">
+  <p class="etiqueta entra">Resultado 2 · dónde se enchufan</p>
+  <h2 class="entra">El mapa de la <span class="acento">electricidad</span></h2>
+  <figure class="grafico mapa entra" id="graficoMapa" aria-label="Mapa de Estados Unidos con la potencia de data centers de IA por estado"></figure>
+  <div class="cifras entra" style="margin-top:0.4rem">
+    <div class="cifra"><b data-contar="27">0</b><span>estados con data centers de IA en operación</span></div>
+    <div class="cifra"><b class="acento">Ohio</b><span>el que más potencia tiene: 1.668 MW en 5 instalaciones</span></div>
+    <div class="cifra"><b data-contar="75" data-sufijo=" de 86">0</b><span>de los data centers de la base están en EE.UU.</span></div>
+  </div>
+  <p class="credito entra">Altura de cada columna proporcional a la raíz cuadrada de la potencia operativa, para que los estados grandes no tapen a los chicos. Fuente: Epoch AI; estado deducido de la dirección.</p>
 </section>
 
 <!-- 11 · Oligopolio -->
@@ -1354,6 +1377,59 @@
   }
   const figMargen = document.getElementById('graficoMargen');
   if (figMargen) graficoMargen(figMargen);
+
+  const DATOS_MAPA = {"estados":[{"sigla":"AL","d":"M109.7,20.1 L142.8,39.7 L143.6,43.2 L144.2,50.2 L111.3,53.5 L113.5,58.2 L106.5,54.9 L99.1,45.2 L109.7,20.1 Z"},{"sigla":"AZ","d":"M-161.5,4.0 L-246.0,40.4 L-240.7,36.0 L-238.5,30.6 L-232.2,25.7 L-236.6,20.1 L-234.7,11.3 L-225.8,10.5 L-161.5,4.0 Z"},{"sigla":"AR","d":"M19.0,8.0 L70.5,12.1 L76.3,15.3 L72.2,20.2 L69.1,23.2 L64.8,27.1 L64.0,32.8 L31.1,36.1 L20.9,31.9 L19.0,8.0 Z"},{"sigla":"CA","d":"M-313.7,-36.3 L-283.8,-22.3 L-255.9,8.0 L-235.3,22.5 L-236.3,27.3 L-242.3,33.0 L-241.5,38.2 L-277.2,38.9 L-281.4,31.9 L-288.3,29.5 L-298.2,26.1 L-312.8,24.6 L-312.4,19.3 L-317.1,15.0 L-323.4,9.5 L-321.1,4.2 L-325.2,1.1 L-321.9,-5.2 L-328.9,-4.3 L-332.0,-9.7 L-331.8,-16.5 L-335.2,-23.7 L-326.1,-31.8 L-313.7,-36.3 Z"},{"sigla":"CO","d":"M-139.4,-28.2 L-71.9,-20.2 L-134.5,4.1 L-158.9,-6.3 L-139.4,-28.2 Z"},{"sigla":"CT","d":"M264.2,-36.6 L281.0,-30.8 L266.9,-29.4 L262.6,-29.9 L264.2,-36.6 Z"},{"sigla":"DE","d":"M245.1,-18.6 L246.5,-14.6 L254.3,-7.7 L245.1,-18.6 Z"},{"sigla":"FL","d":"M139.5,52.4 L183.9,55.9 L185.9,54.4 L195.7,58.2 L210.1,73.2 L220.9,86.3 L219.2,97.0 L213.8,99.4 L204.4,94.1 L196.9,90.3 L191.1,85.3 L183.1,81.1 L180.1,77.5 L178.7,67.3 L169.6,63.1 L156.2,60.0 L143.9,62.9 L129.8,57.5 L115.3,57.0 L111.6,52.4 L139.5,52.4 Z"},{"sigla":"GA","d":"M163.7,20.1 L167.4,24.3 L176.1,29.7 L184.7,35.0 L192.3,39.8 L196.1,46.8 L193.7,51.3 L185.9,54.4 L183.9,55.9 L144.2,50.2 L143.6,43.2 L142.8,39.7 L148.3,20.2 L163.7,20.1 Z"},{"sigla":"ID","d":"M-203.9,-92.7 L-205.3,-79.0 L-200.4,-75.0 L-197.8,-70.7 L-200.4,-65.9 L-194.7,-66.1 L-192.2,-61.5 L-188.5,-58.6 L-182.2,-56.3 L-174.9,-56.5 L-166.4,-56.2 L-242.2,-36.3 L-235.0,-54.5 L-228.6,-59.9 L-221.9,-65.4 L-224.6,-69.9 L-213.9,-92.7 L-203.9,-92.7 Z"},{"sigla":"IL","d":"M61.2,-40.4 L95.7,-36.9 L102.3,-11.7 L99.3,-6.4 L97.2,-2.9 L92.7,0.9 L87.4,2.2 L83.0,4.1 L79.5,-1.5 L68.7,-5.8 L71.1,-10.8 L64.4,-11.5 L53.5,-20.4 L57.3,-25.5 L57.0,-30.1 L65.8,-34.2 L64.4,-38.1 L61.2,-40.4 Z"},{"sigla":"IN","d":"M115.7,-34.3 L134.5,-12.9 L131.0,-9.6 L125.8,-6.7 L118.8,-4.4 L113.4,-3.2 L105.4,-3.5 L98.7,-3.2 L98.4,-5.2 L101.4,-9.2 L101.5,-14.9 L106.1,-34.3 L115.7,-34.3 Z"},{"sigla":"IA","d":"M52.1,-48.4 L54.6,-45.4 L61.2,-40.4 L67.5,-36.3 L62.1,-31.9 L59.0,-27.6 L54.1,-23.2 L32.3,-24.8 L2.0,-28.0 L-1.4,-33.7 L-5.1,-40.2 L-4.9,-45.3 L-5.1,-48.4 L52.1,-48.4 Z"},{"sigla":"KS","d":"M-70.1,-20.2 L10.6,-16.5 L17.1,4.0 L-70.1,-20.2 Z"},{"sigla":"KY","d":"M146.2,-10.2 L156.8,-9.9 L162.8,-7.4 L168.2,-1.4 L164.1,3.1 L160.4,5.2 L142.6,7.3 L101.3,7.0 L82.0,8.1 L84.3,3.7 L93.6,2.8 L96.2,-1.3 L102.6,-3.8 L109.5,-3.2 L115.7,-4.4 L123.0,-4.2 L128.3,-8.3 L135.2,-10.4 L142.0,-11.2 L146.2,-10.2 Z"},{"sigla":"LA","d":"M31.1,36.1 L63.2,39.2 L61.3,45.6 L57.8,50.2 L82.0,55.1 L82.9,60.1 L90.2,61.4 L85.9,63.2 L93.5,66.9 L88.1,66.8 L80.8,66.2 L73.5,66.2 L66.4,67.0 L58.9,62.6 L52.4,63.5 L37.3,62.3 L31.0,59.3 L31.6,55.0 L28.7,46.1 L31.1,36.1 Z"},{"sigla":"ME","d":"M286.5,-44.8 L275.3,-57.7 L275.6,-65.8 L276.3,-69.0 L280.6,-80.3 L288.3,-78.9 L297.8,-77.1 L309.6,-64.4 L315.2,-61.7 L315.6,-57.2 L309.9,-55.0 L306.4,-54.4 L300.6,-56.1 L300.0,-52.7 L294.0,-51.0 L288.6,-49.8 L286.9,-46.9 L286.5,-44.8 Z"},{"sigla":"MD","d":"M197.0,-17.9 L253.4,-4.3 L245.5,-4.6 L242.7,-6.5 L238.7,-10.0 L239.7,-15.0 L235.4,-14.6 L236.2,-8.4 L239.7,-4.5 L228.4,-6.9 L230.3,-11.2 L223.1,-12.7 L216.9,-16.9 L209.7,-17.1 L202.3,-15.9 L197.0,-17.9 Z"},{"sigla":"MA","d":"M284.9,-43.4 L286.2,-39.7 L292.1,-36.0 L301.1,-34.7 L292.3,-33.4 L287.1,-33.7 L281.8,-36.4 L259.1,-36.7 L281.4,-41.9 L284.9,-43.4 Z"},{"sigla":"MI","d":"M145.1,-34.1 L106.1,-34.3 L111.4,-39.9 L107.0,-50.9 L107.4,-58.0 L113.6,-61.5 L115.8,-62.4 L119.6,-66.6 L129.3,-64.4 L138.7,-61.6 L140.4,-55.1 L134.8,-50.4 L142.1,-52.2 L151.5,-47.8 L152.1,-40.8 L147.7,-38.2 L145.1,-34.1 Z M92.0,-61.2 L89.2,-64.5 L80.4,-68.7 L61.6,-72.6 L69.8,-75.3 L78.1,-78.6 L80.7,-77.2 L85.8,-75.8 L95.9,-72.8 L107.6,-74.1 L117.1,-72.4 L123.6,-72.6 L131.4,-68.5 L134.1,-67.8 L121.3,-68.1 L114.6,-69.3 L105.5,-68.2 L101.0,-67.2 L95.6,-65.8 L92.0,-61.2 Z"},{"sigla":"MN","d":"M42.4,-74.2 L39.2,-68.6 L35.0,-65.0 L35.1,-58.4 L45.2,-55.1 L53.2,-50.6 L-5.1,-48.4 L-6.3,-67.0 L-8.5,-73.8 L-10.9,-84.2 L-12.5,-92.7 L11.9,-95.1 L18.2,-89.9 L26.0,-89.4 L34.4,-88.1 L40.7,-87.5 L46.0,-85.0 L54.4,-85.4 L63.6,-84.5 L58.0,-82.5 L46.0,-76.8 L42.4,-74.2 Z"},{"sigla":"MS","d":"M95.6,20.2 L99.1,45.2 L95.7,57.1 L85.1,58.1 L58.0,52.4 L59.4,47.2 L65.8,42.6 L64.1,37.2 L64.0,32.8 L64.8,27.1 L69.1,23.2 L72.2,20.2 L95.6,20.2 Z"},{"sigla":"MO","d":"M49.0,-25.1 L53.2,-22.1 L63.3,-14.2 L69.3,-11.4 L68.7,-7.1 L75.3,-3.3 L80.0,1.8 L82.6,7.1 L80.8,10.1 L74.1,9.6 L17.1,4.0 L10.6,-16.5 L5.3,-22.3 L49.0,-25.1 Z"},{"sigla":"MT","d":"M-81.8,-92.7 L-88.3,-60.4 L-166.4,-56.2 L-174.9,-56.5 L-182.2,-56.3 L-188.5,-58.6 L-192.2,-61.5 L-194.7,-66.1 L-200.4,-65.9 L-197.8,-70.7 L-200.4,-75.0 L-205.3,-79.0 L-203.9,-92.7 L-81.8,-92.7 Z"},{"sigla":"NE","d":"M-83.0,-44.4 L-22.2,-42.5 L-7.9,-41.6 L-1.5,-36.1 L0.9,-31.9 L2.7,-24.9 L-71.9,-20.2 L-83.0,-44.4 Z"},{"sigla":"NV","d":"M-242.2,-36.3 L-227.6,11.9 L-235.7,16.0 L-249.0,12.3 L-289.1,-12.1 L-242.2,-36.3 Z"},{"sigla":"NH","d":"M271.7,-62.9 L284.8,-45.4 L282.3,-42.6 L266.2,-44.0 L266.3,-50.5 L269.0,-55.7 L268.4,-60.6 L271.7,-62.9 Z"},{"sigla":"NJ","d":"M254.0,-29.3 L256.1,-24.1 L258.7,-15.0 L250.0,-14.0 L244.4,-17.6 L251.0,-21.2 L244.9,-24.8 L246.4,-29.7 L254.0,-29.3 Z"},{"sigla":"NM","d":"M-141.4,4.0 L-87.2,8.0 L-92.9,44.3 L-160.9,46.1 L-141.4,4.0 Z"},{"sigla":"NY","d":"M248.3,-60.6 L251.8,-54.4 L255.7,-48.5 L259.1,-36.7 L261.4,-28.1 L273.9,-28.2 L275.9,-27.0 L259.9,-24.5 L247.8,-31.1 L242.2,-34.3 L187.0,-36.3 L193.1,-41.8 L191.1,-46.4 L208.5,-46.2 L220.1,-48.5 L218.7,-53.0 L227.7,-59.2 L248.3,-60.6 Z"},{"sigla":"NC","d":"M187.0,7.6 L253.4,10.9 L244.9,11.9 L246.4,12.5 L255.3,14.5 L246.9,17.6 L248.7,22.9 L235.8,24.9 L224.7,29.4 L191.0,19.3 L170.4,18.9 L148.3,20.2 L154.2,15.6 L165.8,12.1 L174.8,11.1 L187.0,7.6 Z"},{"sigla":"ND","d":"M-12.5,-92.7 L-10.9,-84.2 L-8.5,-73.8 L-86.7,-68.1 L-12.5,-92.7 Z"},{"sigla":"OH","d":"M178.4,-36.1 L182.0,-22.7 L175.7,-14.9 L170.7,-12.7 L166.5,-10.4 L162.8,-7.4 L156.8,-9.9 L146.2,-10.2 L134.5,-12.9 L149.9,-33.0 L157.2,-31.3 L173.0,-35.1 L178.4,-36.1 Z"},{"sigla":"OK","d":"M-50.6,4.0 L19.6,31.1 L9.1,29.2 L0.8,29.1 L-8.1,29.5 L-16.2,29.3 L-24.1,29.4 L-30.3,26.9 L-38.3,26.4 L-47.3,25.1 L-72.4,8.0 L-50.6,4.0 Z"},{"sigla":"OR","d":"M-292.1,-69.9 L-289.9,-65.8 L-273.1,-65.9 L-262.0,-66.3 L-247.5,-68.5 L-221.9,-65.4 L-228.6,-59.9 L-235.0,-54.5 L-242.2,-36.3 L-303.8,-36.4 L-325.2,-39.8 L-320.3,-46.5 L-308.9,-58.6 L-300.3,-69.4 L-292.1,-69.9 Z"},{"sigla":"PA","d":"M186.3,-38.3 L240.4,-35.2 L247.1,-31.7 L244.2,-28.0 L246.5,-24.5 L247.9,-19.9 L241.0,-17.9 L178.4,-36.1 L186.3,-38.3 Z"},{"sigla":"SC","d":"M167.9,19.6 L189.9,19.8 L207.8,21.7 L218.1,33.2 L213.1,37.2 L203.8,41.1 L195.4,43.4 L189.8,37.5 L182.0,32.5 L170.4,27.0 L161.4,22.7 L167.9,19.6 Z"},{"sigla":"SD","d":"M-86.7,-68.1 L-7.4,-63.8 L-5.9,-47.5 L-6.2,-43.2 L-7.9,-41.6 L-22.2,-42.5 L-83.0,-44.4 L-86.7,-68.1 Z"},{"sigla":"TN","d":"M99.0,8.1 L130.8,7.1 L153.4,7.3 L174.8,11.1 L165.8,12.1 L154.2,15.6 L148.3,20.2 L95.6,20.2 L74.1,16.6 L78.6,12.1 L82.0,8.1 L99.0,8.1 Z"},{"sigla":"TX","d":"M-72.4,8.0 L-47.3,25.1 L-38.3,26.4 L-30.3,26.9 L-24.1,29.4 L-16.2,29.3 L-8.1,29.5 L0.8,29.1 L9.1,29.2 L19.6,31.1 L25.5,36.1 L32.6,51.2 L30.8,56.9 L29.1,63.0 L16.9,62.2 L14.7,64.5 L0.2,71.7 L-6.5,71.7 L-8.1,73.7 L-17.2,79.0 L-19.6,82.5 L-20.3,86.6 L-17.0,92.8 L-30.6,92.2 L-42.1,89.4 L-47.2,83.2 L-50.9,79.3 L-58.6,74.3 L-63.3,67.7 L-70.9,64.2 L-85.2,61.5 L-93.6,67.0 L-101.9,67.4 L-116.6,61.1 L-120.0,54.9 L-131.7,49.5 L-140.1,45.1 L-90.5,28.1 L-72.4,8.0 Z"},{"sigla":"UT","d":"M-186.2,-36.2 L-157.0,-13.1 L-179.5,4.0 L-186.2,-36.2 Z"},{"sigla":"VT","d":"M268.4,-60.6 L269.0,-55.7 L266.3,-50.5 L266.2,-44.0 L258.3,-43.0 L251.4,-52.7 L249.3,-58.9 L268.4,-60.6 Z"},{"sigla":"VA","d":"M211.2,-15.8 L222.7,-13.9 L229.1,-10.4 L227.6,-6.8 L237.9,-4.2 L241.9,1.7 L239.5,3.1 L250.7,7.6 L178.2,7.3 L162.7,4.9 L168.3,1.9 L176.8,2.4 L185.4,1.7 L192.6,-1.5 L197.8,-7.0 L203.7,-8.0 L211.2,-15.8 Z"},{"sigla":"WA","d":"M-213.9,-92.7 L-224.6,-69.9 L-253.7,-67.8 L-266.5,-66.5 L-279.4,-66.2 L-289.3,-69.2 L-295.2,-70.6 L-299.2,-72.3 L-297.3,-79.4 L-294.4,-87.7 L-283.8,-85.6 L-277.0,-83.6 L-276.5,-79.4 L-272.8,-85.6 L-270.7,-90.7 L-213.9,-92.7 Z"},{"sigla":"WV","d":"M182.1,-25.3 L200.4,-14.5 L209.6,-16.2 L214.9,-16.9 L211.2,-15.8 L203.7,-8.0 L197.8,-7.0 L192.6,-1.5 L185.4,1.7 L176.8,2.4 L170.8,-0.4 L163.1,-5.0 L167.4,-9.1 L171.3,-11.8 L174.2,-15.4 L181.0,-20.8 L182.1,-25.3 Z"},{"sigla":"WI","d":"M59.5,-73.1 L79.0,-68.4 L89.0,-65.9 L90.2,-62.1 L88.3,-58.2 L92.2,-59.1 L98.0,-61.2 L94.1,-53.7 L92.2,-48.9 L93.7,-40.2 L56.1,-42.3 L54.1,-47.2 L50.9,-52.3 L41.7,-56.0 L35.7,-61.4 L33.8,-65.1 L39.8,-69.1 L44.8,-74.1 L54.3,-74.6 L59.5,-73.1 Z"},{"sigla":"WY","d":"M-143.4,-60.5 L-94.2,-28.2 L-176.0,-28.2 L-143.4,-60.5 Z"}],"columnas":[{"sigla":"ND","x":-26.2,"y":-82.3,"alto":30.3,"mw":68,"n":1},{"sigla":"MN","x":29.5,"y":-76.2,"alto":49.0,"mw":178,"n":1},{"sigla":"ID","x":-204.3,"y":-67.2,"alto":45.3,"mw":152,"n":1},{"sigla":"WI","x":67.3,"y":-60.3,"alto":70.6,"mw":369,"n":1},{"sigla":"OR","x":-276.2,"y":-58.2,"alto":67.1,"mw":334,"n":2},{"sigla":"WY","x":-139.2,"y":-44.3,"alto":45.3,"mw":152,"n":1},{"sigla":"NY","x":237.3,"y":-42.5,"alto":36.7,"mw":100,"n":2},{"sigla":"IA","x":34.3,"y":-37.3,"alto":75.9,"mw":427,"n":2},{"sigla":"NE","x":-33.2,"y":-35.7,"alto":96.8,"mw":695,"n":4},{"sigla":"PA","x":224.2,"y":-30.0,"alto":38.2,"mw":108,"n":1},{"sigla":"NJ","x":251.1,"y":-22.8,"alto":26.0,"mw":50,"n":1},{"sigla":"OH","x":164.0,"y":-21.0,"alto":150.0,"mw":1668,"n":5},{"sigla":"UT","x":-177.2,"y":-20.4,"alto":42.4,"mw":133,"n":1},{"sigla":"IN","x":112.8,"y":-13.5,"alto":121.1,"mw":1088,"n":2},{"sigla":"MO","x":55.6,"y":-8.2,"alto":37.6,"mw":105,"n":1},{"sigla":"NV","x":-247.6,"y":-7.4,"alto":46.6,"mw":161,"n":1},{"sigla":"VA","x":208.1,"y":-3.1,"alto":118.7,"mw":1044,"n":7},{"sigla":"TN","x":121.3,"y":12.2,"alto":136.1,"mw":1373,"n":3},{"sigla":"NC","x":208.4,"y":16.1,"alto":29.6,"mw":65,"n":1},{"sigla":"AZ","x":-219.7,"y":20.3,"alto":77.8,"mw":449,"n":3},{"sigla":"NM","x":-124.8,"y":21.3,"alto":34.3,"mw":87,"n":1},{"sigla":"OK","x":-25.7,"y":22.7,"alto":70.5,"mw":368,"n":1},{"sigla":"SC","x":188.9,"y":29.6,"alto":43.8,"mw":142,"n":1},{"sigla":"MS","x":76.0,"y":37.2,"alto":83.1,"mw":512,"n":2},{"sigla":"GA","x":170.5,"y":37.9,"alto":95.9,"mw":681,"n":3},{"sigla":"AL","x":120.0,"y":42.8,"alto":63.5,"mw":299,"n":2},{"sigla":"TX","x":-37.5,"y":55.1,"alto":132.5,"mw":1301,"n":9}]};
+
+  function graficoMapa(figura, datos) {
+    const svg = nodo('svg', { viewBox: '-395 -280 790 415', role: 'img' });
+    const defs = nodo('defs');
+    const haz = nodo('linearGradient', { id: 'gradHaz', x1: 0, y1: 1, x2: 0, y2: 0 });
+    haz.append(nodo('stop', { offset: '0%', 'stop-color': '#4FC3F7', 'stop-opacity': 0.95 }),
+               nodo('stop', { offset: '55%', 'stop-color': '#7FD8FF', 'stop-opacity': 0.75 }),
+               nodo('stop', { offset: '100%', 'stop-color': '#FFD54F', 'stop-opacity': 0.1 }));
+    const hazAlto = nodo('linearGradient', { id: 'gradHazAlto', x1: 0, y1: 1, x2: 0, y2: 0 });
+    hazAlto.append(nodo('stop', { offset: '0%', 'stop-color': '#FFD54F', 'stop-opacity': 0.95 }),
+                   nodo('stop', { offset: '60%', 'stop-color': '#FFD54F', 'stop-opacity': 0.6 }),
+                   nodo('stop', { offset: '100%', 'stop-color': '#FFD54F', 'stop-opacity': 0.05 }));
+    defs.append(haz, hazAlto);
+    svg.append(defs);
+
+    const mapa = nodo('g');
+    datos.estados.forEach(e => mapa.append(nodo('path', { class: 'm-estado', d: e.d })));
+    svg.append(mapa);
+
+    const destacados = datos.columnas.slice().sort((a, b) => b.mw - a.mw).slice(0, 6).map(c => c.sigla);
+    const usadas = [];
+    datos.columnas.forEach((c, i) => {
+      const grande = c.mw >= 900;
+      const ancho = 4 + Math.sqrt(c.n) * 1.2;
+      const g = nodo('g');
+      g.append(nodo('ellipse', { class: 'm-base', cx: c.x, cy: c.y, rx: ancho * 1.8, ry: ancho * 0.7 }));
+      const barra = nodo('rect', { class: 'm-haz', x: c.x - ancho / 2, y: c.y - c.alto, width: ancho, height: c.alto,
+                                   rx: ancho / 2, fill: 'url(#' + (grande ? 'gradHazAlto' : 'gradHaz') + ')' });
+      barra.style.animationDelay = (i * 45) + 'ms';
+      g.append(barra);
+      const punta = nodo('circle', { class: 'm-punta', cx: c.x, cy: c.y - c.alto, r: grande ? 3.6 : 2.4 });
+      punta.style.animationDelay = (i * 45 + 500) + 'ms';
+      g.append(punta);
+      if (destacados.includes(c.sigla)) {
+        // si dos etiquetas quedan encimadas, se sube la segunda
+        let alturaTexto = c.y - c.alto - 2;
+        while (usadas.some(u => Math.abs(u.x - c.x) < 52 && Math.abs(u.y - alturaTexto) < 16)) alturaTexto -= 17;
+        usadas.push({ x: c.x, y: alturaTexto });
+        const etiqueta = nodo('g', { class: 'g-aparece' });
+        etiqueta.append(nodo('text', { class: 'm-sigla', x: c.x + 8, y: alturaTexto }, c.sigla));
+        etiqueta.append(nodo('text', { class: 'm-mw', x: c.x + 8, y: alturaTexto + 11 },
+                              c.mw.toLocaleString('es-AR') + ' MW'));
+        g.append(etiqueta);
+      }
+      svg.append(g);
+    });
+    figura.append(svg);
+  }
+
+  const figMapa = document.getElementById('graficoMapa');
+  if (figMapa) graficoMapa(figMapa, DATOS_MAPA);
 
   // Impresión: las cifras animadas tienen que mostrar su valor final
   function prepararImpresion() {
