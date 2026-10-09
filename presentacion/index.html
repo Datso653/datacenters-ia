@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>¿Cuánta electricidad se come la IA?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:wdth,wght@62.5..100,100..900&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <style>
   :root {
     --fondo: #0a0a0a;
@@ -421,10 +421,150 @@
     .tabla-oi th, .tabla-oi td { padding: 0.3rem 0.55rem !important; }
     .tabla-oi td b { font-size: 1rem !important; }
   }
+
+  /* ══════════════════════════════════════════════════════════════════════
+     TEMA PAPEL · misma estética que el Taller de IA (datso653.github.io/taller-ia)
+     Papel claro con puntitos, serif condensada negra, píldoras amarillas y
+     tarjetas blancas con borde fino. Pisa la paleta oscura original.
+     ══════════════════════════════════════════════════════════════════════ */
+  :root {
+    --fondo: #EFEEEA;
+    --superficie: #FFFFFF;
+    --borde: rgba(26, 26, 26, 0.16);
+    --linea: #1A1A1A;
+    --texto: #1A1A1A;
+    --titulo: #171C2E;
+    --tenue: #57544E;
+    --primario: #2A6F97;
+    --acento: #B98A00;
+    --amarillo: #F2C230;
+    --celeste: #A8C5DA;
+    --alerta: #D9654B;
+    --serif: 'Noto Serif Display', Georgia, serif;
+    --sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  html, body { background: var(--fondo); color: var(--texto); }
+  body {
+    background-color: var(--fondo);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.33 0 0 0 0 0.3 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .puntitos { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .puntitos i { position: absolute; border-radius: 50%; display: block; }
+  .slide { z-index: 1; }
+
+  /* Títulos: serif condensada, bien negra */
+  h1, h2 { font-family: var(--serif); font-stretch: 68%; font-weight: 800; color: var(--titulo); letter-spacing: -0.01em; line-height: 1.02; }
+  h1 { font-size: clamp(2.8rem, 7.4vw, 6.4rem); }
+  h2 { font-size: clamp(2rem, 4.6vw, 3.7rem); }
+  h3 { font-family: var(--sans); color: var(--texto); }
+  p { color: var(--tenue); }
+  strong { color: var(--texto); font-weight: 600; }
+
+  /* Lo destacado en un título va con resaltador amarillo, no con color */
+  h1 .primario, h1 .acento, h1 .alerta, h1 .gradiente,
+  h2 .primario, h2 .acento, h2 .alerta, h2 .gradiente {
+    color: inherit; -webkit-text-fill-color: currentColor; animation: none;
+    background: linear-gradient(transparent 58%, rgba(242, 194, 48, 0.75) 58%, rgba(242, 194, 48, 0.75) 92%, transparent 92%);
+    padding: 0 0.06em;
+  }
+
+  /* Etiqueta = píldora amarilla */
+  .etiqueta {
+    display: inline-block; align-self: flex-start; width: fit-content;
+    background: var(--amarillo); color: var(--texto);
+    font-family: var(--sans); font-weight: 700; font-size: clamp(0.72rem, 0.95vw, 0.9rem);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 0.38em 1.05em; border-radius: 999px; margin: 0 0 1.1rem;
+  }
+
+  /* Tarjetas: blancas, borde fino negro */
+  .cifra, .noticia, .formula-grande, .formula, .caja, .fuente, .hito, .capa, .ejemplo, .cita {
+    background: var(--superficie); border: 1.5px solid var(--linea);
+  }
+  .cifra { border-radius: 16px; }
+  .cifra b { color: var(--titulo); font-weight: 800; font-stretch: 75%; }
+  .cifra b.acento { color: var(--acento); }
+  .cifra b.alerta { color: var(--alerta); }
+  .cifra .analogia, .hito .analogia { color: var(--texto); border-top-color: var(--borde); }
+  .cifra .analogia strong, .hito .analogia strong { color: var(--texto); background: rgba(242, 194, 48, 0.45); padding: 0 0.15em; }
+  .hito { border-left: 6px solid var(--primario); }
+  .hito.futuro { border-left-color: var(--amarillo); }
+  .capa { border-top-width: 6px; }
+  .fuente { border-left-width: 6px; border-left-color: var(--primario); }
+  .caja.prota { border-color: var(--primario); }
+
+  /* Círculos numerados negros, como en el taller */
+  .cadena li { background: var(--superficie); border: 1.5px solid var(--borde); color: var(--tenue); }
+  .cadena li::before { background: var(--linea); color: #fff; }
+  .cadena li.riesgo { border-color: var(--alerta); }
+  .cadena li.riesgo::before { background: var(--alerta); }
+
+  ul.lista li { color: var(--tenue); }
+  ul.lista li::before { background: var(--linea); }
+  .rotulo { color: var(--tenue); font-weight: 600; }
+  .chip { background: #fff; border-color: var(--borde); color: var(--texto); }
+  .chip.destacado { border-color: var(--linea); background: rgba(242, 194, 48, 0.35); }
+  .credito { color: #7d796f; }
+  .autores { color: var(--texto); font-weight: 600; }
+
+  /* Barras y pistas */
+  .logo-fila .pista, .fila-costo .pista, .fila-share .pista { background: #E2DED4; }
+  .logo-fila .logo { border: 1px solid var(--borde); }
+  .logo-fila .logo.texto { background: #fff; color: var(--tenue); }
+
+  /* Tablas y bloques varios */
+  .tabla-oi th, .tabla-oi td { background: #fff; border: 1.5px solid var(--borde); color: var(--tenue); }
+  .tabla-oi thead th { background: none; border: none; color: var(--texto); }
+  .tabla-oi td b { color: var(--titulo); }
+  .tabla-hhi tfoot td { color: var(--texto); }
+  pre.sql { background: #fff; color: var(--texto); border: 1.5px solid var(--linea); }
+  .base-energia { background: rgba(242, 194, 48, 0.18); border: 1.5px solid var(--amarillo); }
+  .base-energia b { color: var(--texto); }
+  .pregunta-critica { background: rgba(242, 194, 48, 0.2); border: 1.5px solid var(--amarillo); }
+  .calculadora { background: #fff; border: 1.5px solid var(--linea); }
+  .noticia .fecha { color: var(--texto); background: var(--amarillo); border-radius: 999px; padding: 0.15em 0.7em; width: fit-content; font-weight: 600; }
+  .figura { box-shadow: none; border: 1.5px solid var(--linea); }
+  .poster img { box-shadow: none; border: 1.5px solid var(--linea); }
+  .foto { border: 1.5px solid var(--linea); }
+
+  /* Fórmulas: variables en azul y dorado legibles sobre papel */
+  .formula-grande .v1, .variables dt.v1 { color: var(--primario); }
+  .formula-grande .v2, .variables dt.v2 { color: var(--acento); }
+
+  /* Gráficos SVG sobre papel */
+  .g-grid { stroke: rgba(26, 26, 26, 0.12); }
+  .g-punto { stroke: #fff; }
+  .g-barra.gris { fill: #A29E94; }
+  .g-punto-disp { stroke: #fff; }
+  .m-estado { fill: #DCD8CE; stroke: #F7F6F2; }
+  .m-base { fill: var(--primario); opacity: 0.22; }
+
+  /* Navegación: barra amarilla, flechas en círculo, pie con la sección */
+  .barra { background: var(--amarillo); height: 4px; }
+  .controles button { background: transparent; border: 1.5px solid var(--linea); color: var(--texto); }
+  .controles button:hover { border-color: var(--linea); background: var(--amarillo); }
+  .contador { color: var(--tenue); }
+  .marca { color: #8a867d; font-family: var(--sans); }
+
+  /* Portada: papel, píldora y la foto como tarjeta a la derecha */
+  .portada { background: none; padding-right: max(16px, 44vw); }
+  .portada::after {
+    content: ''; position: absolute; right: 6vw; top: 14vh; bottom: 14vh; width: 33vw;
+    background: url('img/rack_servidores.jpg') center / cover no-repeat;
+    border-radius: 28px; border: 1.5px solid var(--linea);
+  }
+  @media (max-width: 900px) { .portada { padding-right: max(16px, 7vw); } .portada::after { display: none; } }
+
+  @media print {
+    .puntitos { display: none; }
+    .portada::after { top: 18mm; bottom: 18mm; right: 16mm; width: 96mm;
+                      -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  }
 </style>
 </head>
 <body>
 
+<div class="puntitos" id="puntitos" aria-hidden="true"></div>
 <div class="barra" id="barra"></div>
 
 <!-- 1 · Portada -->
@@ -637,7 +777,7 @@
   <div class="cifras montos entra">
     <div class="cifra"><b data-contar="8700" data-prefijo="USD " data-sufijo=" M">0</b><span>por año hoy: 118 TWh × 73,5 USD/MWh (precio industrial de los estados donde están)</span></div>
     <div class="cifra"><b class="acento" data-contar="23900" data-prefijo="USD " data-sufijo=" M">0</b><span>por año con la potencia proyectada (325 TWh)</span></div>
-    <div class="cifra"><b class="alerta" data-contar="305" data-prefijo="USD " data-sufijo=" M">0</b><span>por año pagaría Stargate Argentina: 4,55 TWh × 67 USD/MWh (costo monómico de grandes usuarios, 2026)</span></div>
+    <div class="cifra"><b class="alerta" data-contar="305" data-prefijo="USD " data-sufijo=" M">0</b><span>por año pagaría Stargate Argentina: 4,55 TWh × 67 USD/MWh (costo monómico de grandes usuarios, 2026) · <strong>rango simulado: 240 a 384</strong></span></div>
     <div class="cifra"><b data-contar="68" data-sufijo="%">0%</b><span>de su costo operativo anual sería electricidad</span></div>
   </div>
   <p class="entra" style="margin-top:1.2rem">Energía = potencia × PUE 1,3 × uso 0,8 × 8.760 horas. Gasto = energía × precio. Precio argentino: proyección de CAMMESA citada por Aleph Energy (enero 2026).</p>
@@ -665,10 +805,25 @@
   <figure class="grafico mapa entra" id="graficoMapa" aria-label="Mapa de Estados Unidos con la potencia de data centers de IA por estado"></figure>
   <div class="cifras entra" style="margin-top:0.4rem">
     <div class="cifra"><b data-contar="27">0</b><span>estados con data centers de IA en operación</span></div>
-    <div class="cifra"><b class="acento">Ohio</b><span>el que más potencia tiene: 1.668 MW en 5 instalaciones</span></div>
+    <div class="cifra"><b class="acento">Ohio</b><span>más potencia: 1.668 MW en solo 5 (las más grandes)</span></div>
+    <div class="cifra"><b>Texas</b><span>más instalaciones: 9 (Virginia, 7)</span></div>
     <div class="cifra"><b data-contar="75" data-sufijo=" de 86">0</b><span>de los data centers de la base están en EE.UU.</span></div>
   </div>
   <p class="credito entra">Altura de cada columna proporcional a la raíz cuadrada de la potencia operativa, para que los estados grandes no tapen a los chicos. Fuente: Epoch AI; estado deducido de la dirección.</p>
+</section>
+
+<!-- 10c · El efecto Virginia (complemento de Joaquín Romano) -->
+<section class="slide" data-titulo="Efecto Virginia">
+  <p class="etiqueta entra">Resultado 2 · lo que ya se ve en el consumo</p>
+  <h2 class="entra">El <span class="acento">efecto Virginia</span></h2>
+  <div class="dos-col entra" style="grid-template-columns: minmax(0,1.5fr) minmax(0,1fr); align-items:center">
+    <figure class="figura entra" style="margin:0"><img src="img/consumo_por_estado_eia.png" alt="Consumo eléctrico total y aumento del consumo comercial por estado de EE.UU., 2018 a 2024"></figure>
+    <div class="cifras" style="grid-template-columns:1fr; margin-top:0">
+      <div class="cifra"><b class="acento" data-contar="38" data-sufijo="%">0%</b><span>de todo el aumento del consumo comercial de EE.UU. (2018-2024) lo puso <strong>Virginia sola</strong>: la huella de los data centers</span></div>
+      <div class="cifra"><b data-contar="95" data-sufijo="%">0%</b><span>de lo que creció el consumo del país en seis años equivalen los data centers de IA que ya operan (110 TWh/año)</span></div>
+    </div>
+  </div>
+  <p class="credito entra">Fuente: EIA-861 (ventas de electricidad por estado y sector) cruzada con Epoch AI. Análisis de Joaquín Romano. La ola de megadata centers de IA (2025-2026) todavía no llega al último dato anual de la EIA.</p>
 </section>
 
 <!-- 11 · Oligopolio -->
@@ -841,7 +996,7 @@
       <div class="formula-grande">L = (<span class="v1">P</span> − <span class="v2">CMg</span>) / <span class="v1">P</span></div>
       <dl class="variables">
         <div><dt class="v1">P</dt><dd>precio<small>lo que cobran por una hora de GPU</small></dd></div>
-        <div><dt class="v2">CMg</dt><dd>costo marginal<small>lo que cuesta encender esa hora</small></dd></div>
+        <div><dt class="v2">CMg</dt><dd>costo<small>corto plazo: solo luz y operación · largo plazo: también el capital (los chips)</small></dd></div>
       </dl>
       <p class="rotulo">¿Qué significa el número?</p>
       <div class="regla">
@@ -850,10 +1005,10 @@
         <div class="tramo" style="--c:#E07A5F">0,7 – 1<b>Mucho poder</b></div>
       </div>
       <div class="marcas">
-        <span class="marca-valor acento" style="left:21%">0,21</span>
-        <span class="marca-valor alerta" style="left:83%">0,83 · alquiler de GPU</span>
+        <span class="marca-valor acento" style="left:21%">0,21 · Vast.ai</span>
+        <span class="marca-valor alerta" style="left:83%">0,83 · Azure</span>
       </div>
-      <p class="credito">Los tramos son una guía de lectura, no umbrales oficiales como los del HHI.</p>
+      <p class="credito">Las marcas usan el costo de <strong>largo plazo</strong> (con capital): del proveedor más barato al más caro. Con el costo de corto plazo (0,13 USD) el índice da 0,92 a 0,98 para todos. Los tramos son una guía de lectura, no umbrales oficiales como los del HHI.</p>
     </div>
     <div>
       <figure class="grafico" id="graficoMargen" aria-label="Precio por hora de una H100 en cada proveedor contra su costo"></figure>
@@ -863,7 +1018,7 @@
       </div>
     </div>
   </div>
-  <p class="credito entra"><strong>La trampa:</strong> con costos fijos enormes, un L cercano a 1 en el corto plazo no prueba monopolio: el precio <em>tiene</em> que recuperar la inversión. Precios: IntuitionLabs (16-ago-2026). Costos: Epoch AI y EIA, cálculo propio.</p>
+  <p class="credito entra"><strong>La trampa:</strong> con costos fijos enormes, un L cercano a 1 en el corto plazo no prueba monopolio: el precio <em>tiene</em> que recuperar la inversión. Por eso chips y data centers se parecen a un <strong>monopolio natural</strong>: con esos costos fijos, pocos jugadores grandes producen más barato que muchos chicos (un oligopolio que puede ser eficiente). Precios: IntuitionLabs (16-ago-2026). Costos: Epoch AI y EIA, cálculo propio.</p>
 </section>
 
 <!-- 13 · Frente a los países -->
@@ -886,13 +1041,39 @@
   <h2 class="entra">Absorbible en demanda.<br>La clave es <span class="primario">con qué energía</span>.</h2>
   <div class="dos-col entra">
     <div class="cifras" style="grid-template-columns:repeat(2, minmax(0, 1fr)); margin-top:0">
-      <div class="cifra"><b data-contar="2.8" data-decimales="1" data-sufijo="%">0%</b><span>de la demanda eléctrica del país (4,55 TWh/año)</span></div>
-      <div class="cifra"><b class="alerta" data-contar="1.57" data-decimales="2" data-sufijo=" Mt">0</b><span>CO₂/año con la red promedio argentina</span></div>
+      <div class="cifra"><b data-contar="2.8" data-decimales="1" data-sufijo="%">0%</b><span>de la demanda eléctrica del país (4,55 TWh/año) · <strong>rango: 2,3% a 3,3%</strong></span></div>
+      <div class="cifra"><b class="alerta" data-contar="1.57" data-decimales="2" data-sufijo=" Mt">0</b><span>CO₂/año con la red promedio argentina · <strong>rango: 1,3 a 1,8</strong></span></div>
       <div class="cifra"><b data-contar="0.14" data-decimales="2" data-sufijo=" Mt">0</b><span>con una red como la de Noruega</span></div>
       <div class="cifra"><b>USD 19-25 mil M</b><span>capex: coeficientes de Epoch vs anuncio</span></div>
     </div>
     <figure class="grafico entra" id="graficoEmisiones" aria-label="Emisiones anuales de un data center de 500 MW según la red eléctrica de cada país"></figure>
   </div>
+  <p class="credito entra"><strong>Con margen de error:</strong> el PUE, el uso y el precio son supuestos. Simulamos 10.000 escenarios (PUE 1,1–1,5 · uso 0,6–0,95 · precio 55–85 USD/MWh) y los rangos son el 90% central de los resultados. El frío patagónico empuja el PUE hacia abajo.</p>
+</section>
+
+<!-- 14b · ¿Por qué no en Argentina? -->
+<section class="slide" data-titulo="¿Por qué no en Argentina?">
+  <p class="etiqueta entra">Escenario · costos de instalarse acá</p>
+  <h2 class="entra">¿Por qué no hay más data centers en <span class="primario">Argentina</span>?</h2>
+  <div class="dos-col entra" style="align-items:start">
+    <div>
+      <p class="rotulo">Lo que juega en contra</p>
+      <ul class="lista">
+        <li><strong>Capital que no circula libre:</strong> en EE.UU. la inversión entra y sale sin trabas; acá hay restricciones para mover capitales y girar ganancias.</li>
+        <li><strong>Costo de oportunidad alto:</strong> financiarse es caro, y la misma plata rinde más (y con menos riesgo) instalada en EE.UU.</li>
+        <li><strong>Infraestructura y gente:</strong> hay que construir red de transmisión y conseguir mano de obra especializada.</li>
+      </ul>
+    </div>
+    <div>
+      <p class="rotulo">Lo que juega a favor</p>
+      <ul class="lista">
+        <li><strong>Clima frío:</strong> la Patagonia refrigera gratis y baja el PUE (menos energía por cada MW de cómputo).</li>
+        <li><strong>Viento:</strong> la eólica patagónica es abundante y limpia: define si la huella de CO₂ es alta o baja.</li>
+        <li><strong>Agua:</strong> disponible para los sistemas de enfriamiento.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="credito entra">Hipótesis para investigar, no resultados del análisis: es una de las aristas que queda abierta para profundizar.</p>
 </section>
 
 <!-- 15 · Noticias -->
@@ -931,14 +1112,14 @@
     <ul class="lista">
       <li><strong>El desafío es la velocidad:</strong> las redes tardan años en crecer; la demanda de la IA llega en meses.</li>
       <li><strong>Barato ≠ limpio:</strong> en EE.UU. se instalan donde la luz es barata y mayormente fósil.</li>
-      <li><strong>Argentina:</strong> 500 MW son el 2,8% de la demanda y ~USD 305 M/año de luz; su huella depende de abastecerse con eólica.</li>
+      <li><strong>Argentina:</strong> 500 MW son el 2,8% de la demanda (rango 2,3–3,3%) y ~USD 305 M/año de luz (240–384); su huella depende de abastecerse con eólica.</li>
       <li><strong>Mercado:</strong> oligopolio moderado (HHI 1.623), con barreras de entrada enormes.</li>
     </ul>
     <ul class="lista">
       <li><strong>Método:</strong> el costo de Epoch era un coeficiente fijo. Antes de modelar, entendé cómo se construyó el dato.</li>
       <li><strong>Cruces:</strong> un merge no avisa cuando pierde claves. Diagnosticá antes de unir.</li>
       <li><strong>Machine learning:</strong> con pocos datos, validá con varios sorteos antes de celebrar un R².</li>
-      <li><strong>Limitaciones:</strong> estimaciones (±1,4×), factor de uso supuesto, intensidad promedio de red.</li>
+      <li><strong>Limitaciones:</strong> estimaciones (±1,4×), supuestos de PUE, uso y precio (por eso simulamos escenarios), intensidad promedio de red.</li>
     </ul>
   </div>
 </section>
@@ -1050,8 +1231,8 @@
 
     const defs = nodo('defs');
     const grad = nodo('linearGradient', { id: 'gradArea', x1: 0, y1: 0, x2: 0, y2: 1 });
-    grad.append(nodo('stop', { offset: '0%', 'stop-color': '#4FC3F7', 'stop-opacity': 0.35 }),
-                nodo('stop', { offset: '100%', 'stop-color': '#4FC3F7', 'stop-opacity': 0 }));
+    grad.append(nodo('stop', { offset: '0%', 'stop-color': '#2A6F97', 'stop-opacity': 0.35 }),
+                nodo('stop', { offset: '100%', 'stop-color': '#2A6F97', 'stop-opacity': 0 }));
     const clip = nodo('clipPath', { id: 'clipBarrido' });
     clip.append(nodo('rect', { class: 'g-barrido', x: mi, y: 0, width: A - mi - md, height: AL }));
     defs.append(grad, clip);
@@ -1162,13 +1343,13 @@
     datos.puntos.forEach((p, i) => {
       const [sigla, precio, mwTotal, cantidad, fosil] = p;
       const r = 6 + Math.sqrt(cantidad) * 4;
-      const color = fosil > 70 ? '#E07A5F' : fosil > 45 ? '#FFD54F' : '#4FC3F7';
+      const color = fosil > 70 ? '#D9654B' : fosil > 45 ? '#E0A800' : '#2A6F97';
       const c = nodo('circle', { class: 'g-punto-disp', cx: x(precio), cy: y(Math.min(mwTotal, maxY)), r: r, fill: color });
       c.style.animationDelay = (i * 25) + 'ms';
       svg.append(c);
       if (mwTotal > 350) svg.append(nodo('text', { class: 'g-sigla', x: x(precio), y: y(mwTotal) + 4, 'text-anchor': 'middle' }, sigla));
     });
-    const leyenda = [['#4FC3F7', 'menos de 45% fósil'], ['#FFD54F', '45 a 70%'], ['#E07A5F', 'más de 70%']];
+    const leyenda = [['#2A6F97', 'menos de 45% fósil'], ['#E0A800', '45 a 70%'], ['#D9654B', 'más de 70%']];
     leyenda.forEach(([color, txt], i) => {
       svg.append(nodo('circle', { cx: A - md - 210 + i * 0, cy: ma + 4 + i * 20, r: 6, fill: color }));
       svg.append(nodo('text', { class: 'g-nota', x: A - md - 196, y: ma + 8 + i * 20 }, txt));
@@ -1279,7 +1460,7 @@
     });
     const r = datos.recta;
     svg.append(nodo('path', { class: 'g-recta g-aparece', d: 'M' + x(r[0][0]) + ',' + y(r[0][1]) + ' L' + x(r[1][0]) + ',' + y(r[1][1]) }));
-    svg.append(nodo('text', { class: 'g-valor g-aparece', x: A - md - 10, y: ma + 16, 'text-anchor': 'end', fill: '#E07A5F' },
+    svg.append(nodo('text', { class: 'g-valor g-aparece', x: A - md - 10, y: ma + 16, 'text-anchor': 'end', fill: '#D9654B' },
                     datos.pendiente.toString().replace('.', ',') + '% por año'));
     figura.append(svg);
   }
@@ -1324,8 +1505,8 @@
     for (let v = 0; v <= 1.001; v += 0.2) {
       svg.append(nodo('text', { class: 'g-eje', x: x(v), y: AL - mb + 20, 'text-anchor': 'middle' }, v.toFixed(1).replace('.', ',')));
     }
-    svg.append(nodo('line', { class: 'g-corte', x1: x(datos.cv), x2: x(datos.cv), y1: y(0), y2: ma, stroke: '#E07A5F' }));
-    svg.append(nodo('text', { class: 'g-valor g-aparece', x: x(datos.cv) + 8, y: ma + 14, fill: '#E07A5F' },
+    svg.append(nodo('line', { class: 'g-corte', x1: x(datos.cv), x2: x(datos.cv), y1: y(0), y2: ma, stroke: '#D9654B' }));
+    svg.append(nodo('text', { class: 'g-valor g-aparece', x: x(datos.cv) + 8, y: ma + 14, fill: '#D9654B' },
                     'validación cruzada ' + datos.cv.toString().replace('.', ',')));
     svg.append(nodo('text', { class: 'g-nota', x: A - md, y: AL - 4, 'text-anchor': 'end' }, 'R² en 20 sorteos distintos'));
     figura.append(svg);
@@ -1358,7 +1539,7 @@
     const svg = nodo('svg', { viewBox: '0 0 ' + A + ' ' + AL, role: 'img' });
 
     svg.append(nodo('rect', { x: x(0), y: ma - 6, width: x(TOTAL) - x(0), height: proveedores.length * fila + 4,
-                              fill: '#FFD54F', opacity: 0.12 }));
+                              fill: '#E0A800', opacity: 0.12 }));
     proveedores.forEach(([nombre, precio], i) => {
       const y = ma + i * fila;
       svg.append(nodo('text', { class: 'g-etiqueta', x: mi - 14, y: y + 22, 'text-anchor': 'end' }, nombre));
@@ -1369,8 +1550,8 @@
                       'USD ' + precio.toFixed(2).replace('.', ',')));
     });
     const linea = nodo('g', { class: 'g-aparece' });
-    linea.append(nodo('line', { class: 'g-corte', x1: x(TOTAL), x2: x(TOTAL), y1: ma - 8, y2: AL - 30, stroke: '#FFD54F' }));
-    linea.append(nodo('text', { class: 'g-nota', x: x(TOTAL) + 6, y: ma - 12, fill: '#FFD54F' }, 'costo total: 1,17'));
+    linea.append(nodo('line', { class: 'g-corte', x1: x(TOTAL), x2: x(TOTAL), y1: ma - 8, y2: AL - 30, stroke: '#E0A800' }));
+    linea.append(nodo('text', { class: 'g-nota', x: x(TOTAL) + 6, y: ma - 12, fill: '#E0A800' }, 'costo total: 1,17'));
     linea.append(nodo('text', { class: 'g-nota', x: mi, y: AL - 10 }, 'lo que sobra a la derecha del costo es margen'));
     svg.append(linea);
     figura.append(svg);
@@ -1384,13 +1565,13 @@
     const svg = nodo('svg', { viewBox: '-395 -280 790 415', role: 'img' });
     const defs = nodo('defs');
     const haz = nodo('linearGradient', { id: 'gradHaz', x1: 0, y1: 1, x2: 0, y2: 0 });
-    haz.append(nodo('stop', { offset: '0%', 'stop-color': '#4FC3F7', 'stop-opacity': 0.95 }),
-               nodo('stop', { offset: '55%', 'stop-color': '#7FD8FF', 'stop-opacity': 0.75 }),
-               nodo('stop', { offset: '100%', 'stop-color': '#FFD54F', 'stop-opacity': 0.1 }));
+    haz.append(nodo('stop', { offset: '0%', 'stop-color': '#2A6F97', 'stop-opacity': 0.95 }),
+               nodo('stop', { offset: '55%', 'stop-color': '#7FB3D5', 'stop-opacity': 0.75 }),
+               nodo('stop', { offset: '100%', 'stop-color': '#E0A800', 'stop-opacity': 0.1 }));
     const hazAlto = nodo('linearGradient', { id: 'gradHazAlto', x1: 0, y1: 1, x2: 0, y2: 0 });
-    hazAlto.append(nodo('stop', { offset: '0%', 'stop-color': '#FFD54F', 'stop-opacity': 0.95 }),
-                   nodo('stop', { offset: '60%', 'stop-color': '#FFD54F', 'stop-opacity': 0.6 }),
-                   nodo('stop', { offset: '100%', 'stop-color': '#FFD54F', 'stop-opacity': 0.05 }));
+    hazAlto.append(nodo('stop', { offset: '0%', 'stop-color': '#E0A800', 'stop-opacity': 0.95 }),
+                   nodo('stop', { offset: '60%', 'stop-color': '#E0A800', 'stop-opacity': 0.6 }),
+                   nodo('stop', { offset: '100%', 'stop-color': '#E0A800', 'stop-opacity': 0.05 }));
     defs.append(haz, hazAlto);
     svg.append(defs);
 
@@ -1445,6 +1626,34 @@
   if (location.search.includes('imprimir')) prepararImpresion();
 
   mostrar((parseInt(location.hash.slice(1), 10) || 1) - 1);
+
+  // ── Tema papel: puntitos de colores fijos (siempre los mismos) y pie con la sección
+  (() => {
+    const caja = document.getElementById('puntitos');
+    if (caja) {
+      const colores = ['#F2C230', '#A8C5DA', '#B9B5AC'];
+      let semilla = 7;
+      const azar = () => (semilla = (semilla * 9301 + 49297) % 233280) / 233280;
+      for (let k = 0; k < 70; k++) {
+        const d = document.createElement('i');
+        const tam = 3 + azar() * 6;
+        Object.assign(d.style, { left: (azar() * 100) + '%', top: (azar() * 100) + '%',
+          width: tam + 'px', height: tam + 'px', background: colores[k % 3], opacity: 0.45 + azar() * 0.4 });
+        caja.appendChild(d);
+      }
+    }
+    const marca = document.querySelector('.marca');
+    if (marca) {
+      const base = marca.textContent.trim();
+      const actualizar = () => {
+        const activa = document.querySelector('.slide.activa');
+        const titulo = activa && activa.dataset.titulo;
+        marca.textContent = titulo && titulo !== 'Portada' ? base + ' · ' + titulo : base;
+      };
+      new MutationObserver(actualizar).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+      actualizar();
+    }
+  })();
 </script>
 </body>
 </html>
