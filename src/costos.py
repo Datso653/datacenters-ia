@@ -70,6 +70,37 @@ def gasto_electrico_usd_bn(energia_twh, precio_usd_mwh):
     return np.asarray(energia_twh, dtype=float) * np.asarray(precio_usd_mwh, dtype=float) / 1000
 
 
+# ── Simulación: el escenario con incertidumbre ────────────────────────────────
+
+def simular_escenario(mw_it: float, gco2_kwh: float, demanda_pais_twh: float,
+                      n: int = 10_000, semilla: int = 42) -> pd.DataFrame:
+    """Monte Carlo de un data center de mw_it MW: en vez de un número, un rango.
+
+    Los tres supuestos del cálculo base (PUE 1,3, uso 0,8 y precio 67 USD/MWh) no se
+    conocen con certeza, así que se sortean de distribuciones triangulares
+    (mínimo, más probable, máximo). Son SUPUESTOS:
+      - PUE entre 1,1 (clima frío, como la Patagonia) y 1,5 (clima cálido).
+      - Uso entre 0,6 y 0,95 del tiempo a plena carga.
+      - Precio entre 55 y 85 USD/MWh alrededor de la proyección de CAMMESA.
+
+    Devuelve un DataFrame con una fila por sorteo: energía, % de la demanda del país,
+    gasto eléctrico y emisiones.
+    """
+    rng = np.random.default_rng(semilla)
+    pue = rng.triangular(1.1, 1.3, 1.5, n)
+    uso = rng.triangular(0.6, 0.8, 0.95, n)
+    precio = rng.triangular(55, 67, 85, n)
+
+    energia = energia_anual_twh(mw_it, pue, uso)
+    return pd.DataFrame({
+        "pue": pue, "uso": uso, "precio_usd_mwh": precio,
+        "energia_twh": energia,
+        "pct_demanda": energia / demanda_pais_twh * 100,
+        "gasto_usd_m": gasto_electrico_usd_bn(energia, precio) * 1000,
+        "mt_co2": emisiones_anuales_mt_co2(energia, gco2_kwh),
+    })
+
+
 # ── Escenario de costos con los coeficientes de Epoch ─────────────────────────
 
 def coeficientes_epoch(timelines: pd.DataFrame) -> dict:
