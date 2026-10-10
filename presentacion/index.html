@@ -435,10 +435,10 @@
     --texto: #1A1A1A;
     --titulo: #171C2E;
     --tenue: #57544E;
-    --primario: #2A6F97;
-    --acento: #B98A00;
-    --amarillo: #F2C230;
-    --celeste: #A8C5DA;
+    --primario: #2F7D5B;
+    --acento: #C2501D;
+    --amarillo: #FF7A3D;
+    --celeste: #A9CDB1;
     --alerta: #D9654B;
     --serif: 'Noto Serif Display', Georgia, serif;
     --sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -449,7 +449,13 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.33 0 0 0 0 0.3 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   .puntitos { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-  .puntitos i { position: absolute; border-radius: 50%; display: block; }
+  .puntitos i { position: absolute; border-radius: 50%; display: block;
+                animation: flotar 20s ease-in-out infinite alternate; will-change: transform; }
+  @keyframes flotar {
+    0%   { transform: translate(0, 0); }
+    50%  { transform: translate(var(--dx), calc(var(--dy) * -0.5)); }
+    100% { transform: translate(calc(var(--dx) * -0.6), var(--dy)); }
+  }
   .slide { z-index: 1; }
 
   /* Títulos: serif condensada, bien negra */
@@ -464,7 +470,7 @@
   h1 .primario, h1 .acento, h1 .alerta, h1 .gradiente,
   h2 .primario, h2 .acento, h2 .alerta, h2 .gradiente {
     color: inherit; -webkit-text-fill-color: currentColor; animation: none;
-    background: linear-gradient(transparent 58%, rgba(242, 194, 48, 0.75) 58%, rgba(242, 194, 48, 0.75) 92%, transparent 92%);
+    background: linear-gradient(transparent 58%, rgba(255, 122, 61, 0.45) 58%, rgba(255, 122, 61, 0.45) 92%, transparent 92%);
     padding: 0 0.06em;
   }
 
@@ -486,7 +492,7 @@
   .cifra b.acento { color: var(--acento); }
   .cifra b.alerta { color: var(--alerta); }
   .cifra .analogia, .hito .analogia { color: var(--texto); border-top-color: var(--borde); }
-  .cifra .analogia strong, .hito .analogia strong { color: var(--texto); background: rgba(242, 194, 48, 0.45); padding: 0 0.15em; }
+  .cifra .analogia strong, .hito .analogia strong { color: var(--texto); background: rgba(255, 122, 61, 0.45); padding: 0 0.15em; }
   .hito { border-left: 6px solid var(--primario); }
   .hito.futuro { border-left-color: var(--amarillo); }
   .capa { border-top-width: 6px; }
@@ -503,7 +509,7 @@
   ul.lista li::before { background: var(--linea); }
   .rotulo { color: var(--tenue); font-weight: 600; }
   .chip { background: #fff; border-color: var(--borde); color: var(--texto); }
-  .chip.destacado { border-color: var(--linea); background: rgba(242, 194, 48, 0.35); }
+  .chip.destacado { border-color: var(--linea); background: rgba(255, 122, 61, 0.35); }
   .credito { color: #7d796f; }
   .autores { color: var(--texto); font-weight: 600; }
 
@@ -518,9 +524,9 @@
   .tabla-oi td b { color: var(--titulo); }
   .tabla-hhi tfoot td { color: var(--texto); }
   pre.sql { background: #fff; color: var(--texto); border: 1.5px solid var(--linea); }
-  .base-energia { background: rgba(242, 194, 48, 0.18); border: 1.5px solid var(--amarillo); }
+  .base-energia { background: rgba(255, 122, 61, 0.18); border: 1.5px solid var(--amarillo); }
   .base-energia b { color: var(--texto); }
-  .pregunta-critica { background: rgba(242, 194, 48, 0.2); border: 1.5px solid var(--amarillo); }
+  .pregunta-critica { background: rgba(255, 122, 61, 0.2); border: 1.5px solid var(--amarillo); }
   .calculadora { background: #fff; border: 1.5px solid var(--linea); }
   .noticia .fecha { color: var(--texto); background: var(--amarillo); border-radius: 999px; padding: 0.15em 0.7em; width: fit-content; font-weight: 600; }
   .figura { box-shadow: none; border: 1.5px solid var(--linea); }
@@ -564,21 +570,21 @@
   /* ══ PALETA DEL TALLER: negro, amarillo y celeste ══════════════════════ */
   :root {
     --primario: #1A1A1A;
-    --acento: #F5C900;
-    --alerta: #4A7BA7;
-    --amarillo: #F5C900;
-    --celeste: #A8C5DA;
-    --celeste-osc: #4A7BA7;
+    --acento: #FF7A3D;
+    --alerta: #2F7D5B;
+    --amarillo: #FF7A3D;
+    --celeste: #A9CDB1;
+    --celeste-osc: #2F7D5B;
     --gris-claro: #D6D2C8;
   }
   a { color: var(--celeste-osc); }
   /* Palabras destacadas fuera de los títulos: resaltador, no color */
-  .acento { color: var(--texto); background: rgba(245, 201, 0, 0.55); padding: 0 0.12em; border-radius: 3px; }
-  .alerta { color: var(--texto); background: rgba(168, 197, 218, 0.75); padding: 0 0.12em; border-radius: 3px; }
+  .acento { color: var(--texto); background: rgba(255, 122, 61, 0.55); padding: 0 0.12em; border-radius: 3px; }
+  .alerta { color: var(--texto); background: rgba(169, 205, 177, 0.75); padding: 0 0.12em; border-radius: 3px; }
   .primario { color: var(--texto); }
   .cifra b, .cifra b.acento, .cifra b.alerta { color: var(--titulo); }
-  .cifra b.acento { background: linear-gradient(transparent 55%, rgba(245, 201, 0, 0.8) 55%); padding: 0 0.08em; border-radius: 0; }
-  .cifra b.alerta { background: linear-gradient(transparent 55%, rgba(168, 197, 218, 0.95) 55%); padding: 0 0.08em; border-radius: 0; }
+  .cifra b.acento { background: linear-gradient(transparent 55%, rgba(255, 122, 61, 0.5) 55%); padding: 0 0.08em; border-radius: 0; }
+  .cifra b.alerta { background: linear-gradient(transparent 55%, rgba(169, 205, 177, 0.95) 55%); padding: 0 0.08em; border-radius: 0; }
   .hito b, .hito.futuro b { color: var(--titulo); }
   .hito.futuro { border-left-color: var(--amarillo); }
   .capa:nth-child(1) { border-top-color: var(--linea); }
@@ -587,10 +593,10 @@
   .capa:nth-child(4) { border-top-color: var(--gris-claro); }
   .clave, .escala .marcador, .marca-valor.acento, .marca-valor.alerta { color: var(--texto); }
   .formula-grande .v1, .variables dt.v1 { color: var(--celeste-osc); }
-  .formula-grande .v2, .variables dt.v2 { color: var(--texto); background: rgba(245, 201, 0, 0.55); border-radius: 4px; padding: 0 0.1em; }
+  .formula-grande .v2, .variables dt.v2 { color: var(--texto); background: rgba(255, 122, 61, 0.55); border-radius: 4px; padding: 0 0.1em; }
   .cita, .noticia blockquote { border-left-color: var(--amarillo); }
   .logo-fila .relleno, .fila-costo .relleno, .fila-share .relleno { background: var(--celeste); box-shadow: inset 0 0 0 1.5px var(--linea); }
-  .check { background: rgba(168, 197, 218, 0.35); color: var(--texto); }
+  .check { background: rgba(169, 205, 177, 0.35); color: var(--texto); }
 
   /* Gráficos: barras celestes contorneadas, líneas negras, lo destacado en amarillo */
   .g-linea, .g-proy { stroke: var(--linea); }
@@ -700,12 +706,12 @@
         </marker>
       </defs>
       <rect class="caja-svg" x="10" y="40" width="160" height="96" rx="12"/>
-      <path d="M95 58 L80 83 H90 L86 101 L102 75 H92 Z" fill="#F5C900" stroke="#1A1A1A" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M95 58 L80 83 H90 L86 101 L102 75 H92 Z" fill="#FF7A3D" stroke="#1A1A1A" stroke-width="1.6" stroke-linejoin="round"/>
       <text x="90" y="108" text-anchor="middle" font-size="16" font-weight="600">Electricidad</text>
       <text x="90" y="126" class="sub" text-anchor="middle">100% de la potencia</text>
 
       <rect class="caja-svg" x="215" y="40" width="160" height="96" rx="12" style="stroke:#1A1A1A"/>
-      <rect x="283" y="62" width="24" height="24" rx="3" fill="#A8C5DA" stroke="#1A1A1A" stroke-width="1.6"/><path d="M288 58 V62 M295 58 V62 M302 58 V62 M288 86 V90 M295 86 V90 M302 86 V90 M279 67 H283 M279 74 H283 M279 81 H283 M307 67 H311 M307 74 H311 M307 81 H311" stroke="#1A1A1A" stroke-width="1.6"/>
+      <rect x="283" y="62" width="24" height="24" rx="3" fill="#A9CDB1" stroke="#1A1A1A" stroke-width="1.6"/><path d="M288 58 V62 M295 58 V62 M302 58 V62 M288 86 V90 M295 86 V90 M302 86 V90 M279 67 H283 M279 74 H283 M279 81 H283 M307 67 H311 M307 74 H311 M307 81 H311" stroke="#1A1A1A" stroke-width="1.6"/>
       <text x="295" y="108" text-anchor="middle" font-size="16" font-weight="600">Chips GPU</text>
       <text x="295" y="126" class="sub" text-anchor="middle">miles en paralelo</text>
 
@@ -717,15 +723,15 @@
       <text x="436" y="126" font-size="16" font-weight="600">2 · Inferencia</text>
       <text x="436" y="148" class="sub">usa lo aprendido para responder tu pregunta</text>
 
-      <rect class="caja-svg" x="215" y="200" width="160" height="86" rx="12" style="stroke:#4A7BA7"/>
-      <rect x="291" y="210" width="8" height="24" rx="4" fill="#fff" stroke="#1A1A1A" stroke-width="1.6"/><circle cx="295" cy="238" r="7" fill="#F5C900" stroke="#1A1A1A" stroke-width="1.6"/>
+      <rect class="caja-svg" x="215" y="200" width="160" height="86" rx="12" style="stroke:#2F7D5B"/>
+      <rect x="291" y="210" width="8" height="24" rx="4" fill="#fff" stroke="#1A1A1A" stroke-width="1.6"/><circle cx="295" cy="238" r="7" fill="#FF7A3D" stroke="#1A1A1A" stroke-width="1.6"/>
       <text x="295" y="262" text-anchor="middle" font-size="15" font-weight="600">Calor</text>
       <text x="295" y="278" class="sub" text-anchor="middle">refrigeración: +30%</text>
 
       <path d="M172 88 H210" stroke="#1A1A1A" stroke-width="2.5" marker-end="url(#flecha)"/>
       <path d="M377 78 L415 50" stroke="#1A1A1A" stroke-width="2.5" marker-end="url(#flecha)"/>
       <path d="M377 98 L415 128" stroke="#1A1A1A" stroke-width="2.5" marker-end="url(#flecha)"/>
-      <path d="M295 138 V195" stroke="#4A7BA7" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#flecha)"/>
+      <path d="M295 138 V195" stroke="#2F7D5B" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#flecha)"/>
     </svg>
     <div>
       <p>Un modelo de lenguaje es una <strong>función con cientos de miles de millones de parámetros</strong>. Entrenarlo es encontrar los valores que mejor predicen la próxima palabra: <strong>como una regresión, pero gigante</strong>.</p>
@@ -784,7 +790,7 @@
     </div>
 
     <div class="base-energia">
-      <span class="rayo"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M14 2 L4 14 H11 L9 22 L20 9 H13 Z" fill="#F5C900" stroke="#1A1A1A" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+      <span class="rayo"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M14 2 L4 14 H11 L9 22 L20 9 H13 Z" fill="#FF7A3D" stroke="#1A1A1A" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
       <div>
         <b>Toda industria usa electricidad. Esta usa muchísima más</b>
         <span>Un rack de servidores comunes consume hasta <strong>12 kW</strong>. Uno de IA, unos <strong>120 kW</strong>: diez veces más en el mismo metro cuadrado.</span>
@@ -968,8 +974,8 @@
     <div>
       <p class="rotulo">¿Qué significa el número?</p>
       <div class="regla">
-        <div class="tramo" style="--c:#A8C5DA">0 – 1.000<b>No concentrado</b></div>
-        <div class="tramo" style="--c:#F5C900">1.000 – 1.800<b>Moderado</b></div>
+        <div class="tramo" style="--c:#A9CDB1">0 – 1.000<b>No concentrado</b></div>
+        <div class="tramo" style="--c:#FF7A3D">1.000 – 1.800<b>Moderado</b></div>
         <div class="tramo" style="--c:#1A1A1A">1.800 – 10.000<b>Alto</b></div>
       </div>
       <div class="marcas">
@@ -1006,8 +1012,8 @@
     <div class="cifra concepto-chico">
       <b class="acento">R² = 0,75</b><span>qué parte de lo que varía entre data centers logra explicar el modelo</span>
       <div class="regla chica">
-        <div class="tramo" style="--c:#A8C5DA">0 – 0,3<b>Flojo</b></div>
-        <div class="tramo" style="--c:#F5C900">0,3 – 0,7<b>Aceptable</b></div>
+        <div class="tramo" style="--c:#A9CDB1">0 – 0,3<b>Flojo</b></div>
+        <div class="tramo" style="--c:#FF7A3D">0,3 – 0,7<b>Aceptable</b></div>
         <div class="tramo" style="--c:#1A1A1A">0,7 – 1<b>Bueno</b></div>
       </div>
       <span>Según cómo se sortean los datos da entre <strong>0,20 y 0,95</strong>: con pocos casos, una sola partición engaña</span>
@@ -1101,8 +1107,8 @@
       </dl>
       <p class="rotulo">¿Qué significa el número?</p>
       <div class="regla">
-        <div class="tramo" style="--c:#A8C5DA">0 – 0,3<b>Competencia</b></div>
-        <div class="tramo" style="--c:#F5C900">0,3 – 0,7<b>Poder medio</b></div>
+        <div class="tramo" style="--c:#A9CDB1">0 – 0,3<b>Competencia</b></div>
+        <div class="tramo" style="--c:#FF7A3D">0,3 – 0,7<b>Poder medio</b></div>
         <div class="tramo" style="--c:#1A1A1A">0,7 – 1<b>Mucho poder</b></div>
       </div>
       <div class="marcas">
@@ -1382,7 +1388,7 @@
   function cruce(svg, A, AL, area, series, x, y, texto) {
     // area = [izquierda, derecha, arriba, abajo]; series = [{puntos, color}]; texto(i, puntoDeLaPrimeraSerie) -> html
     const guia = nodo('line', { class: 'g-guia', y1: area[2], y2: area[3] });
-    const marcas = series.map(s => nodo('circle', { class: 'g-guia-punto', r: 5, fill: s.color || '#F5C900' }));
+    const marcas = series.map(s => nodo('circle', { class: 'g-guia-punto', r: 5, fill: s.color || '#FF7A3D' }));
     const zona = nodo('rect', { x: area[0], y: 0, width: area[1] - area[0], height: AL, fill: 'transparent' });
     const fuera = () => { guia.style.opacity = 0; marcas.forEach(m => m.style.opacity = 0); ocultarTip(); };
     fuera();
@@ -1412,8 +1418,8 @@
 
     const defs = nodo('defs');
     const grad = nodo('linearGradient', { id: 'gradArea', x1: 0, y1: 0, x2: 0, y2: 1 });
-    grad.append(nodo('stop', { offset: '0%', 'stop-color': '#A8C5DA', 'stop-opacity': 0.35 }),
-                nodo('stop', { offset: '100%', 'stop-color': '#A8C5DA', 'stop-opacity': 0 }));
+    grad.append(nodo('stop', { offset: '0%', 'stop-color': '#A9CDB1', 'stop-opacity': 0.35 }),
+                nodo('stop', { offset: '100%', 'stop-color': '#A9CDB1', 'stop-opacity': 0 }));
     const clip = nodo('clipPath', { id: 'clipBarrido' });
     clip.append(nodo('rect', { class: 'g-barrido', x: mi, y: 0, width: A - mi - md, height: AL }));
     defs.append(grad, clip);
@@ -1529,7 +1535,7 @@
     datos.puntos.forEach((p, i) => {
       const [sigla, precio, mwTotal, cantidad, fosil] = p;
       const r = 6 + Math.sqrt(cantidad) * 4;
-      const color = fosil > 70 ? '#1A1A1A' : fosil > 45 ? '#F5C900' : '#A8C5DA';
+      const color = fosil > 70 ? '#1A1A1A' : fosil > 45 ? '#FF7A3D' : '#A9CDB1';
       const c = nodo('circle', { class: 'g-punto-disp', cx: x(precio), cy: y(Math.min(mwTotal, maxY)), r: r, fill: color });
       c.style.animationDelay = (i * 25) + 'ms';
       conTip(c, '<b>' + nombreEstado(sigla) + '</b>' + num(precio, 2) + ' ¢/kWh industrial · ' + num(mwTotal) + ' MW<br>'
@@ -1537,7 +1543,7 @@
       svg.append(c);
       if (mwTotal > 350) svg.append(nodo('text', { class: 'g-sigla', x: x(precio), y: y(mwTotal) + 4, 'text-anchor': 'middle' }, sigla));
     });
-    const leyenda = [['#A8C5DA', 'menos de 45% fósil'], ['#F5C900', '45 a 70%'], ['#1A1A1A', 'más de 70%']];
+    const leyenda = [['#A9CDB1', 'menos de 45% fósil'], ['#FF7A3D', '45 a 70%'], ['#1A1A1A', 'más de 70%']];
     leyenda.forEach(([color, txt], i) => {
       svg.append(nodo('circle', { cx: A - md - 210 + i * 0, cy: ma + 4 + i * 20, r: 6, fill: color }));
       svg.append(nodo('text', { class: 'g-nota', x: A - md - 196, y: ma + 8 + i * 20 }, txt));
@@ -1582,7 +1588,7 @@
     });
     svg.append(leyenda);
     cruce(svg, A, AL, [mi, A - md, ma, AL - mb],
-          datos.series.map((s, k) => ({ puntos: s.puntos, color: ['#1A1A1A', '#F5C900', '#A8C5DA'][k] })), x, y, i => {
+          datos.series.map((s, k) => ({ puntos: s.puntos, color: ['#1A1A1A', '#FF7A3D', '#A9CDB1'][k] })), x, y, i => {
       const fila = datos.series.map(s => s.nombre + ': ×' + num(s.puntos[Math.min(i, s.puntos.length - 1)][1], 1)).join('<br>');
       return '<b>' + fechaDecimal(datos.series[0].puntos[i][0]) + '</b>' + fila + '<br><small>respecto de enero de 2024</small>';
     });
@@ -1740,7 +1746,7 @@
     const svg = nodo('svg', { viewBox: '0 0 ' + A + ' ' + AL, role: 'img' });
 
     svg.append(nodo('rect', { x: x(0), y: ma - 6, width: x(TOTAL) - x(0), height: proveedores.length * fila + 4,
-                              fill: '#F5C900', opacity: 0.12 }));
+                              fill: '#FF7A3D', opacity: 0.12 }));
     proveedores.forEach(([nombre, precio], i) => {
       const y = ma + i * fila;
       svg.append(nodo('text', { class: 'g-etiqueta', x: mi - 14, y: y + 22, 'text-anchor': 'end' }, nombre));
@@ -1754,7 +1760,7 @@
                       'USD ' + precio.toFixed(2).replace('.', ',')));
     });
     const linea = nodo('g', { class: 'g-aparece' });
-    linea.append(nodo('line', { class: 'g-corte', x1: x(TOTAL), x2: x(TOTAL), y1: ma - 8, y2: AL - 30, stroke: '#F5C900' }));
+    linea.append(nodo('line', { class: 'g-corte', x1: x(TOTAL), x2: x(TOTAL), y1: ma - 8, y2: AL - 30, stroke: '#FF7A3D' }));
     linea.append(nodo('text', { class: 'g-nota', x: x(TOTAL) + 6, y: ma - 12, fill: '#1A1A1A' }, 'costo total: 1,17'));
     linea.append(nodo('text', { class: 'g-nota', x: mi, y: AL - 10 }, 'lo que sobra a la derecha del costo es margen'));
     svg.append(linea);
@@ -1769,13 +1775,13 @@
     const svg = nodo('svg', { viewBox: '-395 -280 790 415', role: 'img' });
     const defs = nodo('defs');
     const haz = nodo('linearGradient', { id: 'gradHaz', x1: 0, y1: 1, x2: 0, y2: 0 });
-    haz.append(nodo('stop', { offset: '0%', 'stop-color': '#A8C5DA', 'stop-opacity': 0.95 }),
-               nodo('stop', { offset: '55%', 'stop-color': '#D3E3EE', 'stop-opacity': 0.75 }),
-               nodo('stop', { offset: '100%', 'stop-color': '#F5C900', 'stop-opacity': 0.1 }));
+    haz.append(nodo('stop', { offset: '0%', 'stop-color': '#A9CDB1', 'stop-opacity': 0.95 }),
+               nodo('stop', { offset: '55%', 'stop-color': '#D4E8D8', 'stop-opacity': 0.75 }),
+               nodo('stop', { offset: '100%', 'stop-color': '#FF7A3D', 'stop-opacity': 0.1 }));
     const hazAlto = nodo('linearGradient', { id: 'gradHazAlto', x1: 0, y1: 1, x2: 0, y2: 0 });
-    hazAlto.append(nodo('stop', { offset: '0%', 'stop-color': '#F5C900', 'stop-opacity': 0.95 }),
-                   nodo('stop', { offset: '60%', 'stop-color': '#F5C900', 'stop-opacity': 0.6 }),
-                   nodo('stop', { offset: '100%', 'stop-color': '#F5C900', 'stop-opacity': 0.05 }));
+    hazAlto.append(nodo('stop', { offset: '0%', 'stop-color': '#FF7A3D', 'stop-opacity': 0.95 }),
+                   nodo('stop', { offset: '60%', 'stop-color': '#FF7A3D', 'stop-opacity': 0.6 }),
+                   nodo('stop', { offset: '100%', 'stop-color': '#FF7A3D', 'stop-opacity': 0.05 }));
     defs.append(haz, hazAlto);
     svg.append(defs);
 
@@ -1851,7 +1857,7 @@
     svg.append(nodo('text', { class: 'g-titulo-eje', x: mi - 40, y: medio, transform: 'rotate(-90 ' + (mi - 40) + ' ' + medio + ')',
                               'text-anchor': 'middle' }, 'TWh por año, respecto de 2018'));
 
-    const estilo = { VA: { color: '#F5C900', ancho: 5, borde: true }, TX: { color: '#1A1A1A', ancho: 3.5 } };
+    const estilo = { VA: { color: '#FF7A3D', ancho: 5, borde: true }, TX: { color: '#1A1A1A', ancho: 3.5 } };
     const orden = datos.series.slice().sort((a, b) => (a.sigla in estilo) - (b.sigla in estilo));
     const finales = [];
     orden.forEach(serie => {
@@ -1898,7 +1904,7 @@
     filas.forEach((f, i) => {
       const [sigla, delta, mw, aumCom, aumInd, atipico] = f;
       const xb = mi + i * banda + banda * 0.12, ancho = banda * 0.76;
-      const color = sigla === 'VA' || sigla === 'TX' ? '#F5C900' : mw > 0 ? '#A8C5DA' : '#D6D2C8';
+      const color = sigla === 'VA' || sigla === 'TX' ? '#FF7A3D' : mw > 0 ? '#A9CDB1' : '#D6D2C8';
       const barra = nodo('rect', { class: 'd-barra', x: xb, y: Math.min(y(delta), y(0)), width: ancho,
                                     height: Math.max(1, Math.abs(y(delta) - y(0))), fill: color,
                                     stroke: atipico ? '#1A1A1A' : 'none', 'stroke-width': atipico ? 1.6 : 0 });
@@ -1915,7 +1921,7 @@
       svg.append(nodo('line', { x1: mi, x2: A - md, y1: y(v), y2: y(v), stroke: '#1A1A1A', 'stroke-width': 1.4, 'stroke-dasharray': rayas }));
       svg.append(nodo('text', { class: 'g-nota', x: A - md, y: y(v) - 6, 'text-anchor': 'end' }, txt));
     });
-    const ley = [['#F5C900', 'Virginia y Texas'], ['#A8C5DA', 'con data centers de IA'], ['#D6D2C8', 'sin data centers de IA']];
+    const ley = [['#FF7A3D', 'Virginia y Texas'], ['#A9CDB1', 'con data centers de IA'], ['#D6D2C8', 'sin data centers de IA']];
     ley.forEach(([c, t], i) => {
       svg.append(nodo('rect', { x: mi + 360 + 0 * i, y: ma + 30 + i * 18, width: 12, height: 12, fill: c, stroke: '#1A1A1A', 'stroke-width': 0.8 }));
       svg.append(nodo('text', { class: 'g-nota', x: mi + 378, y: ma + 40 + i * 18 }, t));
@@ -1971,14 +1977,19 @@
   (() => {
     const caja = document.getElementById('puntitos');
     if (caja) {
-      const colores = ['#F2C230', '#A8C5DA', '#B9B5AC'];
+      const colores = ['#FF7A3D', '#A9CDB1', '#B9B5AC'];
       let semilla = 7;
       const azar = () => (semilla = (semilla * 9301 + 49297) % 233280) / 233280;
-      for (let k = 0; k < 70; k++) {
+      for (let k = 0; k < 90; k++) {
         const d = document.createElement('i');
         const tam = 3 + azar() * 6;
         Object.assign(d.style, { left: (azar() * 100) + '%', top: (azar() * 100) + '%',
           width: tam + 'px', height: tam + 'px', background: colores[k % 3], opacity: 0.45 + azar() * 0.4 });
+        // cada partícula flota con su propio recorrido, velocidad y desfase
+        d.style.setProperty('--dx', ((azar() - 0.5) * 90).toFixed(0) + 'px');
+        d.style.setProperty('--dy', ((azar() - 0.5) * 120).toFixed(0) + 'px');
+        d.style.animationDuration = (14 + azar() * 22).toFixed(1) + 's';
+        d.style.animationDelay = '-' + (azar() * 30).toFixed(1) + 's';
         caja.appendChild(d);
       }
     }
