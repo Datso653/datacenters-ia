@@ -1167,6 +1167,22 @@
   <p class="credito entra"><strong>La trampa:</strong> con costos fijos enormes, un L cercano a 1 en el corto plazo no prueba monopolio: el precio <em>tiene</em> que recuperar la inversión. Por eso chips y data centers se parecen a un <strong>monopolio natural</strong>: con esos costos fijos, pocos jugadores grandes producen más barato que muchos chicos (un oligopolio que puede ser eficiente). Precios: IntuitionLabs (16-ago-2026). Costos: Epoch AI y EIA, cálculo propio.</p>
 </section>
 
+<!-- 12e · Los balances de los jugadores -->
+<section class="slide" data-titulo="Quién financia">
+  <p class="etiqueta entra">Los balances · ¿quién puede pagar los data centers?</p>
+  <h2 class="entra">Oracle gasta <span class="acento">más de lo que gana</span></h2>
+  <div class="dos-col entra" style="grid-template-columns: minmax(0,1fr) minmax(0,1fr); align-items:start">
+    <div><p class="rotulo">Cuánto del EBITDA se va en inversión</p><figure class="grafico" id="graficoCapex" aria-label="Inversión en equipos (capex) como porcentaje del EBITDA, por empresa"></figure></div>
+    <div><p class="rotulo">ROA contra ROE: quién depende de la deuda</p><figure class="grafico" id="graficoRoaRoe" aria-label="ROA contra ROE de ocho empresas"></figure></div>
+  </div>
+  <div class="cifras tres entra" style="margin-top:0.5rem">
+    <div class="cifra"><b class="alerta">186%</b><span><strong>Oracle</strong> invierte casi el doble de lo que gana de EBITDA: lo financia con deuda (activo/patrimonio 6,2).</span></div>
+    <div class="cifra"><b>58% y 76%</b><span><strong>NVIDIA</strong>: ROA y ROE altísimos con casi nada de deuda. El ROE viene del negocio.</span></div>
+    <div class="cifra"><b>7% y 40%</b><span><strong>Oracle</strong>: negocio de ROA bajo, ROE alto <strong>solo por la palanca</strong>. Lo que más amplifica, más riesgo.</span></div>
+  </div>
+  <p class="credito entra">Balances anuales oficiales (SEC, formulario 10-K): Microsoft, Oracle y NVIDIA cierran su ejercicio entre mayo y julio de 2026; el resto, en diciembre de 2025. ROA y ROE con resultado neto. Capex = compra de propiedad y equipo. El EBITDA de Amazon, Oracle y Google depende de las partidas de amortización que informa cada una: tomarlo como aproximado.</p>
+</section>
+
 <!-- 13 · Frente a los países -->
 <section class="slide" data-titulo="Frente a los países">
   <p class="etiqueta entra">Resultado 3 · dimensión</p>
@@ -1844,6 +1860,67 @@
   });
   const figEL = document.getElementById('graficoErrLineal'); if (figEL) graficoErrTamano(figEL, DATOS_CHIPS, 'lineal');
   const figELog = document.getElementById('graficoErrLog'); if (figELog) graficoErrTamano(figELog, DATOS_CHIPS, 'loglog');
+
+
+  // ── Balances de los jugadores (SEC): inversión sobre EBITDA y ROA contra ROE
+  const DATOS_BAL = [{"s": "MSFT", "n": "Microsoft", "anio": "2026", "ing": 332, "roa": 17.6, "roe": 30.2, "apal": 1.7, "m": 59, "cap": 60}, {"s": "AAPL", "n": "Apple", "anio": "2025", "ing": 416, "roa": 31.2, "roe": 151.9, "apal": 4.9, "m": 35, "cap": 9}, {"s": "KO", "n": "Coca-Cola", "anio": "2025", "ing": 48, "roa": 12.5, "roe": 40.7, "apal": 3.3, "m": 31, "cap": 14}, {"s": "GOOGL", "n": "Google", "anio": "2025", "ing": 403, "roa": 22.2, "roe": 31.8, "apal": 1.4, "m": 37, "cap": 61}, {"s": "AMZN", "n": "Amazon", "anio": "2025", "ing": 717, "roa": 9.5, "roe": 18.9, "apal": 2.0, "m": 20, "cap": 90}, {"s": "META", "n": "Meta", "anio": "2025", "ing": 201, "roa": 16.5, "roe": 27.8, "apal": 1.7, "m": 51, "cap": 68}, {"s": "ORCL", "n": "Oracle", "anio": "2026", "ing": 67, "roa": 6.5, "roe": 40.2, "apal": 6.2, "m": 44, "cap": 186}, {"s": "NVDA", "n": "NVIDIA", "anio": "2026", "ing": 216, "roa": 58.1, "roe": 76.3, "apal": 1.3, "m": 62, "cap": 5}];
+
+  function graficoCapex(figura, d) {
+    const filas = d.slice().sort((a, b) => b.cap - a.cap);
+    const A = 600, fila = 40, mi = 96, md = 70, ma = 26, mb = 50;
+    const AL = ma + filas.length * fila + mb;
+    const x = escala(0, 200, mi, A - md);
+    const svg = nodo('svg', { viewBox: '0 0 ' + A + ' ' + AL, role: 'img' });
+    [0, 50, 100, 150, 200].forEach(v => {
+      svg.append(nodo('line', { class: 'g-grid', x1: x(v), x2: x(v), y1: ma - 6, y2: AL - mb }));
+      svg.append(nodo('text', { class: 'g-eje', x: x(v), y: AL - mb + 18, 'text-anchor': 'middle' }, v + '%'));
+    });
+    filas.forEach((e, i) => {
+      const y = ma + i * fila;
+      svg.append(nodo('text', { class: 'g-etiqueta', x: mi - 10, y: y + 24, 'text-anchor': 'end' }, e.n));
+      const color = e.cap > 100 ? '#1A1A1A' : e.cap >= 55 ? '#FF7A3D' : '#A9CDB1';
+      const b = nodo('rect', { x: mi, y: y + 8, width: x(e.cap) - x(0), height: 24, rx: 4, fill: color, stroke: '#1A1A1A', 'stroke-width': 1.2 });
+      conTip(b, '<b>' + e.n + '</b>Invierte ' + e.cap + '% de su EBITDA en equipos<br>Margen EBITDA: ' + e.m + '% · ejercicio ' + e.anio);
+      svg.append(b);
+      svg.append(nodo('text', { class: 'g-cifra', x: x(e.cap) + 8, y: y + 25 }, e.cap + '%'));
+    });
+    svg.append(nodo('line', { x1: x(100), x2: x(100), y1: ma - 6, y2: AL - mb, stroke: '#1A1A1A', 'stroke-width': 1.6, 'stroke-dasharray': '6 5' }));
+    svg.append(nodo('text', { class: 'g-nota', x: x(100) + 6, y: ma - 10 }, 'más de 100% = gasta más de lo que gana'));
+    svg.append(nodo('text', { class: 'g-titulo-eje', x: (mi + A - md) / 2, y: AL - 6, 'text-anchor': 'middle' }, 'Capex como % del EBITDA'));
+    figura.append(svg);
+  }
+
+  function graficoRoaRoe(figura, d) {
+    const A = 600, AL = 430, mi = 64, md = 20, ma = 26, mb = 58;
+    const lx = escala(Math.log10(5), Math.log10(80), mi, A - md), ly = escala(Math.log10(14), Math.log10(220), AL - mb, ma);
+    const x = v => lx(Math.log10(v)), y = v => ly(Math.log10(v));
+    const svg = nodo('svg', { viewBox: '0 0 ' + A + ' ' + AL, role: 'img' });
+    [20, 50, 100, 200].forEach(v => {
+      svg.append(nodo('line', { class: 'g-grid', x1: mi, x2: A - md, y1: y(v), y2: y(v) }));
+      svg.append(nodo('text', { class: 'g-eje', x: mi - 8, y: y(v) + 4, 'text-anchor': 'end' }, v + '%'));
+    });
+    [5, 10, 20, 50].forEach(v => {
+      svg.append(nodo('line', { class: 'g-grid', x1: x(v), x2: x(v), y1: ma, y2: AL - mb }));
+      svg.append(nodo('text', { class: 'g-eje', x: x(v), y: AL - mb + 18, 'text-anchor': 'middle' }, v + '%'));
+    });
+    svg.append(nodo('line', { x1: x(14), y1: y(14), x2: x(80), y2: y(80), stroke: '#1A1A1A', 'stroke-width': 1.8, 'stroke-dasharray': '6 5' }));
+    svg.append(nodo('text', { class: 'g-nota', x: A - md - 2, y: y(17), 'text-anchor': 'end' }, 'línea punteada: ROE = ROA (sin deuda)'));
+    svg.append(nodo('text', { class: 'g-nota', x: mi + 6, y: ma + 12 }, 'más arriba de la línea: la deuda o las recompras amplifican el ROE'));
+    const corr = { MSFT: [-12, -10, 'end'], META: [-12, 20, 'end'], GOOGL: [12, 5], AMZN: [-12, 16, 'end'], AAPL: [12, 4], KO: [12, -10], ORCL: [0, 26, 'middle'], NVDA: [-12, -8, 'end'] };
+    d.forEach(e => {
+      const c = nodo('circle', { cx: x(e.roa), cy: y(e.roe), r: 8, fill: e.s === 'ORCL' ? '#1A1A1A' : e.s === 'NVDA' ? '#FF7A3D' : '#A9CDB1', stroke: '#1A1A1A', 'stroke-width': 1.4 });
+      conTip(c, '<b>' + e.n + '</b>ROA ' + num(e.roa, 1) + '% · ROE ' + num(e.roe, 1) + '%<br>Activo / patrimonio: ' + num(e.apal, 1) + ' veces<br>Ejercicio ' + e.anio);
+      svg.append(c);
+      const o = corr[e.s] || [10, 4];
+      svg.append(nodo('text', { class: 'g-valor', x: x(e.roa) + o[0], y: y(e.roe) + o[1], 'font-size': 13, 'text-anchor': o[2] || 'start' }, e.n));
+    });
+    const medio = (ma + AL - mb) / 2;
+    svg.append(nodo('text', { class: 'g-titulo-eje', x: (mi + A - md) / 2, y: AL - 8, 'text-anchor': 'middle' }, 'ROA: cuánto rinde el negocio (escala log)'));
+    svg.append(nodo('text', { class: 'g-titulo-eje', x: 14, y: medio, transform: 'rotate(-90 14 ' + medio + ')', 'text-anchor': 'middle' }, 'ROE: cuánto rinden los dueños (escala log)'));
+    figura.append(svg);
+  }
+  const figCapex = document.getElementById('graficoCapex'); if (figCapex) graficoCapex(figCapex, DATOS_BAL);
+  const figRR = document.getElementById('graficoRoaRoe'); if (figRR) graficoRoaRoe(figRR, DATOS_BAL);
 
   const figBrecha = document.getElementById('graficoBrecha');
   if (figBrecha) graficoBarras(figBrecha, { unidad: 'miles de millones de USD', decimales: 0,
