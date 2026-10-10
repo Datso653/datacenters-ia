@@ -115,3 +115,55 @@ def validacion_cruzada(df: pd.DataFrame, variables=("mw_it",), pliegues: int = 5
     kf = KFold(n_splits=pliegues, shuffle=True, random_state=semilla)
     puntajes = cross_val_score(LinearRegression(), df[list(variables)], df["h100e"], cv=kf, scoring="r2")
     return pd.Series(puntajes, name="r2")
+
+
+# ── 3. Diagnóstico del error y un modelo con más sentido ──────────────────────
+
+def diagnostico_residuos(modelo, df: pd.DataFrame) -> dict:
+    """Mira el error (residuo) de la regresión de eficiencia: su tendencia y su distribución.
+
+    - Tendencia del error: correlación del residuo con el año (en MCO con constante da 0 por construcción;
+      lo que importa es si la DISPERSIÓN cambia con el año).
+    - Distribución del error: sesgo, curtosis y test de normalidad de Shapiro-Wilk.
+    - Heterocedasticidad: test de Breusch-Pagan (p alto = la dispersión es pareja).
+    """
+    from scipy import stats
+    from statsmodels.stats.diagnostic import het_breuschpagan
+    res = modelo.resid
+    X = sm.add_constant(df[["anios_desde_base"]])
+    return {
+        "sd": float(res.std()),
+        "sesgo": float(stats.skew(res)),
+        "curtosis": float(stats.kurtosis(res)),
+        "shapiro_p": float(stats.shapiro(res).pvalue),
+        "breusch_pagan_p": float(het_breuschpagan(res, X)[1]),
+        "sd_por_anio": df.assign(residuo=res).groupby("anio")["residuo"].std().round(2).to_dict(),
+    }
+
+
+def modelo_loglog(df: pd.DataFrame) -> dict:
+    """ln(H100e) = a + b · ln(MW): el cómputo crece proporcionalmente a la potencia.
+
+    b es una ELASTICIDAD: b = 1 significa que duplicar los MW duplica los chips.
+    Con este modelo el error es proporcional (±%) y no crece con el tamaño del data center,
+    que es lo que NO pasaba con el modelo lineal.
+    """
+    from statsmodels.stats.diagnostic import het_breuschpagan
+    d = df[(df["mw_it"] > 0) & (df["h100e"] > 0)]
+    X = sm.add_constant(np.log(d[["mw_it"]]))
+    ajuste = sm.OLS(np.log(d["h100e"]), X).fit(cov_type="HC1")
+    lineal = sm.OLS(d["h100e"], sm.add_constant(d[["mw_it"]])).fit()
+    kf = KFold(n_splits=5, shuffle=True, random_state=42)
+    r2_cv = cross_val_score(LinearRegression(), np.log(d[["mw_it"]]), np.log(d["h100e"]), cv=kf, scoring="r2")
+    return {
+        "modelo": ajuste, "n": int(ajuste.nobs),
+        "elasticidad": float(ajuste.params["mw_it"]),
+        "ic95_elasticidad": tuple(float(v) for v in ajuste.conf_int().loc["mw_it"]),
+        "sd_error_log": float(ajuste.resid.std()),
+        "r2_cv_media": float(r2_cv.mean()), "r2_cv_desvio": float(r2_cv.std()),
+        "bp_p_loglog": float(het_breuschpagan(ajuste.resid, X)[1]),
+        "bp_p_lineal": float(het_breuschpagan(lineal.resid, sm.add_constant(d[["mw_it"]]))[1]),
+        "corr_error_tamano_lineal": float(np.corrcoef(np.abs(lineal.resid), d["mw_it"])[0, 1]),
+        "residuos_lineal": lineal.resid, "pendiente_lineal": float(lineal.params["mw_it"]),
+        "datos": d,
+    }
