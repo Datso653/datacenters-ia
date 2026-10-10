@@ -626,6 +626,17 @@
   .d-barra { transform-box: fill-box; transform-origin: bottom; }
   .slide.activa .d-barra { animation: subir 0.7s var(--ease-out) both; }
   .d-barra.con-tip:hover { stroke: var(--linea); stroke-width: 2; }
+
+  .g-guia { stroke: var(--linea); stroke-width: 1.2; stroke-dasharray: 4 4; pointer-events: none; }
+  .g-guia-punto { stroke: var(--linea); stroke-width: 1.5; pointer-events: none; }
+  .tip small { color: var(--tenue); }
+  .calc-mando { display: grid; gap: 0.9rem; background: #fff; border: 1.5px solid var(--linea); border-radius: 16px; padding: 1.1rem 1.2rem; }
+  .calc-mando label { display: block; font-size: 0.95rem; color: var(--texto); font-weight: 500; }
+  .calc-mando input[type=range], .calc-mando select { display: block; margin-top: 0.4rem; }
+  .calc-mando label b { display: inline-block; background: var(--amarillo); border-radius: 999px; padding: 0 0.6em; margin-left: 0.3em; font-weight: 700; }
+  .calc-mando input[type=range] { width: 100%; accent-color: #1A1A1A; }
+  .calc-mando select { font: inherit; padding: 0.4rem 0.6rem; border: 1.5px solid var(--linea); border-radius: 10px; background: #fff; }
+  .calc-mando .credito { margin: 0; }
   @media print { .tip { display: none; } .d-barra { transform: none !important; animation: none !important; } }
   /* Que el gráfico deje lugar a las cifras de abajo */
   .slide[data-titulo="Mapa"] .mapa svg { max-height: 48vh; }
@@ -1141,6 +1152,28 @@
   <p class="credito entra"><strong>Con margen de error:</strong> el PUE, el uso y el precio son supuestos. Simulamos 10.000 escenarios (PUE 1,1–1,5 · uso 0,6–0,95 · precio 55–85 USD/MWh) y los rangos son el 90% central de los resultados. El frío patagónico empuja el PUE hacia abajo.</p>
 </section>
 
+<!-- 14a · Calculadora de Stargate -->
+<section class="slide" data-titulo="Calculadora Stargate">
+  <p class="etiqueta entra">Probá vos · Stargate Argentina</p>
+  <h2 class="entra">Cambiá los supuestos y mirá <span class="acento">qué pasa</span></h2>
+  <div class="dos-col entra" style="grid-template-columns: minmax(0,1fr) minmax(0,1fr); align-items:start">
+    <div class="calc-mando">
+      <label>Potencia del data center <b id="cMW"></b> MW<input type="range" id="inMW" min="100" max="1000" step="50" value="500"></label>
+      <label>PUE (energía extra de refrigeración) <b id="cPUE"></b><input type="range" id="inPUE" min="1.1" max="1.8" step="0.05" value="1.3"></label>
+      <label>Uso: fracción del tiempo a plena carga <b id="cUSO"></b><input type="range" id="inUSO" min="0.5" max="1" step="0.05" value="0.8"></label>
+      <label>Precio de la electricidad <b id="cPRE"></b> USD/MWh<input type="range" id="inPRE" min="40" max="120" step="1" value="67"></label>
+      <label>Red eléctrica que lo abastece <select id="inRED"></select></label>
+      <p class="credito">PUE 1,3, uso 0,8 y USD 67/MWh son los supuestos del cálculo base. Demanda argentina: 161,7 TWh por año (2024).</p>
+    </div>
+    <div class="cifras" style="grid-template-columns:repeat(2, minmax(0,1fr)); margin-top:0">
+      <div class="cifra"><b id="oEN">-</b><span>TWh por año de energía</span></div>
+      <div class="cifra"><b class="acento" id="oPC">-</b><span>de la demanda eléctrica argentina</span></div>
+      <div class="cifra"><b id="oGA">-</b><span>millones de USD por año de luz</span></div>
+      <div class="cifra"><b class="alerta" id="oCO">-</b><span>millones de toneladas de CO₂ por año</span></div>
+    </div>
+  </div>
+</section>
+
 <!-- 14b · ¿Por qué no en Argentina? -->
 <section class="slide" data-titulo="¿Por qué no en Argentina?">
   <p class="etiqueta entra">Escenario · costos de instalarse acá</p>
@@ -1343,6 +1376,33 @@
   }
   document.addEventListener('click', ocultarTip);
   document.addEventListener('keydown', ocultarTip);
+  // ── Cruce con guía: al mover el mouse sobre un gráfico de líneas se ve el valor de esa fecha
+  const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  const fechaDecimal = v => MESES[Math.min(11, Math.floor((v - Math.floor(v)) * 12 + 0.001))] + '-' + Math.floor(v + 0.001);
+  function cruce(svg, A, AL, area, series, x, y, texto) {
+    // area = [izquierda, derecha, arriba, abajo]; series = [{puntos, color}]; texto(i, puntoDeLaPrimeraSerie) -> html
+    const guia = nodo('line', { class: 'g-guia', y1: area[2], y2: area[3] });
+    const marcas = series.map(s => nodo('circle', { class: 'g-guia-punto', r: 5, fill: s.color || '#F5C900' }));
+    const zona = nodo('rect', { x: area[0], y: 0, width: area[1] - area[0], height: AL, fill: 'transparent' });
+    const fuera = () => { guia.style.opacity = 0; marcas.forEach(m => m.style.opacity = 0); ocultarTip(); };
+    fuera();
+    zona.addEventListener('mousemove', e => {
+      const r = svg.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width * A;
+      const ref = series[0].puntos;
+      let mejor = 0;
+      ref.forEach((pt, i) => { if (Math.abs(x(pt[0]) - px) < Math.abs(x(ref[mejor][0]) - px)) mejor = i; });
+      guia.setAttribute('x1', x(ref[mejor][0])); guia.setAttribute('x2', x(ref[mejor][0])); guia.style.opacity = 1;
+      series.forEach((s, k) => {
+        const pt = s.puntos[Math.min(mejor, s.puntos.length - 1)];
+        marcas[k].setAttribute('cx', x(pt[0])); marcas[k].setAttribute('cy', y(pt[1])); marcas[k].style.opacity = 1;
+      });
+      tip.innerHTML = texto(mejor); tip.classList.add('visible'); moverTip(e);
+    });
+    zona.addEventListener('mouseleave', fuera);
+    svg.append(guia, ...marcas, zona);
+  }
+
 
   function graficoCrecimiento(figura, datos) {
     const A = 800, AL = 430, mi = 52, md = 54, ma = 40, mb = 42, maxY = 38;
@@ -1395,6 +1455,10 @@
     extras.append(nodo('line', { class: 'g-proy', x1: mi + 112, x2: mi + 142, y1: ma - 18, y2: ma - 18 }));
     extras.append(nodo('text', { class: 'g-nota', x: mi + 150, y: ma - 14 }, 'obras en curso'));
     svg.append(extras);
+    cruce(svg, A, AL, [mi, A - md, ma, AL - mb], [{ puntos: datos.puntos }], x, y, i => {
+      const pt = datos.puntos[i];
+      return '<b>' + fechaDecimal(pt[0]) + '</b>' + num(pt[1], 1) + ' GW de potencia IT<br>' + (pt[0] <= datos.corte ? 'instalada' : 'en obras, proyectada');
+    });
 
     figura.append(svg);
   }
@@ -1517,6 +1581,11 @@
                           '×' + ult[1].toFixed(1).replace('.', ',')));
     });
     svg.append(leyenda);
+    cruce(svg, A, AL, [mi, A - md, ma, AL - mb],
+          datos.series.map((s, k) => ({ puntos: s.puntos, color: ['#1A1A1A', '#F5C900', '#A8C5DA'][k] })), x, y, i => {
+      const fila = datos.series.map(s => s.nombre + ': ×' + num(s.puntos[Math.min(i, s.puntos.length - 1)][1], 1)).join('<br>');
+      return '<b>' + fechaDecimal(datos.series[0].puntos[i][0]) + '</b>' + fila + '<br><small>respecto de enero de 2024</small>';
+    });
     figura.append(svg);
   }
 
@@ -1558,6 +1627,10 @@
     extras.append(nodo('text', { class: 'g-nota', x: x(datos.corte) - 6, y: ma + 10, 'text-anchor': 'end' }, 'hoy'));
     extras.append(nodo('text', { class: 'g-nota', x: A - md, y: AL - 4, 'text-anchor': 'end' }, datos.unidad));
     svg.append(extras);
+    cruce(svg, A, AL, [mi, A - md, ma, AL - mb], [{ puntos: datos.puntos }], x, y, i => {
+      const pt = datos.puntos[i];
+      return '<b>' + fechaDecimal(pt[0]) + '</b>' + num(pt[1], 1) + ' ' + datos.unidad + '<br>' + (pt[0] <= datos.corte ? 'dato observado' : 'proyección');
+    });
     figura.append(svg);
   }
 
@@ -1580,6 +1653,7 @@
     datos.puntos.forEach((p, i) => {
       const c = nodo('circle', { class: 'g-nube', cx: x(p[0]), cy: y(p[1]), r: 4 });
       c.style.animationDelay = Math.min(i * 3, 600) + 'ms';
+      conTip(c, '<b>Un data center de IA, año ' + (datos.base + p[0]) + '</b>' + num(p[1], 2) + ' kW por H100 equivalente');
       svg.append(c);
     });
     const r = datos.recta;
@@ -1605,6 +1679,8 @@
     datos.puntos.forEach((p, i) => {
       const c = nodo('circle', { class: 'g-nube', cx: x(p[0]), cy: y(p[1]), r: 6 });
       c.style.animationDelay = (i * 25) + 'ms';
+      conTip(c, '<b>Un data center de la muestra</b>Real: ' + num(p[0]) + ' mil H100e<br>Predicho por el modelo: ' + num(p[1]) + ' mil H100e<br>Error: '
+                + (p[1] - p[0] >= 0 ? '+' : '') + num(p[1] - p[0]) + ' mil');
       svg.append(c);
     });
     svg.append(nodo('text', { class: 'g-valor g-aparece', x: mi + 10, y: ma + 16 }, 'R² = ' + datos.r2.toString().replace('.', ',')));
@@ -1624,6 +1700,7 @@
       if (!c) return;
       const barra = nodo('rect', { class: 'g-hist', x: x(i / 10) + 2, y: y(c), width: ancho, height: y(0) - y(c), rx: 3 });
       barra.style.animationDelay = (i * 50) + 'ms';
+      conTip(barra, '<b>R² entre ' + num(i / 10, 1) + ' y ' + num((i + 1) / 10, 1) + '</b>' + c + (c === 1 ? ' sorteo' : ' sorteos') + ' de 20');
       svg.append(barra);
     });
     for (let v = 0; v <= 1.001; v += 0.2) {
@@ -1865,6 +1942,30 @@
   if (location.search.includes('imprimir')) prepararImpresion();
 
   mostrar((parseInt(location.hash.slice(1), 10) || 1) - 1);
+
+
+  // ── Calculadora de Stargate: energía = MW × PUE × uso × 8.760 h
+  (() => {
+    const g = id => document.getElementById(id);
+    if (!g('inMW')) return;
+    const DEMANDA_AR = 161.68, ENERGIA_BASE = 4.5552;
+    const redes = DATOS_EMISIONES.items.map(([nombre, mt]) => [nombre, mt * 1000 / ENERGIA_BASE]);   // gCO2/kWh de cada país
+    redes.forEach(([nombre, gco2]) => {
+      const o = document.createElement('option'); o.value = gco2; o.textContent = nombre + ' (' + num(gco2) + ' g/kWh)';
+      if (nombre === 'Argentina') o.selected = true; g('inRED').append(o);
+    });
+    const calcular = () => {
+      const mw = +g('inMW').value, pue = +g('inPUE').value, uso = +g('inUSO').value, pre = +g('inPRE').value, red = +g('inRED').value;
+      const twh = mw * pue * uso * 8760 / 1e6;
+      g('cMW').textContent = num(mw); g('cPUE').textContent = num(pue, 2); g('cUSO').textContent = num(uso, 2); g('cPRE').textContent = num(pre);
+      g('oEN').textContent = num(twh, 2);
+      g('oPC').textContent = num(twh / DEMANDA_AR * 100, 1) + '%';
+      g('oGA').textContent = num(twh * pre);
+      g('oCO').textContent = num(twh * red / 1000, 2);
+    };
+    ['inMW', 'inPUE', 'inUSO', 'inPRE', 'inRED'].forEach(id => g(id).addEventListener('input', calcular));
+    calcular();
+  })();
 
   // ── Tema papel: puntitos de colores fijos (siempre los mismos) y pie con la sección
   (() => {
